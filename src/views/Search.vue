@@ -7,12 +7,12 @@
 
 <script>
 // @ is an alias to /src
-import Query from "@/components/Query"
+import Query from '@/components/Query'
 
 export default {
-  name: "Search",
+  name: 'Search',
   components: {
-    Query
-  }
-};
+    Query,
+  },
+}
 </script>

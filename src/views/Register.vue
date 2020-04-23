@@ -7,12 +7,12 @@
 
 <script>
 // @ is an alias to /src
-import SignUp from "@/components/SignUp.vue";
+import SignUp from '@/components/SignUp.vue'
 
 export default {
-  name: "Register",
+  name: 'Register',
   components: {
-    SignUp
-  }
-};
+    SignUp,
+  },
+}
 </script>
