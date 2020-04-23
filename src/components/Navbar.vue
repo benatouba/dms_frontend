@@ -35,6 +35,9 @@
                     src="@/assets/group_logo.jpg"
                     transition="scale-transition"
                     width="40"></v-img>
+            <v-btn-toggle v-for="lang in languages" :key="lang.title" @click="changeLocale(lang.language)">
+                <flag :iso="lang.flag" v-bind:squared=false /> {{lang.title}}
+            </v-btn-toggle>
         </v-app-bar>
 
         <v-navigation-drawer app v-model="drawer" class="primary darken-2">
@@ -51,7 +54,6 @@
 </template>
 
 <script>
-    // import { mdiLogin } from '@mdi/js';
     export default {
         name: "Navbar",
         data() {
@@ -62,7 +64,24 @@
                     { icon: 'mdi-cloud-search', text: 'Search Files', route: '/search' },
                     { icon: 'mdi-cloud-upload', text: 'Upload', route: '/upload' },
                     { icon: 'mdi-help', text: 'Contact', route: '/contact' },
+                ],
+                languages: [
+                    {
+                        flag: 'en',
+                        language: 'en',
+                        title: 'english'
+                    },
+                    {
+                        flag: 'de',
+                        language: 'de',
+                        title: 'deutsch'
+                    }
                 ]
+            }
+        },
+        methods: {
+            changeLocale(locale) {
+                locale = locale;
             }
         }
     }

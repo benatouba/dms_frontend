@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import { userModule } from "./user.module";
 import { accountModule } from "./account.module";
 import { fileModule } from "./file.module";
+import { alertModule } from "./alert.module";
 
 Vue.use(Vuex);
 

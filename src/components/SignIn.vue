@@ -1,53 +1,57 @@
 <template>
   <v-app id="inspire">
-    <v-content>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12">
-              <v-toolbar color="primary darken-2" flat>
-                <v-toolbar-title>Hello {{ username }}, Please Login</v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <v-form>
-                  <v-text-field
-                          v-model="username"
-                          label="Login"
-                          name="username"
-                          prepend-icon="person"
-                          type="text"
-                  />
-
-                  <v-text-field v-model="password"
-                          id="password"
-                          label="Password"
-                          name="password"
-                          prepend-icon="lock"
-                          type="password"
-                  />
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn color="primary darken-2" @click="login(username, password)">Login</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-content>
+    <ValidationObserver ref="obs" v-slot="{ invalid, validated, passes, validate }">
+      <v-content>
+        <v-container class="fill-height" fluid>
+          <v-row align="center" justify="center">
+            <v-col cols="12" sm="8" md="4">
+              <v-card class="elevation-12">
+                <v-toolbar color="primary darken-2" flat>
+                  <v-toolbar-title>{{ $t('welcomeMsg', username) }}</v-toolbar-title>
+                </v-toolbar>
+                <v-card-text>
+                  <v-form>
+                    <ValidationProvider name="Name" rules="required|max:10" v-slot="{ errors, valid }">
+                      <v-text-field
+                              v-model="username"
+                              label="Username"
+                              name="username"
+                              prepend-icon="person"
+                              type="text"
+                      />
+                    </ValidationProvider>
+                    <ValidationProvider name="password" rules="required" v-slot="{ errors, valid }">
+                      <v-text-field v-model="password"
+                                    id="password"
+                                    label="Password"
+                                    name="password"
+                                    prepend-icon="lock"
+                                    type="password"
+                      />
+                    </ValidationProvider>
+                  </v-form>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn color="primary darken-2" @click="login(username, password)">Login</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-content>
   </v-app>
 </template>
 
 <script>
-  import { required } from "vuelidate/lib/validators";
+  import {ValidationObserver, ValidationProvider} from "vee-validate";
   import { mapState } from "vuex";
   // import { mapState } from 'vuex';
   export default {
     name: "SignIn",
-    validations: {
-      username: { required },
-      password: { required }
+    components: {
+      ValidationObserver,
+      ValidationProvider
     },
     computed: {
       ...mapState('account', ['status']),
