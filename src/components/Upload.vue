@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-cloak @drop.prevent="addFile" @dragover.prevent>
+  <div id="app" v-cloak @drop.prevent="addFiles" @dragover.prevent>
 <!--    <v-file-input-->
 <!--            @drop.prevent="addFile"-->
 <!--            @dragover.prevent-->
@@ -8,12 +8,12 @@
 <!--            label="File input"-->
 <!--    ></v-file-input>-->
     <v-list>
-      <v-list-item v-for="file in files" :key="file.name">
+      <v-list-item v-for="file in this.$store.state.uploadFiles" :key="file.name">
         {{ file.name }} ({{ file.size | kb }} kb) <button @click="removeFile(file)" title="Remove">X</button>
       </v-list-item>
     </v-list>
     <v-btn :disabled="uploadDisabled"
-           @click="uploadFile()"
+           @click="uploadFiles()"
            icon
            large
            target="_blank"
@@ -33,29 +33,22 @@
     },
     computed: {
       uploadDisabled() {
-        return this.files.length === 0;
+        return this.uploadFiles.length === 0;
       }
     },
     methods: {
-      addFile(e) {
-        let droppedFiles = e.dataTransfer.files;
-        if(!droppedFiles) return;
-        // this tip, convert FileList to array, credit: https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
-        ([...droppedFiles]).forEach(f => {
-          this.files.push(f);
-        });
-      },
-      removeFile(file){
-        this.files = this.files.filter(f => {
-          return f !== file;
-        });
-      },
-      uploadFile: function () {
+        addFiles(e) {
+            this.$store.commit('addFiles',e);
+        },
+        removeFile(f) {
+            this.$store.commit('removeFile', f);
+        },
+      uploadFiles: function () {
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Basic " + token);
+        myHeaders.append("Authorization", "Basic " + "token");
 
         var formdata = new FormData();
-        this.files.forEach(f => {
+        this.uploadFiles.forEach(f => {
           formdata.append("file_type", "UC2");
           formdata.append("file", f);
         });
@@ -75,7 +68,6 @@
     },
     data() {
       return {
-        files: [],
         inputRules: [
           v => v || 'Minimum file name length is 3 characters'
         ]

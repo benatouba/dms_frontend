@@ -1,63 +1,35 @@
 <template>
-  <!--<h1 v-bind:title="login_info">Please Login</h1>
-    <input v-model="user" placeholder="Enter Username"> <br>
-    <input v-model="password" placeholder="Enter Password"><br>
-    <button v-on:keyup=login()>Login</button>
-    Don't have an Account yet?
-    <router-link to="signup">SignUp</router-link>-->
   <v-app id="inspire">
     <v-content>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar color="primary" dark flat>
-                <v-toolbar-title>Login form</v-toolbar-title>
-                <v-spacer />
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn :href="source" icon large target="_blank" v-on="on">
-                      <v-icon>mdi-code-tags</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Source</span>
-                </v-tooltip>
-                <v-tooltip right>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      icon
-                      large
-                      href="https://codepen.io/johnjleider/pen/pMvGQO"
-                      target="_blank"
-                      v-on="on"
-                    >
-                      <v-icon>mdi-codepen</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Codepen</span>
-                </v-tooltip>
+              <v-toolbar color="primary darken-2" flat>
+                <v-toolbar-title>Hello {{ username }}, Please Login</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    label="Login"
-                    name="login"
-                    prepend-icon="person"
-                    type="text"
+                          v-model="username"
+                          label="Login"
+                          name="username"
+                          prepend-icon="person"
+                          type="text"
                   />
 
-                  <v-text-field
-                    id="password"
-                    label="Password"
-                    name="password"
-                    prepend-icon="lock"
-                    type="password"
+                  <v-text-field v-model="password"
+                          id="password"
+                          label="Password"
+                          name="password"
+                          prepend-icon="lock"
+                          type="password"
                   />
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="primary">Login</v-btn>
+                <v-btn color="primary darken-2" @click="login(username, password)">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -68,31 +40,69 @@
 </template>
 
 <script>
-export default {
-  name: "SignIn",
-  /*props: {
-    source: String
-  },
-  vuetify: new Vuetify(),*/
-  methods: {
-    login() {
-      fetch("http://localhost:8000/login/", {
-        method: "GET"
-      });
+  import { required } from "vuelidate/lib/validators";
+  import { mapState } from "vuex";
+  // import { mapState } from 'vuex';
+  export default {
+    name: "SignIn",
+    validations: {
+      username: { required },
+      password: { required }
+    },
+    computed: {
+      ...mapState('account', ['status']),
+      username: {
+        get () {
+          return this.$store.state.username
+        },
+        set (value) {
+          this.$store.commit('updateUsername', value)
+        }
+      },
+    },
+    methods: {
+      updateUsername: function (e) {
+        this.$store.commit('updateUsername', e.target.value)
+      },
+      login: function () {
+        const { username, password } = this
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("username", username);
+        urlencoded.append("password", password);
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: urlencoded,
+          redirect: 'follow'
+        };
+
+        fetch("http://localhost:8000/auth/login/", requestOptions)
+                .then(response => response.text())
+                .then(result => this.$store.commit('tokenize', result))
+                .catch(error => console.log('error', error));
+      }
+    },
+    data() {
+      return {
+        username: '',
+        password: "",
+        login_info: "Users can retrieve additional data files",
+        submitted: false,
+        loading: false,
+        returnUrl: "",
+        error: ""
+      };
     }
-  },
-  data() {
-    return {
-      user: "",
-      password: "",
-      login_info: "Users can retrieve additional data files"
-    };
-  }
-};
+  };
 </script>
 
 <style scoped>
-h1 {
-  color: #294993;
-}
+  h1 {
+    color: #294993;
+  }
 </style>
