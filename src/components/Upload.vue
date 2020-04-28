@@ -23,7 +23,7 @@
 export default {
   name: 'upload',
   filters: {
-    kb: function(val) {
+    kb: function (val) {
       return Math.floor(val / 1024)
     },
   },
@@ -39,7 +39,7 @@ export default {
     removeFile(f) {
       this.$store.commit('removeFile', f)
     },
-    uploadFiles: function() {
+    uploadFiles: function () {
       var myHeaders = new Headers()
       myHeaders.append('Authorization', 'Basic ' + 'token')
 

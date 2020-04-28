@@ -1,40 +1,30 @@
-import { authHeader } from '../helpers'
-import config from '../../vue.config'
+import authHeader from '../helpers/authentication'
 
-export const userService = {
-  login,
-  logout,
-  register,
-  patch,
-  list,
-  delete: _delete,
-}
-function login(username, password) {
+function login({username, password}) {
   const myHeaders = new Headers()
-  myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
-
-  const urlencoded = new URLSearchParams()
-  urlencoded.append('username', JSON.stringify(username))
-  urlencoded.append('password', JSON.stringify(password))
+  myHeaders.append('Content-Type', 'application/json')
 
   const requestOptions = {
     method: 'POST',
     headers: myHeaders,
-    body: urlencoded,
-    redirect: 'follow',
+    body: "username: " + username + ", password: " + password
   }
+  console.log(myHeaders.get("Content-Type"))
+  console.log(requestOptions.body)
 
-  fetch(`${config.publicPath}/auth/login/`, requestOptions)
-    .then(handleResponse)
-    .then(user => {
-      // login successful if there's a jwt token in the response
-      if (user.token) {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('user', JSON.stringify(user))
-      }
-      // this.$store.commit('tokenize', result))
-      return user
-    })
+  fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/login/`, requestOptions)
+    .then(resp => console.log(resp))
+    // .then(handleResponse)
+    // .then(user => {
+    //   // login successful if there's a jwt token in the response
+    //   if (user.token) {
+    //     // store user details and jwt token in local storage to keep user logged in between page refreshes
+    //     localStorage.setItem('user', JSON.stringify(user))
+    //   }
+    //   console.log(user)
+    //   // this.$store.commit('tokenize', result))
+    //   return user
+    // })
 }
 
 function logout() {
@@ -61,7 +51,7 @@ function register(user) {
     redirect: 'follow',
   }
 
-  fetch(`${config.publicPath}/auth/`, requestOptions)
+  fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions)
     .then(handleResponse)
     .then(result => console.log(result))
 }
@@ -81,7 +71,7 @@ function patch(field, value) {
     redirect: 'follow',
   }
 
-  fetch(`${config.publicPath}/auth/`, requestOptions)
+  fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions)
     .then(handleResponse)
     .then(result => console.log(result))
 }
@@ -95,7 +85,7 @@ function list() {
     redirect: 'follow',
   }
 
-  return fetch(`${config.publicPath}/auth/`, requestOptions)
+  return fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions)
     .then(handleResponse)
     .then(result => console.log(result))
 }
@@ -110,7 +100,7 @@ function _delete(id) {
     headers: myHeaders,
   }
 
-  return fetch(`${config.publicPath}/auth/${id}`, requestOptions).then(handleResponse)
+  return fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/${id}`, requestOptions).then(handleResponse)
 }
 
 function handleResponse(response) {
@@ -129,4 +119,13 @@ function handleResponse(response) {
 
     return data
   })
+}
+
+export default {
+  login,
+  logout,
+  register,
+  patch,
+  list,
+  delete: _delete,
 }

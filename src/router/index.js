@@ -40,6 +40,7 @@ const routes = [
     name: 'Contact',
     component: Contact,
   },
+  { path: '*', redirect: 'Home' },
 ]
 
 const router = new VueRouter({

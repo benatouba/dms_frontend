@@ -11,7 +11,7 @@
 export default {
   name: 'SignIn',
   methods: {
-    fetchQueryResults: function(input) {
+    fetchQueryResults: function (input) {
       fetch('http://127.0.0.1:8000/uc2list/', input)
         .then(resp => {
           return resp.json()

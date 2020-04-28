@@ -6,7 +6,7 @@ const state = {
 
 const actions = {
   // This action triggers mutation to store that user list is requested
-  list({ commit }) {
+  async list({ commit }) {
     commit('listRequest')
     userService.list().then(
       users => commit('listSuccess', users),
@@ -59,7 +59,7 @@ const mutations = {
   },
 }
 
-export const userModule = {
+export const user = {
   namespaced: true,
   state,
   actions,

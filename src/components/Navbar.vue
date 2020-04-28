@@ -47,7 +47,7 @@
 </template>
 
 <script>
-  import i18n from '../plugins/vuetify'
+import i18n from '../plugins/vuetify'
 export default {
   name: 'Navbar',
   data() {
@@ -80,5 +80,3 @@ export default {
   },
 }
 </script>
-
-<style scoped></style>

@@ -6,25 +6,44 @@
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
               <v-toolbar color="primary darken-2" flat>
-                <v-toolbar-title>{{ $vuetify.lang.t($vuetify.welcomeMsg) }}</v-toolbar-title>
+                <v-toolbar-title>{{ 'InsertMsg' }}</v-toolbar-title>
               </v-toolbar>
-              <v-card-text>
-                <v-form>
-                  <v-text-field v-model="username" label="Username" name="username" prepend-icon="person" type="text" />
+              <v-form ref="form"
+                      @submit.prevent="handleSubmit">
+                <v-card-text>
                   <v-text-field
-                    v-model="password"
-                    id="password"
-                    label="Password"
-                    name="password"
-                    prepend-icon="lock"
-                    type="password"
+                      v-model="username"
+                      label="Username"
+                      name="username"
+                      prepend-icon="person"
+                      class="form-control"
+                      :class="{ 'is-invalid': submitted && !username }"
+                      type="text"
                   />
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn color="primary darken-2" @click="handleSubmit">Login</v-btn>
-              </v-card-actions>
+                  <div v-show="submitted && !username" class="invalid-feedback">Username is required</div>
+                  <v-text-field
+                      v-model="password"
+                      id="password"
+                      label="Password"
+                      name="password"
+                      prepend-icon="lock"
+                      class="form-control"
+                      :class="{ 'is-invalid': submitted && !password }"
+                      type="password"
+                  />
+                  <div v-show="submitted && !password" class="invalid-feedback">Password is required</div>
+
+                </v-card-text>
+                <v-card-actions>
+                  <router-link to="/register" class="btn btn-link">Register</router-link>
+                  <v-spacer />
+                  <img
+                      v-show="status.loggingIn"
+                      src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                  />
+                  <v-btn color="primary darken-2" @click="handleSubmit" :disabled="status.loggingIn">Login</v-btn>
+                </v-card-actions>
+              </v-form>
             </v-card>
           </v-col>
         </v-row>
@@ -34,39 +53,41 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
-export default {
-  name: 'SignIn',
-  computed: {
-    ...mapState('account', ['status']),
-    created() {
-      // logout if user is logged in
-      this.logout()
-      return true
-    },
-  },
-  methods: {
-    ...mapActions('account', ['login', 'logout']),
-    handleSubmit() {
-      this.submitted = true
-      const { username, password } = this
-      if (username && password) {
-        this.login({ username, password })
+  import { mapActions, mapState } from 'vuex'
+  export default {
+    name: 'SignIn',
+    data() {
+      return {
+        username: '',
+        password: '',
+        login_info: 'Users can retrieve additional data files',
+        submitted: false,
+        loading: false,
+        error: '',
       }
     },
-  },
-  data() {
-    return {
-      username: '',
-      password: '',
-      login_info: 'Users can retrieve additional data files',
-      submitted: false,
-      loading: false,
-      returnUrl: '',
-      error: '',
-    }
-  },
-}
+    computed: {
+      ...mapState('account', ['status']),
+    },
+    created() {
+      this.logout()
+    },
+    methods: {
+      ...mapActions({
+        login: 'account/login',
+        logout: 'account/logout',
+      }),
+      handleSubmit(e) {
+        e.preventDefault()
+        this.submitted = true
+        const { username, password } = this
+
+        if (username && password) {
+          this.login({ username, password })
+        }
+      },
+    },
+  }
 </script>
 
 <!--<style scoped>-->

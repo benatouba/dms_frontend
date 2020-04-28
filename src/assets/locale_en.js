@@ -5,5 +5,5 @@ export default {
     welcomeMsg: 'Hello, Please Login',
     register: 'Register',
     clear: 'Clear',
-  }
+  },
 }

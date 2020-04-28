@@ -1,14 +1,14 @@
-import { userService } from '../services'
+import userService from '../services/user.service'
 import router from '../router'
 
 const user = JSON.parse(localStorage.getItem('user'))
 const state = user ? { status: { isloggedIn: true }, user } : { status: {}, user: null }
 
 const actions = {
-  login({ dispatch, commit }, { username, password }) {
+  async login({ dispatch, commit }, { username, password }) {
     commit('loginRequest', { username })
 
-    userService.login(username, password).then(
+    await userService.login({username, password}).then(
       user => {
         commit('loginSuccess', user)
         router.push('/')
@@ -19,7 +19,7 @@ const actions = {
       }
     )
   },
-  logout({ commit }) {
+  async logout({ commit }) {
     userService.logout()
     commit('logout')
   },
@@ -28,7 +28,7 @@ const actions = {
     userService.register(user).then(
       user => {
         commit('registerSuccess', user)
-        router.push('/login')
+        router.replace('/login')
         setTimeout(() => {
           // display success message after route change completes
           dispatch('alert/success', 'Registration Form was sent', { root: true })
@@ -70,7 +70,7 @@ const mutations = {
   },
 }
 
-export const accountModule = {
+export default {
   namespaced: true,
   state,
   actions,

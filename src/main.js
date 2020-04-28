@@ -3,8 +3,8 @@ import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import i18n from './plugins/vuetify'
-import { mapState } from 'vuex'
-import { store } from './store'
+// import { mapState } from 'vuex'
+import store from './store'
 import FlagIcon from 'vue-flag-icon'
 import './vee-validate'
 
@@ -13,10 +13,11 @@ Vue.use(FlagIcon)
 Vue.config.productionTip = false
 
 new Vue({
+  el: '#app',
   router,
-  store,
+  store: store,
   vuetify,
   i18n,
   render: h => h(App),
-  computed: mapState(['token']),
+  // computed: mapState(['token']),
 }).$mount('#app')
