@@ -1,30 +1,33 @@
 import authHeader from '../helpers/authentication'
 
-function login({username, password}) {
+function login({ username, password }) {
   const myHeaders = new Headers()
   myHeaders.append('Content-Type', 'application/json')
-
+  const user = {
+    username: username,
+    password: password,
+  }
   const requestOptions = {
     method: 'POST',
     headers: myHeaders,
-    body: "username: " + username + ", password: " + password
+    body: JSON.stringify(user),
   }
-  console.log(myHeaders.get("Content-Type"))
+  console.log(myHeaders.get('Content-Type'))
   console.log(requestOptions.body)
+  console.log(process.env.VUE_APP_API_ENDPOINT)
 
-  fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/login/`, requestOptions)
-    .then(resp => console.log(resp))
-    // .then(handleResponse)
-    // .then(user => {
-    //   // login successful if there's a jwt token in the response
-    //   if (user.token) {
-    //     // store user details and jwt token in local storage to keep user logged in between page refreshes
-    //     localStorage.setItem('user', JSON.stringify(user))
-    //   }
-    //   console.log(user)
-    //   // this.$store.commit('tokenize', result))
-    //   return user
-    // })
+  fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/login/`, requestOptions).then(resp => console.log(resp.json()))
+  // .then(handleResponse)
+  // .then(user => {
+  //   // login successful if there's a jwt token in the response
+  //   if (user.token) {
+  //     // store user details and jwt token in local storage to keep user logged in between page refreshes
+  //     localStorage.setItem('user', JSON.stringify(user))
+  //   }
+  //   console.log(user)
+  //   // this.$store.commit('tokenize', result))
+  //   return user
+  // })
 }
 
 function logout() {
