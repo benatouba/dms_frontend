@@ -13,11 +13,11 @@ Vue.use(FlagIcon)
 Vue.config.productionTip = false
 
 new Vue({
-  el: '#app',
-  router,
-  store: store,
-  vuetify,
-  i18n,
-  render: h => h(App),
-  // computed: mapState(['token']),
+    el: '#app',
+    router,
+    store: store,
+    vuetify,
+    i18n,
+    render: h => h(App),
+    // computed: mapState(['token']),
 }).$mount('#app')

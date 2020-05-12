@@ -8,11 +8,11 @@ import { alert } from './alert.module'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    account,
-    alert,
-    user,
-  },
+    modules: {
+        account,
+        alert,
+        user,
+    },
 })
 // debug: true,
 // strict: true,

@@ -1,8 +1,8 @@
 <template>
-  <div class="register">
-    <img alt="UC2 logo" src="@/assets/logo.png" />
-    <SignUp />
-  </div>
+    <div class="register">
+        <img alt="UC2 logo" src="@/assets/logo.png" />
+        <SignUp />
+    </div>
 </template>
 
 <script>
@@ -10,9 +10,9 @@
 import SignUp from '@/components/SignUp.vue'
 
 export default {
-  name: 'Register',
-  components: {
-    SignUp,
-  },
+    name: 'Register',
+    components: {
+        SignUp,
+    },
 }
 </script>

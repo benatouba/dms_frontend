@@ -1,8 +1,8 @@
 <template>
-  <div class="search">
-    <h1>Search Files</h1>
-    <Query />
-  </div>
+    <div class="search">
+        <h1>Search Files</h1>
+        <Query />
+    </div>
 </template>
 
 <script>
@@ -10,9 +10,9 @@
 import Query from '@/components/Query'
 
 export default {
-  name: 'Search',
-  components: {
-    Query,
-  },
+    name: 'Search',
+    components: {
+        Query,
+    },
 }
 </script>

@@ -1,5 +1,5 @@
 const state = {
-  all: {},
+    all: {},
 }
 
 const actions = {}
