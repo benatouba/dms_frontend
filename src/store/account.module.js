@@ -1,25 +1,32 @@
-import userService from '../services/user.service'
+import { userService } from '../services'
 import router from '../router'
 
-const user = JSON.parse(localStorage.getItem('user'))
-const state = user ? { status: { isloggedIn: true }, user } : { status: {}, user: null }
+const user = localStorage.getItem('user')
+const state = user ? { status: { isLoggedIn: true }, user } : { status: {}, user: null }
 
 const actions = {
-    async login({ dispatch, commit }, { username, password }) {
+    login({ dispatch, commit }, { username, password }) {
         commit('loginRequest', { username })
 
-        await userService.login({ username, password }).then(
-            user => {
-                commit('loginSuccess', user)
-                router.push('/')
-            },
-            error => {
-                commit('loginFailure', error)
-                dispatch('alert/error', error, { root: true })
-            }
-        )
+        userService
+            .login({ username, password })
+            .then(
+                user => {
+                    console.log('logging success')
+                    console.log(user)
+                    commit('loginSuccess', user)
+                    console.log('Login Success')
+                    router.push('/upload')
+                },
+                error => {
+                    console.log('login error')
+                    commit('loginFailure', error)
+                    dispatch('alert/error', error, { root: true })
+                }
+            )
+            .catch(err => console.log(err))
     },
-    async logout({ commit }) {
+    logout({ commit }) {
         userService.logout()
         commit('logout')
     },
