@@ -6,8 +6,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import upload from '@/components/Upload'
+import upload from '../components/Upload'
 
 export default {
     name: 'Upload',

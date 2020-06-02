@@ -71,18 +71,16 @@ export default {
         }
     },
     computed: {
-        ...mapState('account', ['status']),
+        ...mapState('accounts', ['status']),
     },
     created() {
         this.logout()
     },
     methods: {
-        ...mapActions({
-            login: 'account/login',
-            logout: 'account/logout',
-        }),
+        ...mapActions('accounts', ['login', 'logout']),
+        // eslint-disable-next-line no-unused-vars
         handleSubmit(e) {
-            e.preventDefault()
+            // e.preventDefault()
             this.submitted = true
             const { username, password } = this
 
