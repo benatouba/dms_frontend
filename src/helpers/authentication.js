@@ -1,10 +1,18 @@
-export default function authHeader() {
+export default function authHeader(method) {
     // return authorization header with jwt token
-    let user = JSON.parse(localStorage.getItem('username'))
+    let user = localStorage.getItem('username')
+    let token = localStorage.getItem('token')
 
-    if (user && user.token) {
-        return 'Basic ' + user.token
+    const myHeaders = new Headers()
+    const requestOptions = { method: method }
+
+    if (user && token) {
+        // prepare request authorization
+        myHeaders.append('Authorization', ' Token ' + localStorage.getItem('token'))
     } else {
-        return ''
+        // prepare login request
+        myHeaders.append('Content-Type', 'application/json')
     }
+    requestOptions.headers = myHeaders
+    return requestOptions
 }
