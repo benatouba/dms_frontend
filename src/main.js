@@ -15,9 +15,18 @@ Vue.config.productionTip = false
 new Vue({
     el: '#app',
     router,
-    store: store,
+    store,
     vuetify,
     i18n,
     render: h => h(App),
+    theme: {
+        primary: '#1976D2',
+        secondary: '#424242',
+        accent: '#82B1FF',
+        error: '#FF5252',
+        info: '#2196F3',
+        success: '#4CAF50',
+        warning: '#FFC107',
+    },
     // computed: mapState(['token']),
-}).$mount('#app')
+}) //.$mount('#app')
