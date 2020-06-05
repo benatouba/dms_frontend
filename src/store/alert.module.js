@@ -20,9 +20,10 @@ const mutations = {
         state.type = 'alert-success'
         state.message = message
     },
-    error(state, message) {
+    error(state, error) {
         state.type = 'alert-danger'
-        state.message = message
+        state.status = error.status
+        state.message = error.message
     },
     clear(state) {
         state.type = null
@@ -30,7 +31,7 @@ const mutations = {
     },
 }
 
-export const alert = {
+export default {
     namespaced: true,
     state,
     actions,
