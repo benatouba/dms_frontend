@@ -2,7 +2,7 @@
     <v-app class="secondary">
         <Navbar />
         <v-content>
-            <div v-if="alert.message" :class="`alert ${alert.type}`">{{ alert.message }}</div>
+            <div v-if="alerts.message" :class="`alert ${alerts.type}`">{{ alerts.message }}</div>
             <router-view></router-view>
         </v-content>
     </v-app>
@@ -16,12 +16,12 @@ export default {
     components: { Navbar },
     computed: {
         ...mapState({
-            alert: state => state.alert,
+            alerts: state => state.alerts,
         }),
     },
     methods: {
         ...mapActions({
-            clearAlert: 'alert/clear',
+            clearAlert: 'alerts/clear',
         }),
     },
     watch: {
