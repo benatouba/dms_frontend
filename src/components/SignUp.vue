@@ -17,7 +17,7 @@
                                             v-slot="{ errors, valid }"
                                         >
                                             <v-text-field
-                                                v-model="user.name"
+                                                v-model="name"
                                                 :counter="10"
                                                 :error-messages="errors"
                                                 :success="valid"
@@ -34,7 +34,7 @@
                                             v-slot="{ errors, valid }"
                                         >
                                             <v-text-field
-                                                v-model="user.first_name"
+                                                v-model="first_name"
                                                 :error-messages="errors"
                                                 :success="valid"
                                                 label="First Name"
@@ -48,7 +48,7 @@
                                             v-slot="{ errors, valid }"
                                         >
                                             <v-text-field
-                                                v-model="user.last_name"
+                                                v-model="last_name"
                                                 :error-messages="errors"
                                                 :success="valid"
                                                 label="Last Name"
@@ -62,7 +62,7 @@
                                             v-slot="{ errors, valid }"
                                         >
                                             <v-text-field
-                                                v-model="user.institution"
+                                                v-model="institution"
                                                 :error-messages="errors"
                                                 :success="valid"
                                                 label="Institution"
@@ -76,7 +76,7 @@
                                             v-slot="{ errors, valid }"
                                         >
                                             <v-text-field
-                                                v-model="user.email"
+                                                v-model="email"
                                                 :error-messages="errors"
                                                 :success="valid"
                                                 label="E-Mail"
@@ -87,11 +87,11 @@
                                         </ValidationProvider>
                                         <ValidationProvider
                                             name="Phone"
-                                            rules="required|phone"
+                                            rules="required|numeric|min:8"
                                             v-slot="{ errors, valid }"
                                         >
                                             <v-text-field
-                                                v-model="user.phone"
+                                                v-model="phone"
                                                 :error-messages="errors"
                                                 :success="valid"
                                                 label="Phone Number"
@@ -103,10 +103,11 @@
                                         <ValidationProvider
                                             name="password"
                                             rules="required|min:8"
+                                            ref="password"
                                             v-slot="{ errors, valid }"
                                         >
                                             <v-text-field
-                                                v-model="user.password"
+                                                v-model="password"
                                                 :error-messages="errors"
                                                 :success="valid"
                                                 id="password"
@@ -119,11 +120,12 @@
                                         </ValidationProvider>
                                         <ValidationProvider
                                             name="password2"
-                                            rules="required|min:8"
+                                            rules="required|confirmed:password"
+                                            vid="pw2"
                                             v-slot="{ errors, valid }"
                                         >
                                             <v-text-field
-                                                v-model="user.password2"
+                                                v-model="password2"
                                                 :error-messages="errors"
                                                 :success="valid"
                                                 id="password2"
@@ -131,7 +133,6 @@
                                                 name="password2"
                                                 prepend-icon="lock"
                                                 type="password"
-                                                required
                                             />
                                         </ValidationProvider>
                                     </v-form>
@@ -159,7 +160,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import { extend, ValidationObserver, ValidationProvider } from 'vee-validate'
+import * as rules from 'vee-validate/dist/rules'
+
+Object.keys(rules).forEach(rule => {
+    extend(rule, rules[rule])
+})
+
 export default {
     name: 'SignIn',
     components: {
@@ -167,10 +174,10 @@ export default {
         ValidationProvider,
     },
     computed: {
-        ...mapState('account', ['status']),
+        ...mapState('accounts', ['status']),
     },
     methods: {
-        ...mapActions('account', ['register']),
+        ...mapActions({ register: 'accounts/register' }),
         async clear() {
             this.name = this.email = this.first_name = this.last_name = this.institution = ''
             requestAnimationFrame(() => {
@@ -179,21 +186,30 @@ export default {
         },
         async handleSubmit() {
             this.submitted = true
-            this.register(this.user)
+            const user = {
+                name: this.name,
+                password: this.password,
+                password2: this.password2,
+                email: this.email,
+                phone: this.phone,
+                first_name: this.first_name,
+                last_name: this.last_name,
+                institution: this.institution,
+            }
+            this.register(user)
         },
     },
     data() {
         return {
-            user: {
-                name: '',
-                password: '',
-                password2: '',
-                email: '',
-                phone: '',
-                first_name: '',
-                last_name: '',
-                institution: '',
-            },
+            errors: [],
+            name: null,
+            password: null,
+            password2: null,
+            email: null,
+            phone: null,
+            first_name: null,
+            last_name: null,
+            institution: null,
             submitted: false,
         }
     },
