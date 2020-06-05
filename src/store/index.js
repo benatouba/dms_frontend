@@ -1,18 +1,26 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { user } from './user.module'
-import account from './account.module'
-// import { fileModule } from './file.module'
-import { alert } from './alert.module'
+import createLogger from 'vuex/dist/logger'
+import users from './user.module'
+import accounts from './account.module'
+import queries from './query.module'
+import files from './file.module'
+import alerts from './alert.module'
 
+const debug = process.env.NODE_ENV !== 'production'
+console.log('Debug: ' + debug)
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
-        account,
-        alert,
-        user,
+        accounts,
+        alerts,
+        users,
+        files,
+        queries,
     },
+    strict: debug,
+    plugins: debug ? [createLogger()] : [],
 })
 // debug: true,
 // strict: true,
