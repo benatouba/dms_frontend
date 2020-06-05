@@ -1,4 +1,4 @@
-import { userService } from '../services'
+import { userService } from '../services/user.service'
 
 const state = {
     all: {},
@@ -6,7 +6,7 @@ const state = {
 
 const actions = {
     // This action triggers mutation to store that user list is requested
-    async list({ commit }) {
+    list({ commit }) {
         commit('listRequest')
         userService.list().then(
             users => commit('listSuccess', users),
@@ -59,7 +59,7 @@ const mutations = {
     },
 }
 
-export const user = {
+export default {
     namespaced: true,
     state,
     actions,

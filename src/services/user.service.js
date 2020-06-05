@@ -1,62 +1,60 @@
 import authHeader from '../helpers/authentication'
 
 function login({ username, password }) {
-    const myHeaders = new Headers()
-    myHeaders.append('Content-Type', 'application/json')
+    const requestOptions = authHeader('POST')
+
     const user = {
         username: username,
         password: password,
     }
-    const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(user),
-    }
-    console.log(myHeaders.get('Content-Type'))
-    console.log(requestOptions.body)
-    console.log(process.env.VUE_APP_API_ENDPOINT)
+    requestOptions.body = JSON.stringify(user)
 
-    fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/login/`, requestOptions).then(resp => console.log(resp.json()))
-    // .then(handleResponse)
-    // .then(user => {
-    //   // login successful if there's a jwt token in the response
-    //   if (user.token) {
-    //     // store user details and jwt token in local storage to keep user logged in between page refreshes
-    //     localStorage.setItem('user', JSON.stringify(user))
-    //   }
-    //   console.log(user)
-    //   // this.$store.commit('tokenize', result))
-    //   return user
-    // })
+    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/login/`, requestOptions)
+        .then(resp => resp.json())
+        .then(json => {
+            let answer = new Promise(function(resolve, reject) {
+                if (json.token) {
+                    json.user = username
+                    json.status = { loggedIn: true }
+                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('user', json.user)
+                    localStorage.setItem('token', json.token)
+                    resolve(json.user)
+                } else {
+                    json.status = { loggedIn: false }
+                    reject(json)
+                }
+            })
+            console.log(answer)
+            return answer
+        })
+    return answer
 }
 
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user')
+    localStorage.removeItem('token')
 }
 
 function register(user) {
-    const myHeaders = new Headers()
-    myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
+    const requestOptions = authHeader('POST')
+    // const myHeaders = new Headers()
+    // myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
 
-    const urlencoded = new URLSearchParams()
+    /*const urlencoded = new URLSearchParams()
     urlencoded.append('username', JSON.stringify(user.name))
     urlencoded.append('password', JSON.stringify(user.password))
     urlencoded.append('first_name', JSON.stringify(user.first_name))
     urlencoded.append('last_name', JSON.stringify(user.last_name))
     urlencoded.append('email', JSON.stringify(user.email))
-    urlencoded.append('phone_number', JSON.stringify(user.phone))
+    urlencoded.append('phone_number', JSON.stringify(user.phone))*/
 
-    const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: 'follow',
-    }
-
-    fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions)
-        .then(handleResponse)
-        .then(result => console.log(result))
+    requestOptions.body = JSON.stringify(user)
+    requestOptions.redirect = 'follow'
+    console.log(requestOptions)
+    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/`, requestOptions).then(resp => resp.json())
+    return answer
 }
 
 function patch(field, value) {
@@ -107,6 +105,7 @@ function _delete(id) {
 }
 
 function handleResponse(response) {
+    console.log(response)
     return response.text().then(text => {
         const data = text && JSON.parse(text)
         if (!response.ok) {
@@ -124,7 +123,7 @@ function handleResponse(response) {
     })
 }
 
-export default {
+export const userService = {
     login,
     logout,
     register,
