@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Hi {{ account.user.first_name }}!</h1>
+        <h1>Hi {{ accounts.user.first_name }}!</h1>
         <p>You're logged in</p>
         <em v-if="users.loading">Loading users...</em>
         <span v-if="users.error" class="text-danger">ERROR: {{ users.error }}</span>
@@ -25,7 +25,7 @@ export default {
     name: 'Home',
     computed: {
         ...mapState({
-            account: state => state.account,
+            accounts: state => state.accounts,
             users: state => state.users.all,
         }),
     },
