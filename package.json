@@ -51,7 +51,7 @@
   "eslintConfig": {
     "rules": {
       "quotes": [
-        "waarning",
+        "warning",
         "single"
       ]
     }
