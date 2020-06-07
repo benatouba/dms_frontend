@@ -5,7 +5,8 @@
                 <div id="app" v-cloak @drop.prevent="handleDrop" @dragover.prevent>
                     <v-file-input
                         chips
-                        v-model="localFiles"
+                        :value="files"
+                        @input="addFile"
                         id="name"
                         show-size
                         counter
@@ -15,31 +16,30 @@
                     <v-btn :disabled="uploadDisabled" @click="handleSubmit(localFiles)" icon large target="_blank">
                         <v-icon>mdi-upload</v-icon>
                     </v-btn>
-                    <v-card
-                        v-for="f in localFiles"
-                        :key="f.name"
-                        class="mx-auto text--alert"
-                        :elevation="5"
-                        max-width="200"
-                        outlined
-                    >
-                        <v-list-item three-line>
-                            <v-list-item-content>
-                                <div class="overline mb-4">{{ f.size / 1000 + ' KB' }}</div>
-                                <v-list-item-title class="headline mb-1">{{ f.name }}</v-list-item-title>
-                                <v-list-item-subtitle>{{ message }}</v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-
-                        <v-card-actions>
-                            <v-btn icon @click="handleSubmit([f])">
-                                <v-icon>mdi-upload</v-icon>
-                            </v-btn>
-                            <v-btn icon>
-                                <v-icon>mdi-remove</v-icon>
-                            </v-btn>
-                        </v-card-actions>
-                    </v-card>
+                    <v-container>
+                        <v-row>
+                            <v-col v-for="f in files" :key="f.id" class="d-flex" :elevation="5" outlined cols="12">
+                                <v-card max-width="800" elevation="5" outlined class="align-self-items">
+                                    <v-list-item>
+                                        <v-list-item-content>
+                                            <div class="overline mb-4">{{ f.size / 1000 + ' KB' }}</div>
+                                            <v-list-item-title class="headline">{{ f.name }}</v-list-item-title>
+                                            <v-list-item-subtitle>{{ f.message }}</v-list-item-subtitle>
+                                        </v-list-item-content>
+                                        <v-card-actions>
+                                            <v-btn icon @click="handleSubmit([f])">
+                                                <v-icon>mdi-upload</v-icon>
+                                            </v-btn>
+                                            <v-spacer></v-spacer>
+                                            <v-btn icon @click="removeFile(f.id)">
+                                                <v-icon>mdi-delete</v-icon>
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-list-item>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-container>
                 </div>
             </v-col>
         </v-row>
@@ -65,7 +65,7 @@ export default {
         ...mapGetters([
             // 'allFiles',
             'uploadedFiles',
-            'failedFiles',
+            'notUploadedFiles',
             'successFiles',
             'warningFiles',
             'errorFiles',
@@ -74,6 +74,14 @@ export default {
         uploadDisabled() {
             return this.localFiles.length === 0
         },
+        files: {
+            get() {
+                return this.$store.state.files
+            },
+            set(obj) {
+                this.$store.commit('addFile', obj)
+            },
+        },
     },
     methods: {
         ...mapActions({
@@ -81,6 +89,8 @@ export default {
         }),
         ...mapMutations({
             addFile: 'addFile',
+            removeFile: 'removeFile',
+            updateMessage: 'updateMessage',
         }),
         ...mapGetters({
             allFiles: 'allFiles',
@@ -96,9 +106,6 @@ export default {
         },
         // eslint-disable-next-line no-unused-vars
         handleSubmit(uploadFiles) {
-            // e.preventDefault()
-            // uploadFiles = Array.from(uploadFiles)
-            console.log(uploadFiles)
             uploadFiles.forEach(file => {
                 console.log(file)
                 this.uploadFiles({ file })
