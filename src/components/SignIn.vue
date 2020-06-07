@@ -39,11 +39,7 @@
                                 <v-card-actions>
                                     <router-link to="/register" class="btn btn-link">Register</router-link>
                                     <v-spacer />
-                                    <img
-                                        v-show="status.loggingIn"
-                                        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-                                    />
-                                    <v-btn color="primary darken-2" @click="handleSubmit" :disabled="status.loggingIn"
+                                    <v-btn color="primary darken-2" @click="handleSubmit" :disabled="isLoggedIn"
                                         >Login</v-btn
                                     >
                                 </v-card-actions>
@@ -57,7 +53,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
     name: 'SignIn',
     data() {
@@ -71,13 +67,24 @@ export default {
         }
     },
     computed: {
-        ...mapState('accounts', ['status']),
+        ...mapState({
+            status: 'accounts/status',
+            loginInfo: 'alerts/loginInfo',
+        }),
+        ...mapGetters({
+            isLoggedIn: 'accounts/isLoggedIn',
+        }),
     },
     created() {
-        this.logout()
+        if (this.isLoggedIn) {
+            this.logout()
+        }
     },
     methods: {
         ...mapActions('accounts', ['login', 'logout']),
+        ...mapActions({
+            disableLoginInfo: 'alerts/disableLoginInfo',
+        }),
         // eslint-disable-next-line no-unused-vars
         handleSubmit(e) {
             // e.preventDefault()

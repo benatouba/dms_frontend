@@ -2,7 +2,7 @@
     <v-app class="secondary">
         <Navbar />
         <v-content>
-            <div v-if="alerts.message" :class="`alert ${alerts.type}`">{{ alerts.message }}</div>
+            <LoginInfo v-show="!isLoggedIn | disableLoginInfo" />
             <router-view></router-view>
         </v-content>
     </v-app>
@@ -10,18 +10,24 @@
 
 <script>
 import Navbar from './components/Navbar'
-import { mapActions, mapState } from 'vuex'
+import LoginInfo from './components/LoginInfo'
+import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
     name: 'App',
-    components: { Navbar },
+    components: { Navbar, LoginInfo },
     computed: {
         ...mapState({
             alerts: state => state.alerts,
+        }),
+        ...mapGetters({
+            isLoggedIn: 'accounts/isLoggedIn',
+            loginInfo: 'alerts/loginInfo',
         }),
     },
     methods: {
         ...mapActions({
             clearAlert: 'alerts/clear',
+            disableLoginInfo: 'alerts/disableLoginInfo',
         }),
     },
     watch: {

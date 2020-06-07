@@ -1,8 +1,14 @@
 const state = {
     type: null,
     message: null,
+    loginInfo: true,
 }
 
+const getters = {
+    loginInfo: state => {
+        return state.loginInfo
+    },
+}
 const actions = {
     success({ commit }, message) {
         commit('success', message)
@@ -12,6 +18,9 @@ const actions = {
     },
     clear({ commit }) {
         commit('clear')
+    },
+    disableLoginInfo({ commit }) {
+        commit('disable_login_info')
     },
 }
 
@@ -29,11 +38,15 @@ const mutations = {
         state.type = null
         state.message = null
     },
+    disable_login_info(state) {
+        state.loginInfo = false
+    },
 }
 
 export default {
     namespaced: true,
     state,
+    getters,
     actions,
     mutations,
 }

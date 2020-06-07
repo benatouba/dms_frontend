@@ -5,11 +5,14 @@
             <v-spacer></v-spacer>
             <v-toolbar-title class="primary--text text--darken-3">
                 <span class="font-weight-bold">[UC²] </span>
-                <span class="font-italic">Urban Climate under Change </span>
+                <span class="font-italic">Urban Climate under Change</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn text color="primary">
-                <span class="primary--text text--darken-3">Sign In</span>
+            <v-btn v-if="this.isLoggedIn" @click="logout" text color="primary">
+                Log Out
+            </v-btn>
+            <v-btn v-else text color="primary">
+                <router-link to="Login">Log In</router-link>
                 <v-icon right>mdi-log-in</v-icon>
             </v-btn>
             <v-btn href="http://www.uc2-program.org/uc2_data_standard.pdf" target="_blank" text>
@@ -53,8 +56,12 @@
 
 <script>
 import i18n from '../plugins/vuetify'
+import { mapActions, mapGetters } from 'vuex'
 export default {
     name: 'Navbar',
+    computed: {
+        ...mapGetters({ isLoggedIn: 'accounts/isLoggedIn' }),
+    },
     data() {
         return {
             drawer: true,
@@ -79,6 +86,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions({ logout: 'accounts/logout' }),
         changeLocale(locale) {
             i18n.locale = locale
         },

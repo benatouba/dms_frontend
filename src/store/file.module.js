@@ -1,6 +1,6 @@
 import { uploadService } from '../services/upload.service'
 
-const state = [{ name: 'test', size: 111, message: 'this is a message' }]
+const state = [{ name: 'test', size: 111, message: 'this is a message', id: 0 }]
 
 const getters = {
     allFiles: state => {
@@ -9,7 +9,7 @@ const getters = {
     uploadedFiles: state => {
         return state.filter(file => file.uploaded)
     },
-    failedFiles: state => {
+    notUploadedFiles: state => {
         return state.filter(file => !file.uploaded)
     },
     successFiles: state => {
@@ -59,6 +59,10 @@ const mutations = {
         })
     },
     addFile: (state, file) => state.push(file),
+    removeFile: (state, id) => {
+        let index = state.findIndex(state => state.id == id)
+        state.splice(index, 1)
+    },
     uploadRequest(state) {
         state.uploading = true
     },
@@ -69,6 +73,9 @@ const mutations = {
     uploadFailure(state) {
         state.uploaded = false
         state.uploading = false
+    },
+    updateMessage(state, message) {
+        state.obj.message = message
     },
 }
 

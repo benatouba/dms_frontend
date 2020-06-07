@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <h1>Hi {{ accounts.user.first_name }}!</h1>
-        <p>You're logged in</p>
-        <em v-if="users.loading">Loading users...</em>
+    <v-container>
+        <h1>Hi {{ this.user }}!</h1>
+        Welcome to the
+        <!--<em v-if="users.loading">Loading users...</em>
         <span v-if="users.error" class="text-danger">ERROR: {{ users.error }}</span>
         <ul v-if="users.items">
             <li v-for="user in users.items" :key="user.id">
@@ -11,15 +11,12 @@
                 <span v-else-if="user.deleteError" class="text-danger"> - ERROR: {{ user.deleteError }}</span>
                 <span v-else> - <a @click="deleteUser(user.id)" class="text-danger">Delete</a></span>
             </li>
-        </ul>
-        <p>
-            <router-link to="/login">Logout</router-link>
-        </p>
-    </div>
+        </ul>-->
+    </v-container>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
     name: 'Home',
@@ -28,9 +25,10 @@ export default {
             accounts: state => state.accounts,
             users: state => state.users.all,
         }),
-    },
-    created() {
-        this.listUsers()
+        ...mapGetters({
+            user: 'accounts/user',
+            status: 'accounts/status',
+        }),
     },
     methods: {
         ...mapActions('users', {

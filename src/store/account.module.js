@@ -4,6 +4,14 @@ import router from '../router'
 const user = localStorage.getItem('user')
 const state = user ? { status: { isLoggedIn: true }, user } : { status: {}, user: null }
 
+const getters = {
+    user: state => {
+        return state.user
+    },
+    isLoggedIn: state => {
+        return state.status.isLoggedIn
+    },
+}
 const actions = {
     login({ dispatch, commit }, { username, password }) {
         commit('loginRequest', { username })
@@ -12,11 +20,9 @@ const actions = {
             .login({ username, password })
             .then(
                 user => {
-                    console.log('logging success')
-                    console.log(user)
                     commit('loginSuccess', user)
                     console.log('Login Success')
-                    router.push('/upload')
+                    router.push('/home')
                 },
                 error => {
                     console.log('login error')
@@ -80,6 +86,7 @@ const mutations = {
 export default {
     namespaced: true,
     state,
+    getters,
     actions,
     mutations,
 }
