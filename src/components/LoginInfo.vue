@@ -5,10 +5,10 @@
         have an account, please register.
         <v-divider></v-divider>
         <v-btn>
-            <router-link to="Login">Log In</router-link>
+            <router-link to="login">Log In</router-link>
         </v-btn>
         <v-btn>
-            <router-link to="Register">Register</router-link>
+            <router-link to="register">Register</router-link>
         </v-btn>
     </v-alert>
 </template>
