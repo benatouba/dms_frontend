@@ -19,8 +19,8 @@ const actions = {
     clear({ commit }) {
         commit('clear')
     },
-    disableLoginInfo({ commit }) {
-        commit('disable_login_info')
+    toggleLoginInfo({ commit }) {
+        commit('toggleLoginInfo')
     },
 }
 
@@ -38,8 +38,8 @@ const mutations = {
         state.type = null
         state.message = null
     },
-    disable_login_info(state) {
-        state.loginInfo = false
+    toggleLoginInfo(state) {
+        state.loginInfo = !state.loginInfo
     },
 }
 

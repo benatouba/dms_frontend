@@ -27,7 +27,7 @@ export default {
         }),
         ...mapGetters({
             user: 'accounts/user',
-            status: 'accounts/status',
+            isLoggedIn: 'accounts/isLoggedIn',
         }),
     },
     methods: {

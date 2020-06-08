@@ -60,30 +60,40 @@ export default {
         return {
             username: '',
             password: '',
-            login_info: 'Users can retrieve additional data files',
             submitted: false,
             loading: false,
             error: '',
         }
     },
+    beforeRouteLeave(to, from, next) {
+        if (this.isLoggedIn) {
+            next()
+        } else {
+            this.to = to
+            this.toggleLoginInfo()
+            next()
+        }
+    },
     computed: {
         ...mapState({
             status: 'accounts/status',
-            loginInfo: 'alerts/loginInfo',
         }),
         ...mapGetters({
             isLoggedIn: 'accounts/isLoggedIn',
+            loginInfo: 'alerts/loginInfo',
         }),
     },
     created() {
         if (this.isLoggedIn) {
             this.logout()
         }
+        this.toggleLoginInfo()
     },
     methods: {
-        ...mapActions('accounts', ['login', 'logout']),
         ...mapActions({
-            disableLoginInfo: 'alerts/disableLoginInfo',
+            login: 'accounts/login',
+            logout: 'accounts/logout',
+            toggleLoginInfo: 'alerts/toggleLoginInfo',
         }),
         // eslint-disable-next-line no-unused-vars
         handleSubmit(e) {

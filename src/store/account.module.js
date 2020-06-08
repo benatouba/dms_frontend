@@ -2,7 +2,9 @@ import { userService } from '../services'
 import router from '../router'
 
 const user = localStorage.getItem('user')
-const state = user ? { status: { isLoggedIn: true }, user } : { status: {}, user: null }
+const state = user ? { status: { isLoggedIn: true }, user } : { status: { isLoggedIn: false }, user: null }
+state.status.isLoggingIn = false
+state.status
 
 const getters = {
     user: state => {
@@ -22,7 +24,7 @@ const actions = {
                 user => {
                     commit('loginSuccess', user)
                     console.log('Login Success')
-                    router.push('/home')
+                    router.push('Upload')
                 },
                 error => {
                     console.log('login error')
@@ -57,11 +59,11 @@ const actions = {
 
 const mutations = {
     loginRequest(state, user) {
-        state.status = { loggingIn: true }
+        state.status = { isLoggingIn: true }
         state.user = user
     },
     loginSuccess(state, user) {
-        state.status = { loggedIn: true }
+        state.status = { isLoggedIn: true }
         state.user = user
     },
     loginFailure(state) {

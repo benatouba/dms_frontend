@@ -2,7 +2,7 @@
     <v-app class="secondary">
         <Navbar />
         <v-content>
-            <LoginInfo v-show="!isLoggedIn | disableLoginInfo" />
+            <LoginInfo v-if="!isLoggedIn && loginInfo" />
             <router-view></router-view>
         </v-content>
     </v-app>
@@ -27,7 +27,6 @@ export default {
     methods: {
         ...mapActions({
             clearAlert: 'alerts/clear',
-            disableLoginInfo: 'alerts/disableLoginInfo',
         }),
     },
     watch: {
