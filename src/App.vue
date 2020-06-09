@@ -3,6 +3,9 @@
         <Navbar />
         <v-content>
             <LoginInfo v-if="!isLoggedIn && loginInfo" />
+            <v-alert v-if="alerts.message" text type="info" :class="`d-flex alert ${alerts.type}`">
+                {{ alerts.message }}
+            </v-alert>
             <router-view></router-view>
         </v-content>
     </v-app>
