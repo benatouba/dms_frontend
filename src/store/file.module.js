@@ -1,16 +1,17 @@
 import { uploadService } from '../services/upload.service'
 
-const state = [{ name: 'test', size: 111, message: 'this is a message', id: 0 }]
+// const state = [{ name: 'test', size: 111, message: 'this is a message', id: 0 }]
+const state = { files: [] }
 
 const getters = {
     allFiles: state => {
-        return state
+        return state.files
     },
     uploadedFiles: state => {
-        return state.filter(file => file.uploaded)
+        return state.files.filter(file => file.status === 1)
     },
     notUploadedFiles: state => {
-        return state.filter(file => !file.uploaded)
+        return state.filter(file => file.status !== 1)
     },
     successFiles: state => {
         return state.filter(file => file.status === 1)
@@ -37,17 +38,17 @@ const actions = {
         commit('removeFile', f)
     },
     uploadFiles({ dispatch, commit }, { file }) {
-        console.log(file)
         commit('uploadRequest')
-        uploadService.upload(file).then(
-            file => commit('uploadSuccess', file),
-            error => {
-                console.log('upload error')
-                console.log(error)
+        return uploadService
+            .upload(file)
+            .then(file => {
+                commit('uploadSuccess', file)
+                commit('addFile', file)
+            })
+            .catch(error => {
                 commit('uploadFailure', error)
                 dispatch('alerts/error', error, { root: true })
-            }
-        )
+            })
     },
 }
 
@@ -55,12 +56,15 @@ const mutations = {
     RESET(state) {
         const newState = []
         Object.keys(newState).forEach(key => {
-            state[key] = newState[key]
+            state.files[key] = newState[key]
         })
     },
-    addFile: (state, file) => state.push(file),
+    addFile: (state, file) => state.files.push(file),
+    setStatus: (state, id, status) => {
+        state.files[id].status = status
+    },
     removeFile: (state, id) => {
-        let index = state.findIndex(state => state.id == id)
+        let index = state.findIndex(state => state.files.id == id)
         state.splice(index, 1)
     },
     uploadRequest(state) {
@@ -74,8 +78,8 @@ const mutations = {
         state.uploaded = false
         state.uploading = false
     },
-    updateMessage(state, message) {
-        state.obj.message = message
+    updateMessage(state, id, message) {
+        state.files[id].message = message
     },
 }
 

@@ -1,24 +1,18 @@
 import authHeader from '../helpers/authentication'
 
 function upload(file) {
-    console.log(authHeader('POST'))
-    const myHeaders = new Headers()
-    myHeaders.append('Authorization', ' Token ' + localStorage.getItem('token'))
+    const requestOptions = authHeader('POST')
 
     const formdata = new FormData()
     formdata.append('file_type', 'UC2')
     formdata.append('file', file)
 
-    const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: formdata,
-        redirect: 'follow',
-    }
+    requestOptions.body = formdata
+    requestOptions.redirect = 'follow'
+
     console.log(requestOptions)
-    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/uc2upload/`, requestOptions)
-        .then(resp => resp.json())
-        .then(resp => {
+    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/uc2upload/`, requestOptions).then(resp => resp.json())
+    /*.then(resp => {
             let answer = new Promise(function(resolve, reject) {
                 console.log(resp)
                 if (resp.status !== 0) {
@@ -28,7 +22,7 @@ function upload(file) {
                 }
             })
             return answer
-        })
+        })*/
     return answer
 }
 

@@ -1,17 +1,20 @@
 <template>
     <div class="upload">
-        <h1>Upload Files</h1>
-        <upload />
+        <DropArea />
+        <v-divider></v-divider>
+        <FileCards />
     </div>
 </template>
 
 <script>
-import upload from '../components/Upload'
+import DropArea from '@/components/DropArea'
+import FileCards from '@/components/FileCards'
 
 export default {
     name: 'Upload',
     components: {
-        upload,
+        DropArea,
+        FileCards,
     },
 }
 </script>
