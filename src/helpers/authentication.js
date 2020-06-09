@@ -1,6 +1,6 @@
 export default function authHeader(method) {
     // return authorization header with jwt token
-    let user = localStorage.getItem('username')
+    let user = localStorage.getItem('user')
     let token = localStorage.getItem('token')
 
     const myHeaders = new Headers()

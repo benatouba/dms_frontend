@@ -53,7 +53,8 @@ function register(user) {
     requestOptions.body = JSON.stringify(user)
     requestOptions.redirect = 'follow'
     console.log(requestOptions)
-    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/`, requestOptions).then(resp => resp.json())
+    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/`, requestOptions)
+    console.log(answer)
     return answer
 }
 
