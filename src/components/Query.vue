@@ -1,25 +1,34 @@
 <template>
     <div>
-        <input v-model="searchInput" placeholder="Search" /> <br />
-        <v-btn @click="handleSubmit" icon large target="_blank">
-            <v-icon left>mdi-cloud-search</v-icon>
+        <input v-model="searchInput" placeholder="Search" class="input text--secondary my-2" /> <br />
+        <v-btn @click="handleSubmit" icon x-large target="_blank">
+            <v-icon left color="primary">mdi-cloud-search</v-icon>
         </v-btn>
+        <v-divider class="my-3"></v-divider>
         <v-row>
-            <h2>Files</h2>
+            <h2 class="mx-3">Files</h2>
             <v-col class="text-lg-right">
-                <v-btn @click="handleBatchDownload()" right class="ma-2" tile outlined target="_blank">
-                    <v-icon left>mdi-download</v-icon>Download All
+                <v-btn
+                    text
+                    @click="handleBatchDownload()"
+                    right
+                    class="ma-2 primary--text"
+                    tile
+                    outlined
+                    target="_blank"
+                >
+                    <v-icon left color="primary">mdi-download</v-icon>Download All
                 </v-btn>
             </v-col>
         </v-row>
-        <v-container>
+        <v-container class="text--primary">
             <v-expansion-panels v-for="data in getQueried" :key="data.id" elevation="5" outlined>
                 <v-expansion-panel>
                     <v-row></v-row>
                     <v-expansion-panel-header>
                         {{ data.file_standard_name }}
                         <v-btn class="text-lg-right" @click="handleDownload(data.file)" icon target="_blank">
-                            <v-icon>mdi-download</v-icon>
+                            <v-icon color="primary">mdi-download</v-icon>
                         </v-btn>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
@@ -93,3 +102,15 @@ export default {
     },
 }
 </script>
+
+<style>
+.input {
+    outline: 2px solid grey;
+    outline-offset: -5px;
+    padding: 10px 10px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    justify-self: center;
+}
+</style>

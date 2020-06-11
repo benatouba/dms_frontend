@@ -3,7 +3,7 @@
         <v-app-bar app flat>
             <v-app-bar-nav-icon v-model="drawer" @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-spacer></v-spacer>
-            <v-toolbar-title class="primary--text text--darken-3">
+            <v-toolbar-title class="primary--text">
                 <span class="font-weight-bold">[UC²] </span>
                 <span class="font-italic">Urban Climate under Change</span>
             </v-toolbar-title>
@@ -16,23 +16,23 @@
                 <v-icon right>mdi-log-in</v-icon>
             </v-btn>
             <v-btn href="http://www.uc2-program.org/uc2_data_standard.pdf" target="_blank" text>
-                <span class="primary--text text--darken-3">Data Standard</span>
+                <span class="primary--text">Data Standard</span>
                 <v-icon>mdi-open-in-new</v-icon>
             </v-btn>
             <v-btn href="http://www.uc2-program.org/uc2_data_policy.pdf" target="_blank" text>
-                <span class="primary--text text--darken-3">Data Policy</span>
+                <span class="primary--text">Data Policy</span>
                 <v-icon>mdi-open-in-new</v-icon>
             </v-btn>
             <v-img
                 alt="Climatology Logo"
-                class="shrink primary--text text--darken-3"
+                class="shrink primary--text"
                 contain
                 src="@/assets/group_logo.jpg"
                 transition="scale-transition"
                 width="40"
             ></v-img>
             <v-btn
-                class="primary--text text--darken-3"
+                class="primary--text"
                 v-for="lang in languages"
                 :key="lang.title"
                 @click="changeLocale(lang.language)"
@@ -41,7 +41,7 @@
             </v-btn>
         </v-app-bar>
 
-        <v-navigation-drawer app v-model="drawer" class="primary darken-2">
+        <v-navigation-drawer app v-model="drawer" class="primary">
             <v-list>
                 <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
                     <v-list-item-action>
