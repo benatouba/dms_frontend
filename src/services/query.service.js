@@ -2,9 +2,10 @@ import authHeader from '../helpers/authentication'
 
 function query(input) {
     const requestOptions = authHeader('GET')
-    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/uc2list/?=${input}`, requestOptions).then(resp =>
-        resp.json()
-    )
+    let answer = fetch(
+        process.env.VUE_APP_API_ENDPOINT + `/uc2list/?file_standard_name=${input}`,
+        requestOptions
+    ).then(resp => resp.json())
     return answer
 }
 
