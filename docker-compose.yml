@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  dms_frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /local_data/dms_frontend:/app
