@@ -1,7 +1,7 @@
 <template>
-    <v-app class="secondary">
+    <v-app class="primary">
         <Navbar />
-        <v-content>
+        <v-content style="margin: auto; width: 80%;">
             <LoginInfo v-if="!isLoggedIn && loginInfo" />
             <v-alert v-if="alerts.message" text type="info" :class="`d-flex alert ${alerts.type}`">
                 {{ alerts.message }}
