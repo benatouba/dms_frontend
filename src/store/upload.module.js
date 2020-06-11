@@ -2,7 +2,7 @@ import { uploadService } from '../services/upload.service'
 
 const state = {
     files: [
-        {
+        /*{
             result: {
                 file_standard_name: 'test',
                 size: 111,
@@ -49,7 +49,7 @@ const state = {
             fatal: ['fatal error'],
             warnings: ['warning note'],
             status: 4,
-        },
+        },*/
     ],
 }
 // const state = { files: [] }

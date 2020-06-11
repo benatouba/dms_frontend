@@ -25,7 +25,6 @@ function login({ username, password }) {
                     reject(json)
                 }
             })
-            console.log(answer)
             return answer
         })
     return answer
@@ -52,9 +51,7 @@ function register(user) {
 
     requestOptions.body = JSON.stringify(user)
     requestOptions.redirect = 'follow'
-    console.log(requestOptions)
     let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/`, requestOptions)
-    console.log(answer)
     return answer
 }
 
@@ -73,9 +70,7 @@ function patch(field, value) {
         redirect: 'follow',
     }
 
-    fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions)
-        .then(handleResponse)
-        .then(result => console.log(result))
+    fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions).then(handleResponse)
 }
 
 function list() {
@@ -87,9 +82,7 @@ function list() {
         redirect: 'follow',
     }
 
-    return fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions)
-        .then(handleResponse)
-        .then(result => console.log(result))
+    return fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions).then(handleResponse)
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -106,7 +99,6 @@ function _delete(id) {
 }
 
 function handleResponse(response) {
-    console.log(response)
     return response.text().then(text => {
         const data = text && JSON.parse(text)
         if (!response.ok) {

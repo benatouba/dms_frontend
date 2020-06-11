@@ -1,14 +1,17 @@
 import { queryService } from '../services/query.service'
 
-const state = {
-    queried: false,
-    querying: false,
-    error: null,
-    result: null,
-    downloading: false,
-    downloaded: true,
-    download_file: null,
+const getDefaultState = () => {
+    return {
+        queried: false,
+        querying: false,
+        error: null,
+        result: null,
+        downloading: false,
+        downloaded: true,
+        download_file: null,
+    }
 }
+const state = getDefaultState()
 
 const getters = {
     queriedFiles: state => {
@@ -17,9 +20,12 @@ const getters = {
 }
 
 const actions = {
-    query({ dispatch, commit }, { input }) {
-        commit('queryRequest')
-        queryService.query(input).then(
+    resetQueryState({ commit }) {
+        commit('resetState')
+    },
+    query({ dispatch, commit }, input) {
+        commit('queryRequest', input)
+        queryService.query(input.search).then(
             result => {
                 commit('querySuccess', result)
             },
@@ -46,8 +52,14 @@ const actions = {
 }
 
 const mutations = {
-    queryRequest(state) {
+    resetState(state) {
+        // Merge rather than replace so we don't lose observers
+        // https://github.com/vuejs/vuex/issues/1118
+        Object.assign(state, getDefaultState())
+    },
+    queryRequest(state, input) {
         state.querying = true
+        state.query = input
     },
     querySuccess(state, result) {
         state.queried = true

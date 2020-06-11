@@ -6,7 +6,7 @@
                     <v-col cols="12" sm="8" md="4">
                         <v-card class="elevation-12">
                             <v-toolbar color="primary darken-2" flat>
-                                <v-toolbar-title>{{ 'InsertMsg' }}</v-toolbar-title>
+                                <v-toolbar-title>Login</v-toolbar-title>
                             </v-toolbar>
                             <v-form ref="form" @submit.prevent="handleSubmit">
                                 <v-card-text>

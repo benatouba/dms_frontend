@@ -23,11 +23,9 @@ const actions = {
             .then(
                 user => {
                     commit('loginSuccess', user)
-                    console.log('Login Success')
                     router.push('Upload')
                 },
                 error => {
-                    console.log('login error')
                     commit('loginFailure', error)
                     dispatch('alert/error', error, { root: true })
                 }
