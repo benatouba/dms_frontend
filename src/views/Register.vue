@@ -1,7 +1,9 @@
 <template>
     <div class="register">
-        <img alt="UC2 logo" src="@/assets/logo.png" />
-        <SignUp />
+        <v-container class="mx-4">
+            <img alt="UC2 logo" src="@/assets/logo.png" />
+            <SignUp />
+        </v-container>
     </div>
 </template>
 

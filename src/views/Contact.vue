@@ -1,6 +1,8 @@
 <template>
     <div class="contact">
-        <h1>Contact Info</h1>
+        <v-container class="mx-4 primary--text">
+            <h1>Contact Info</h1>
+        </v-container>
     </div>
 </template>
 

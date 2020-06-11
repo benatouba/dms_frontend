@@ -1,8 +1,10 @@
 <template>
-    <div class="upload">
-        <DropArea />
-        <v-divider></v-divider>
-        <FileCards />
+    <div>
+        <v-container class="mx-4 primary--text">
+            <DropArea />
+            <v-divider></v-divider>
+            <FileCards />
+        </v-container>
     </div>
 </template>
 

@@ -1,25 +1,41 @@
 <template>
-    <div class="container">
-        <form enctype="multipart/form-data" novalidate>
-            <h1>Upload files</h1>
-            <div class="dropbox primary lighten-3">
-                <input
-                    type="file"
-                    multiple
-                    :name="uploadFieldName"
-                    :disabled="isSaving"
-                    @change="handleSubmit($event.target.files)"
-                    fileCount="$event.target.files.length"
-                    accept="*.nc"
-                    class="input-file"
-                />
-                <h3 class="center text-center">
-                    Drag your file(s) here<br />
-                    or click to browse
-                </h3>
-                <p v-if="isSaving">Uploading {{ fileCount }} files...</p>
-            </div>
-        </form>
+    <div>
+        <h2>Upload files</h2>
+        <v-container>
+            <v-layout row wrap>
+                <v-row cols="12" wrap>
+                    <div class="container">
+                        <form enctype="multipart/form-data" novalidate>
+                            <v-card
+                                class="dropbox primary secondary--text text-center"
+                                outline
+                                block
+                                flat
+                                hover
+                                xs12
+                                md6
+                            >
+                                <input
+                                    type="file"
+                                    multiple
+                                    :name="uploadFieldName"
+                                    :disabled="isSaving"
+                                    @change="handleSubmit($event.target.files)"
+                                    fileCount="$event.target.files.length"
+                                    accept="*.nc"
+                                    class="input-file"
+                                />
+                                <p>
+                                    Drag your file(s) here<br />
+                                    or click to browse
+                                </p>
+                                <p v-if="isSaving">Uploading {{ fileCount }} files...</p>
+                            </v-card>
+                        </form>
+                    </div>
+                </v-row>
+            </v-layout>
+        </v-container>
     </div>
 </template>
 
@@ -38,21 +54,17 @@ export default {
             message: state => state.alerts.message,
             status: state => state.alerts.status,
         }),*/
-        ...mapGetters([
-            'allFiles',
-            'uploadedFiles',
-            'notUploadedFiles',
-            'successFiles',
-            'warningFiles',
-            'errorFiles',
-            'fatalFiles',
-        ]),
+        ...mapGetters({
+            allFiles: 'upload/allFiles',
+            uploadedFiles: 'upload/uploadedFiles',
+        }),
         files: {
             get() {
                 return this.$store.state.files
             },
             set(obj) {
                 Array.from(obj).forEach(f => {
+                    this.uploadFiles.append(f)
                     this.$store.commit('addFile', f)
                 })
             },
@@ -69,26 +81,21 @@ export default {
     },
     methods: {
         ...mapActions({
-            uploadFiles: 'uploadFiles',
+            uploadFiles: 'upload/uploadFiles',
         }),
         ...mapMutations({
-            addFile: 'addFile',
-            setStatus: 'setStatus',
-            removeFile: 'removeFile',
-            updateMessage: 'updateMessage',
+            addFile: 'upload/addFile',
+            removeFile: 'upload/removeFile',
+            updateMessage: 'upload/updateMessage',
         }),
         handleSubmit(files) {
             this.currentStatus = STATUS_SAVING
 
             if (!files.length) return
 
-            files.forEach(file => {
-                console.log(file)
-                this.uploadFiles({ file })
-                    .then(x => {
-                        console.log(x)
-                        this.currentStatus = STATUS_SUCCESS
-                    })
+            files.forEach((file, id) => {
+                this.uploadFiles({ file, id })
+                    .then((this.currentStatus = STATUS_SUCCESS))
                     .catch(err => {
                         this.uploadError = err.response
                         this.currentStatus = STATUS_FAILED
@@ -98,7 +105,7 @@ export default {
     },
     data() {
         return {
-            // uploadedFiles: [],
+            // uploadFiles: [],
             uploadError: null,
             currentStatus: null,
             uploadFieldName: 'photos',
@@ -110,30 +117,26 @@ export default {
 
 <style lang="scss">
 .dropbox {
-    outline: 2px dashed grey; /* the dash box */
+    outline: 2px dashed black;
     outline-offset: -10px;
-    color: dimgray;
+    color: 'warning';
     padding: 10px 10px;
-    min-height: 200px; /* minimum height */
+    min-height: 200px;
     position: relative;
+    z-index: 0;
     cursor: pointer;
+    opacity: 50;
 }
 
 .input-file {
-    opacity: 0; /* invisible but it's there! */
+    opacity: 0;
+    margin-left: -50%;
     width: 100%;
-    height: 200px;
+    height: 100%;
     position: absolute;
+    z-index: 1;
     cursor: pointer;
-}
-
-.dropbox:hover {
-    background: 'secondary lighten-3'; /* when mouse over to the drop zone, change color */
-}
-
-.dropbox p {
-    font-size: 1.2em;
-    text-align: center;
-    padding: 50px 0;
+    background-color: #f83e70;
+    justify-self: center;
 }
 </style>

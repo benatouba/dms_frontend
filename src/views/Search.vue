@@ -1,7 +1,9 @@
 <template>
     <div class="search">
-        <h1>Search Files</h1>
-        <Query />
+        <v-container class="mx-4 primary--text">
+            <h1>Search Files</h1>
+            <Query />
+        </v-container>
     </div>
 </template>
 

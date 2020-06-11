@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <div>
         <h1>Hi {{ this.user }}!</h1>
         Welcome to the
         <!--<em v-if="users.loading">Loading users...</em>
@@ -12,7 +12,7 @@
                 <span v-else> - <a @click="deleteUser(user.id)" class="text-danger">Delete</a></span>
             </li>
         </ul>-->
-    </v-container>
+    </div>
 </template>
 
 <script>

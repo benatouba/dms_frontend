@@ -1,95 +1,84 @@
 <template>
     <v-container>
-        <v-row dense>
-            <v-col v-for="data in allFiles.files" :key="data.id" class="d-flex">
-                <v-card elevation="5" outlined tile>
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title class="headline">{{ data.result.file_standard_name }}</v-list-item-title>
-                            <v-list-item-subtitle>{{ data.result.institution }}</v-list-item-subtitle>
-                            <v-list-item-icon v-if="data.status === 1">
-                                <v-icon round color="success">mdi-check</v-icon>
-                                <p class="success--text">Successfull!</p>
-                            </v-list-item-icon>
-                            <v-list-item-icon v-if="data.status === 2">
-                                <v-icon round color="warning">mdi-warning</v-icon>
-                                <p v-for="warning in data.warnings" :key="warning" class="warning--text">
-                                    {{ warning }}
-                                </p>
-                            </v-list-item-icon>
-                            <v-list-item-icon v-if="data.status === 3">
-                                <v-icon round color="error">mdi-clear</v-icon>
-                                <p v-for="warning in data.warnings" :key="warning" class="warning--text">
-                                    {{ warning }}
-                                </p>
-                                <p v-for="error in data.errors" :key="error" class="error--text">
-                                    {{ error }}
-                                </p>
-                                <p v-for="fatal in data.fatal" :key="fatal" class="error--text">
-                                    {{ fatal }}
-                                </p>
-                            </v-list-item-icon>
-                        </v-list-item-content>
-                        <v-card-actions>
-                            <v-btn v-if="data.status !== 1" icon large target="_blank">
-                                <v-icon>mdi-upload</v-icon>
-                            </v-btn>
-                            <v-spacer></v-spacer>
-                            <v-btn icon @click="show = !show">
-                                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                            </v-btn>
-                        </v-card-actions>
-                    </v-list-item>
-
-                    <v-divider></v-divider>
-                    <v-expand-transition>
-                        <div v-show="show">
-                            <v-list v-for="(item, key) in data.result" :key="key" height="4" dense>
-                                <v-list-item>
-                                    <v-list-item-title v-text="key"></v-list-item-title>
-                                    <v-list-item-subtitle v-text="item"></v-list-item-subtitle>
-                                </v-list-item>
+        <v-expansion-panels v-for="data in files" :key="data.result.name" elevation="5" outlined>
+            <v-expansion-panel>
+                <v-expansion-panel-header :class="`filename${data.status}`">
+                    {{ data.result.file_standard_name }}
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <v-list v-for="(item, key) in createMsgDict(data)" :key="key" class="justify-center" dense>
+                        <v-list-item v-show="item !== []" :class="`${key}`">
+                            <v-list-item-title v-text="key"></v-list-item-title>
+                            <v-list v-for="msg in item" :key="msg">
+                                <v-col align="center" justify="space-around">
+                                    <v-list-item>
+                                        <v-list-item-subtitle v-text="msg"> </v-list-item-subtitle>
+                                    </v-list-item>
+                                    <v-divider></v-divider>
+                                </v-col>
                             </v-list>
-                        </div>
-                    </v-expand-transition>
-                </v-card>
-            </v-col>
-        </v-row>
+                        </v-list-item>
+                    </v-list>
+                    <v-divider></v-divider>
+                    <v-list v-for="(item, key) in data.result" :key="key" dense>
+                        <v-list-item>
+                            <v-list-item-title v-text="key"></v-list-item-title>
+                            <v-list-item-subtitle v-text="item"></v-list-item-subtitle>
+                        </v-list-item>
+                    </v-list>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-expansion-panels>
     </v-container>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
     name: 'FileCards',
+    computed: {
+        ...mapState({
+            files: state => state.upload.files,
+        }),
+    },
     methods: {
-        ...mapState({ files: 'files' }),
-        ...mapGetters([
-            'allFiles',
-            'uploadedFiles',
-            'notUploadedFiles',
-            'successFiles',
-            'warningFiles',
-            'errorFiles',
-            'fatalFiles',
-        ]),
-    },
-    watch: {
-        // watch changes here
-        files: function(newValue, oldValue) {
-            // apply your logic here, e.g. invoke your listener function
-            console.log('was: ', oldValue, ' now: ', newValue)
+        createMsgDict(data) {
+            let newDict = {
+                fatal: data.fatal,
+                errors: data.errors,
+                warnings: data.warnings,
+            }
+            return newDict
         },
-    },
-    mounted() {
-        let files = this.files
-        console.log(files)
-    },
-    data() {
-        return {
-            show: false,
-        }
     },
 }
 </script>
+
+<style lang="scss">
+.filename1 {
+    border-left: 4px solid #3cd1c2;
+}
+.filename2 {
+    border-left: 4px solid #ffaa2c;
+}
+.filename3 {
+    border-left: 4px solid #f83e70;
+}
+.filename4 {
+    border-left: 4px solid #f83e70;
+}
+.warnings {
+    border-left: 4px solid #ffaa2c;
+}
+.errors {
+    border-left: 4px solid #f83e70;
+    text-align: left;
+    justify-self: left;
+}
+.fatal {
+    border-left: 4px solid #000000;
+    text-align: left;
+    justify-self: left;
+}
+</style>
