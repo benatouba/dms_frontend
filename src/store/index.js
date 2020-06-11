@@ -4,7 +4,7 @@ import createLogger from 'vuex/dist/logger'
 import users from './user.module'
 import accounts from './account.module'
 import queries from './query.module'
-import files from './file.module'
+import upload from './upload.module'
 import alerts from './alert.module'
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -16,7 +16,7 @@ export default new Vuex.Store({
         accounts,
         alerts,
         users,
-        files,
+        upload,
         queries,
     },
     strict: debug,

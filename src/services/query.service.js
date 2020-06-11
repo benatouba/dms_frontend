@@ -12,7 +12,6 @@ function query(input) {
 function download(file) {
     console.log(file)
     const requestOptions = authHeader('GET')
-    requestOptions.headers.append('file_standard_name', file)
     requestOptions.headers['Content-Type'] = 'multipart/form-data'
     console.log(process.env.VUE_APP_API_ENDPOINT + file)
     let answer = fetch(process.env.VUE_APP_API_ENDPOINT + file, requestOptions)

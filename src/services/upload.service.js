@@ -1,6 +1,6 @@
 import authHeader from '../helpers/authentication'
 
-function upload(file) {
+async function upload(file) {
     const requestOptions = authHeader('POST')
 
     const formdata = new FormData()
@@ -10,19 +10,20 @@ function upload(file) {
     requestOptions.body = formdata
     requestOptions.redirect = 'follow'
 
-    console.log(requestOptions)
-    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/uc2upload/`, requestOptions).then(resp => resp.json())
-    /*.then(resp => {
+    let promise = fetch(process.env.VUE_APP_API_ENDPOINT + `/uc2upload/`, requestOptions)
+        .then(resp => resp.json())
+        .then(resp => {
             let answer = new Promise(function(resolve, reject) {
-                console.log(resp)
-                if (resp.status !== 0) {
+                if (resp.status !== 1) {
                     reject(resp)
                 } else {
                     resolve(resp)
                 }
             })
             return answer
-        })*/
+        })
+    let answer = await promise
+    await new Promise(resolve => setTimeout(resolve, 3000))
     return answer
 }
 
