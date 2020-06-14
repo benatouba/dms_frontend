@@ -49,6 +49,20 @@ const actions = {
         )
         return result
     },
+    delete({ dispatch, commit }, { file }) {
+        commit('deleteRequest', file)
+        let response = queryService.deleteFile(file).then(
+            response => {
+                commit('deleteSuccess', file.id)
+                return response
+            },
+            error => {
+                commit('deleteFailure')
+                dispatch('alerts/error', error, { root: true })
+            }
+        )
+        return response
+    },
 }
 
 const mutations = {
@@ -81,6 +95,19 @@ const mutations = {
     downloadFailure(state) {
         state.downloaded = false
         state.downloading = false
+    },
+    deleteRequest(state, file) {
+        state.deletinig = true
+        state.deleting_file = file
+    },
+    deleteSuccess(state, id) {
+        let index = state.result.findIndex(file => file.id == id)
+        state.result.splice(index, 1)
+        state.deleting = false
+    },
+    deleteFailure(state) {
+        state.deleted = false
+        state.deleted = false
     },
 }
 

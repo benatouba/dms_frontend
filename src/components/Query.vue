@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input v-model="searchInput" placeholder="Search" class="input text--secondary my-2" /> <br />
+        <input v-model="searchInput" placeholder="Search in standard name" class="input text--secondary my-2" /> <br />
         <v-btn @click="handleSubmit" icon x-large target="_blank">
             <v-icon left color="primary">mdi-cloud-search</v-icon>
         </v-btn>
@@ -22,23 +22,43 @@
             </v-col>
         </v-row>
         <v-container class="text--primary">
-            <v-expansion-panels v-for="data in getQueried" :key="data.id" elevation="5" outlined>
-                <v-expansion-panel>
-                    <v-row></v-row>
-                    <v-expansion-panel-header>
-                        {{ data.file_standard_name }}
-                        <v-btn class="text-lg-right" @click="handleDownload(data.file)" icon target="_blank">
-                            <v-icon color="primary">mdi-download</v-icon>
-                        </v-btn>
-                    </v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                        <v-list v-for="(item, key) in getListObjects(data)" :key="key" dense>
-                            <v-list-item>
-                                <v-list-item-title v-text="key"></v-list-item-title>
-                                <v-list-item-subtitle v-text="item"></v-list-item-subtitle>
-                            </v-list-item>
-                        </v-list>
-                    </v-expansion-panel-content>
+            <v-expansion-panels
+                focusable
+                accordion
+                hover
+                v-for="data in getQueried"
+                :key="data.id"
+                elevation="5"
+                outlined
+            >
+                <v-expansion-panel dense>
+                    <v-row cols="12" class="d-flex">
+                        <v-col md="10">
+                            <v-expansion-panel-header hide-actions>
+                                {{ data.file_standard_name }}
+                            </v-expansion-panel-header>
+                        </v-col>
+                        <v-col class="d-flex my-3 justify-center" md="1">
+                            <v-btn @click="handleDownload(data)" depressed small absolute icon>
+                                <v-icon color="primary">mdi-download</v-icon>
+                            </v-btn>
+                        </v-col>
+                        <v-col class="d-flex my-3 justify-center" md="1">
+                            <v-btn @click="handleDelete(data)" depressed small absolute icon>
+                                <v-icon color="primary">mdi-delete</v-icon>
+                            </v-btn>
+                        </v-col>
+                        <v-col md="12">
+                            <v-expansion-panel-content>
+                                <v-list v-for="(item, key) in getListObjects(data)" :key="key" dense>
+                                    <v-list-item>
+                                        <v-list-item-title v-text="key"></v-list-item-title>
+                                        <v-list-item-subtitle v-text="item"></v-list-item-subtitle>
+                                    </v-list-item>
+                                </v-list>
+                            </v-expansion-panel-content>
+                        </v-col>
+                    </v-row>
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-container>
@@ -62,6 +82,7 @@ export default {
         ...mapActions({
             query: 'queries/query',
             download: 'queries/download',
+            delete: 'queries/delete',
             resetQueryState: 'queries/resetQueryState',
         }),
         // eslint-disable-next-line no-unused-vars
@@ -76,7 +97,10 @@ export default {
         },
         handleBatchDownload() {
             let files = this.getQueried
-            files.forEach(this.download)
+            files.forEach(file => this.download(file))
+        },
+        handleDelete(file) {
+            this.delete({ file })
         },
         getListObjects(data) {
             let newDict = Object.assign({}, data)
