@@ -4,8 +4,9 @@ import Home from '../views/Home'
 import Search from '../views/Search'
 import Upload from '../views/Upload'
 import Contact from '../views/Contact'
-import SignUp from '../components/SignUp'
-import SignIn from '../components/SignIn'
+import Register from '../components/Register'
+import Login from '../components/Login'
+// import i18n from '../i18n'
 
 Vue.use(VueRouter)
 
@@ -18,12 +19,12 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
-        component: SignIn,
+        component: Login,
     },
     {
         path: '/register',
         name: 'Register',
-        component: SignUp,
+        component: Register,
     },
     {
         path: '/search',

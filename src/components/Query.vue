@@ -1,12 +1,14 @@
 <template>
     <div>
-        <input v-model="searchInput" placeholder="Search in standard name" class="input text--secondary my-2" /> <br />
+        <h1>{{ $t('query.title') }}</h1>
+        <input v-model="searchInput" :placeholder="$t('query.placeholder')" class="input text--secondary my-2" />
+        <br />
         <v-btn @click="handleSubmit" icon x-large target="_blank">
             <v-icon left color="primary">mdi-cloud-search</v-icon>
         </v-btn>
         <v-divider class="my-3"></v-divider>
         <v-row>
-            <h2 class="mx-3">Files</h2>
+            <h2 class="mx-3">{{ $t('query.file_title') }}</h2>
             <v-col class="text-lg-right">
                 <v-btn
                     text
@@ -17,7 +19,8 @@
                     outlined
                     target="_blank"
                 >
-                    <v-icon left color="primary">mdi-download</v-icon>Download All
+                    <v-icon left color="primary">mdi-download</v-icon>
+                    {{ $t('query.download_all') }}
                 </v-btn>
             </v-col>
         </v-row>

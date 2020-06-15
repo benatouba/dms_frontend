@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Upload files</h2>
+        <h2>{{ $t('upload.title') }}</h2>
         <v-container>
             <v-layout row wrap>
                 <v-row cols="12" wrap>
@@ -25,11 +25,12 @@
                                     accept="*.nc"
                                     class="input-file"
                                 />
-                                <p>
-                                    Drag your file(s) here<br />
-                                    or click to browse
+                                <p v-html="$t('upload.droparea')" />
+                                <p v-if="isSaving">
+                                    {{ $tc('upload.uploading1', fileCount, { count: fileCount }) }}
+                                    {{ $tc('upload.uploading2', fileCount) }}
+                                    {{ $t('upload.uploading3') }}
                                 </p>
-                                <p v-if="isSaving">Uploading {{ fileCount }} files...</p>
                             </v-card>
                         </form>
                     </div>

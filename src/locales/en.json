@@ -1,0 +1,52 @@
+{
+  "buttons": {
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register",
+    "clear": "Clear",
+    "cancel": "Cancel"
+  },
+  "nav": {
+    "data_standard": "Data Standard",
+    "data_policy": "Data Policy",
+    "data_standard_link": "http://www.uc2-program.org/uc2_data_standard.pdf",
+    "drawer_elements": "{text}"
+  },
+  "home": {
+    "text":"English welcome text"
+  },
+  "upload": {
+    "title": "Upload",
+    "droparea": "Drag your file(s) here</br>or click to browse",
+    "uploading1": "Uploading {count}",
+    "uploading2": "file | files",
+    "uploading3": "..."
+  },
+  "login_info": {
+    "text": "You're not logged in. You can only see data under public licenses. To see more data, please log in. If you don't have an account, please register."
+  },
+  "query": {
+    "title": "Search",
+    "placeholder": "Search in standard name",
+    "file_title": "Files",
+    "download_all": "Download all"
+  },
+  "register": {
+    "title": "Register",
+    "username": "Username",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "institution": "Institution",
+    "email": "E-Mail",
+    "phone": "Phone",
+    "password1": "Password",
+    "password2": "Repeat Password"
+  },
+  "login": {
+    "title": "Login",
+    "username": "Username",
+    "password": "Password",
+    "user_missing": "Username is required",
+    "password_missing": "Password is required"
+  }
+}

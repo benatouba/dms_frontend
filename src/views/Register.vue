@@ -2,19 +2,18 @@
     <div class="register">
         <v-container class="mx-4">
             <img alt="UC2 logo" src="@/assets/logo.png" />
-            <SignUp />
+            <Register />
         </v-container>
     </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import SignUp from '../components/SignUp.vue'
+import Register from '../components/Login.vue'
 
 export default {
     name: 'Register',
     components: {
-        SignUp,
+        Register,
     },
 }
 </script>

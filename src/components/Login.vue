@@ -1,18 +1,18 @@
 <template>
     <v-app id="inspire">
         <v-content>
-            <v-container class="fill-height" fluid>
+            <v-container class="fill-height">
                 <v-row align="center" justify="center">
-                    <v-col cols="12" sm="8" md="4">
-                        <v-card class="elevation-12">
-                            <v-toolbar color="primary darken-2" flat>
-                                <v-toolbar-title>Login</v-toolbar-title>
+                    <v-col cols="12" sm="12" md="8">
+                        <v-card class="elevation-5">
+                            <v-toolbar color="primary" flat>
+                                <v-toolbar-title>{{ $t('login.title') }}</v-toolbar-title>
                             </v-toolbar>
                             <v-form ref="form" @submit.prevent="handleSubmit">
                                 <v-card-text>
                                     <v-text-field
                                         v-model="username"
-                                        label="Username"
+                                        :label="$t('login.username')"
                                         name="username"
                                         prepend-icon="person"
                                         class="form-control"
@@ -20,12 +20,12 @@
                                         type="text"
                                     />
                                     <div v-show="submitted && !username" class="invalid-feedback">
-                                        Username is required
+                                        {{ $t('login.user_missing') }}
                                     </div>
                                     <v-text-field
                                         v-model="password"
                                         id="password"
-                                        label="Password"
+                                        :label="$t('login.password')"
                                         name="password"
                                         prepend-icon="lock"
                                         class="form-control"
@@ -33,15 +33,17 @@
                                         type="password"
                                     />
                                     <div v-show="submitted && !password" class="invalid-feedback">
-                                        Password is required
+                                        {{ $t('login.password_missing') }}
                                     </div>
                                 </v-card-text>
                                 <v-card-actions>
-                                    <router-link to="/register" class="btn btn-link">Register</router-link>
+                                    <router-link to="/register" class="btn btn-link">{{
+                                        $t('buttons.register')
+                                    }}</router-link>
                                     <v-spacer />
-                                    <v-btn color="primary darken-2" @click="handleSubmit" :disabled="isLoggedIn"
-                                        >Login</v-btn
-                                    >
+                                    <v-btn color="primary darken-2" @click="handleSubmit" :disabled="isLoggedIn">{{
+                                        $t('buttons.login')
+                                    }}</v-btn>
                                 </v-card-actions>
                             </v-form>
                         </v-card>
