@@ -44,7 +44,14 @@
                             </v-btn>
                         </v-col>
                         <v-col class="d-flex my-3 justify-center" md="1">
-                            <v-btn @click="handleDelete(data)" depressed small absolute icon>
+                            <v-btn
+                                v-if="data.download_count === 0"
+                                @click="handleDelete(data)"
+                                icon
+                                depressed
+                                small
+                                absolute
+                            >
                                 <v-icon color="primary">mdi-delete</v-icon>
                             </v-btn>
                         </v-col>
