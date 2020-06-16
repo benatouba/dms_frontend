@@ -48,7 +48,7 @@
                         </v-col>
                         <v-col class="d-flex my-3 justify-center" md="1">
                             <v-btn
-                                v-if="data.download_count === 0"
+                                v-if="data.download_count === 0 && isLoggedIn"
                                 @click="handleDelete(data)"
                                 icon
                                 depressed
@@ -83,6 +83,7 @@ export default {
         ...mapState('queries', ['result']),
         ...mapGetters({
             allFiles: 'queries/queriedFiles',
+            isLoggedIn: 'accounts/isLoggedIn',
         }),
         getQueried() {
             return this.allFiles
