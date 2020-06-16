@@ -8,16 +8,18 @@
             </v-alert>
             <router-view></router-view>
         </v-content>
+        <Footer />
     </v-app>
 </template>
 
 <script>
 import Navbar from './components/Navbar'
 import LoginInfo from './components/LoginInfo'
+import Footer from './components/Footer'
 import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
     name: 'App',
-    components: { Navbar, LoginInfo },
+    components: { Navbar, LoginInfo, Footer },
     computed: {
         ...mapState({
             alerts: state => state.alerts,

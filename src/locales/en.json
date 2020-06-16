@@ -10,10 +10,17 @@
     "data_standard": "Data Standard",
     "data_policy": "Data Policy",
     "data_standard_link": "http://www.uc2-program.org/uc2_data_standard.pdf",
-    "drawer_elements": "{text}"
+    "drawer_elements": "{text}",
+    "kb": "KB",
+    "kb_link": "https://www.klima.tu-berlin.de/KB/index.php?KB=KB-UC2",
+    "title": "Urban Climate under Change",
+    "short_title": "[UC²]"
   },
   "home": {
-    "text":"English welcome text"
+    "text1": "Comprehensive data on weather, climate and air quality in cities are unfortunately still available to a limited extent. Within the framework of the BMBF programme Module B will therefore process already available data and collect new or missing data by means of long-term measurements, intensive measurement campaigns and physical modelling. In order to support the exchange of observation and model data between the project partners beyond the module boundaries to Module A and C, e.g. for the validation of the newly developed urban climate model PALM-4U or for urban climatological and scientific studies, a data management system (DMS) will be developed within the research programme.",
+    "text2": "The use of a uniform data format as well as binding conventions for the use of data and metadata is an essential prerequisite for their effective and efficient administration in the DMS. In addition, a uniform data standard also enables the development and provision of innovative tools for the analysis and visualization of complex and very heterogeneous data. After completion of the programme, data will be made available to the public under the [UC]² Research Licence and the [UC]² Open Licence.",
+    "caption": "Figure: Data management system of the BMBF programme Urban climate under Change [UC]2.  Data flow depends on the assigned data policy.",
+    "img_link": "http://www.uc2-program.org/sites/default/files/inline-images/DMS%20Grafik%20Englisch.png"
   },
   "upload": {
     "title": "Upload",
@@ -23,7 +30,7 @@
     "uploading3": "..."
   },
   "login_info": {
-    "text": "You're not logged in. You can only see data under public licenses. To see more data, please log in. If you don't have an account, please register."
+    "text": "You are not logged in. You are only shown data released under public licences. To see additional data, please log in. Don't have an account yet? Register."
   },
   "query": {
     "title": "Search",
@@ -48,5 +55,8 @@
     "password": "Password",
     "user_missing": "Username is required",
     "password_missing": "Password is required"
+  },
+  "footer": {
+    "system": "Data Management System [UC²] - BMBF Programme Urban Climate Under Change"
   }
 }

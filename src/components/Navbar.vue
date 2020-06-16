@@ -4,8 +4,8 @@
             <v-app-bar-nav-icon v-model="drawer" @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-spacer></v-spacer>
             <v-toolbar-title class="primary--text">
-                <span class="font-weight-bold">[UC²] </span>
-                <span class="font-italic">Urban Climate under Change</span>
+                <span class="font-weight-bold">{{ $t('nav.short_title') }}</span>
+                <span class="font-italic mx-4">{{ $t('nav.title') }}</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn v-if="this.isLoggedIn" @click="logout" text color="primary">
@@ -17,11 +17,15 @@
             </v-btn>
             <v-btn :href="get_data_standard_link" target="_blank" text>
                 <span class="primary--text">{{ $t('nav.data_standard') }}</span>
-                <v-icon>mdi-open-in-new</v-icon>
+                <v-icon x-small dense>mdi-open-in-new</v-icon>
             </v-btn>
             <v-btn href="http://www.uc2-program.org/uc2_data_policy.pdf" target="_blank" text>
                 <span class="primary--text">{{ $t('nav.data_policy') }}</span>
-                <v-icon>mdi-open-in-new</v-icon>
+                <v-icon x-small dense size="1">mdi-open-in-new</v-icon>
+            </v-btn>
+            <v-btn :href="$t('nav.kb_link')" target="_blank" text>
+                <span class="primary--text">{{ $t('nav.kb') }}</span>
+                <v-icon x-small dense size="1">mdi-open-in-new</v-icon>
             </v-btn>
             <v-img
                 alt="Climatology Logo"
@@ -34,6 +38,7 @@
             <div class="locale-changer">
                 <v-btn
                     class="primary--text"
+                    text
                     v-model="$root.$i18n.locale"
                     v-for="lang in locales"
                     v-show="lang.lang !== $root.$i18n.locale"

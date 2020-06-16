@@ -2,12 +2,12 @@
     <div class="home">
         <v-container class="mx-4 primary--text">
             <h1>Home</h1>
-            <p class="secondary--text">{{ $t('home.text') }}</p>
+            <p class="secondary--text">{{ $t('home.text1') }}</p>
             <v-row align="center" justify="center">
                 <v-img
-                    src="http://www.uc2-program.org/sites/default/files/inline-images/DMS%20Grafik%20Deutsch.png"
-                    lazy-src="http://www.uc2-program.org/sites/default/files/inline-images/DMS%20Grafik%20Deutsch.png"
-                    class="grey lighten-2"
+                    :src="$t('home.img_link')"
+                    :lazy-src="$t('home.img_link')"
+                    class="grey lighten-2 my-4"
                     max-width="600"
                 >
                     <template v-slot:placeholder>
@@ -16,6 +16,10 @@
                         </v-row>
                     </template>
                 </v-img>
+                <p class="caption text-center secondary--text my-4">
+                    {{ $t('home.caption') }}
+                </p>
+                <p class="secondary--text">{{ $t('home.text2') }}</p>
             </v-row>
         </v-container>
     </div>
@@ -24,6 +28,5 @@
 <script>
 export default {
     name: 'Home',
-    components: {},
 }
 </script>
