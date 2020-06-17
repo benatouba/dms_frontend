@@ -48,31 +48,12 @@
     "vuelidate": "^0.7.5",
     "vuetify-loader": "^1.3.0"
   },
-  "eslintConfig": {
-    "rules": {
-      "quotes": [
-        "warning",
-        "single"
-      ]
-    },
-    "overrides": [
-      {
-        "files": [
-          "**/__tests__/*.{j,t}s?(x)",
-          "**/tests/unit/**/*.spec.{j,t}s?(x)"
-        ],
-        "env": {
-          "mocha": true
-        }
-      }
-    ]
-  },
   "prettier": {
+    "parser": "vue",
     "trailingComma": "es5",
     "tabWidth": 4,
     "semi": false,
     "singleQuote": true,
-    "arrowParens": "avoid",
     "printWidth": 120
   }
 }
