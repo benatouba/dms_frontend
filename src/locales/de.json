@@ -4,7 +4,8 @@
     "login": "Einloggen",
     "register": "Registrieren",
     "clear": "Löschen",
-    "cancel": "Zurück"
+    "cancel": "Zurück",
+    "confirm": "OK"
   },
   "nav": {
     "data_standard": "Datenstandard",

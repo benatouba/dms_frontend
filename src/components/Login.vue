@@ -41,11 +41,25 @@
                                         $t('buttons.register')
                                     }}</router-link>
                                     <v-spacer />
-                                    <v-btn color="primary darken-2" @click="handleSubmit" :disabled="isLoggedIn">{{
-                                        $t('buttons.login')
-                                    }}</v-btn>
+                                    <v-btn
+                                        color="primary"
+                                        @click="handleSubmit"
+                                        @keyup.enter="handleSubmit"
+                                        :disabled="!username || !password"
+                                        >{{ $t('buttons.login') }}</v-btn
+                                    >
                                 </v-card-actions>
                             </v-form>
+                            <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="1">
+                                <Notification />
+                                <router-link
+                                    to="/"
+                                    class="primary white--text v-btn v-size--large"
+                                    @click="overlay = false"
+                                >
+                                    {{ $t('buttons.confirm') }}
+                                </router-link>
+                            </v-overlay>
                         </v-card>
                     </v-col>
                 </v-row>
@@ -56,15 +70,19 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
+import Notification from './Notification'
 export default {
-    name: 'SignIn',
+    name: 'Login',
+    components: { Notification },
     data() {
         return {
-            username: '',
-            password: '',
+            username: null,
+            password: null,
             submitted: false,
             loading: false,
             error: '',
+            absolute: true,
+            overlay: false,
         }
     },
     beforeRouteLeave(to, from, next) {
@@ -97,22 +115,15 @@ export default {
             logout: 'accounts/logout',
             toggleLoginInfo: 'alerts/toggleLoginInfo',
         }),
-        // eslint-disable-next-line no-unused-vars
-        handleSubmit(e) {
-            // e.preventDefault()
+        handleSubmit() {
             this.submitted = true
             const { username, password } = this
 
             if (username && password) {
                 this.login({ username, password })
             }
+            this.overlay = true
         },
     },
 }
 </script>
-
-<!--<style scoped>-->
-<!--h1 {-->
-<!--  color: #294993;-->
-<!--}-->
-<!--</style>-->

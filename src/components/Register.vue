@@ -147,10 +147,21 @@
                                         color="primary darken-2"
                                         :disabled="invalid || !validated"
                                         @click="passes(handleSubmit)"
+                                        @keyup.enter="passes(handleSubmit)"
                                     >
                                         {{ $t('buttons.register') }}
                                     </v-btn>
                                 </v-card-actions>
+                                <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="1">
+                                    <Notification />
+                                    <router-link
+                                        to="/"
+                                        class="primary white--text v-btn v-size--large"
+                                        @click="overlay = false"
+                                    >
+                                        {{ $t('buttons.confirm') }}
+                                    </router-link>
+                                </v-overlay>
                             </v-card>
                         </ValidationObserver>
                     </v-col>
@@ -164,6 +175,7 @@
 import { mapActions, mapState } from 'vuex'
 import { extend, ValidationObserver, ValidationProvider } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
+import Notification from './Notification'
 
 Object.keys(rules).forEach(rule => {
     extend(rule, rules[rule])
@@ -174,6 +186,7 @@ export default {
     components: {
         ValidationObserver,
         ValidationProvider,
+        Notification,
     },
     computed: {
         ...mapState('accounts', ['status']),
@@ -199,6 +212,7 @@ export default {
                 institution: this.institution,
             }
             this.register(user)
+            this.overlay = true
         },
     },
     data() {
@@ -213,6 +227,9 @@ export default {
             last_name: null,
             institution: null,
             submitted: false,
+            // notification after submission
+            absolute: true,
+            overlay: false,
         }
     },
 }
