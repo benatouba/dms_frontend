@@ -27,7 +27,7 @@ const actions = {
                 },
                 error => {
                     commit('loginFailure', error)
-                    dispatch('alert/error', error, { root: true })
+                    dispatch('alert/error', 'Login not successful', { root: true })
                 }
             )
             .catch(err => console.log(err))
@@ -53,6 +53,14 @@ const actions = {
                 dispatch('alerts/error', error, { root: true })
             }
         )
+    },
+    async info({ dispatch }) {
+        try {
+            let resp = await userService.list()
+            return resp
+        } catch(error) {
+            dispatch('alerts/error', error, { root: true })
+        }
     },
 }
 

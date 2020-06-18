@@ -84,6 +84,7 @@ export default {
                 { icon: 'mdi-cloud-search', text: { en: 'Search', de: 'Suche' }, route: '/search' },
                 { icon: 'mdi-cloud-upload', text: { en: 'Upload', de: 'Hochladen' }, route: '/upload' },
                 { icon: 'mdi-help', text: { en: 'Contact', de: 'Kontakt' }, route: '/contact' },
+                { icon: 'mdi-account-circle', text: { en: 'Account', de: 'Konto' }, route: '/account' },
             ],
             data_standard_link: {
                 en: 'http://www.uc2-program.org/uc2_data_standard.pdf',

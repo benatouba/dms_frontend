@@ -42,11 +42,12 @@
   "register": {
     "title": "Registrieren",
     "username": "Nutzername",
+    "id": "ID",
     "first_name": "Vorname",
     "last_name": "Nachname",
     "institution": "institution",
     "email": "E-Mail",
-    "phone": "Telefon",
+    "phone_number": "Telefon",
     "password1": "Passwort",
     "password2": "Passwort wiederholen"
   },
@@ -56,6 +57,9 @@
     "password": "Passwort",
     "user_missing": "Nutzername fehlt",
     "password_missing": "Passwort fehlt"
+  },
+  "account": {
+    "title": "Nutzerkonto"
   },
   "footer": {
     "system": "Datenmanagementsystem [UC²] - BMBF-Fördermaßnahme Stadtklima im Wandel"

@@ -9,7 +9,7 @@ function login({ username, password }) {
     }
     requestOptions.body = JSON.stringify(user)
 
-    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/login/`, requestOptions)
+    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + '/auth/login/', requestOptions)
         .then(resp => resp.json())
         .then(json => {
             let answer = new Promise(function(resolve, reject) {
@@ -51,7 +51,7 @@ function register(user) {
 
     requestOptions.body = JSON.stringify(user)
     requestOptions.redirect = 'follow'
-    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/`, requestOptions)
+    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + '/auth/', requestOptions)
     return answer
 }
 
@@ -73,16 +73,14 @@ function patch(field, value) {
     fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions).then(handleResponse)
 }
 
-function list() {
-    const myHeaders = new Headers()
-    myHeaders.append('Authorization', authHeader())
-    const requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow',
-    }
-
-    return fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions).then(handleResponse)
+async function list() {
+    const requestOptions = authHeader('GET')
+    requestOptions.headers.append('Content-Type', 'application/json')
+    requestOptions.redirect = 'follow'
+    let searchParam = localStorage.getItem('user')
+    let response = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/?username=${searchParam}`, requestOptions)
+    let user = await response.json()
+    return user
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript

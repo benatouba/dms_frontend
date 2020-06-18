@@ -6,7 +6,7 @@ import Upload from '../views/Upload'
 import Contact from '../views/Contact'
 import Register from '../components/Register'
 import Login from '../components/Login'
-// import i18n from '../i18n'
+import Account from '../components/Account'
 
 Vue.use(VueRouter)
 
@@ -40,6 +40,11 @@ const routes = [
         path: '/contact',
         name: 'Contact',
         component: Contact,
+    },
+    {
+        path: '/account',
+        name: 'Account',
+        component: Account,
     },
     { path: '*', redirect: 'Home' },
 ]

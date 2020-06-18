@@ -42,11 +42,12 @@
   "register": {
     "title": "Register",
     "username": "Username",
+    "id": "ID",
     "first_name": "First Name",
     "last_name": "Last Name",
     "institution": "Institution",
     "email": "E-Mail",
-    "phone": "Phone",
+    "phone_number": "Phone",
     "password1": "Password",
     "password2": "Repeat Password"
   },
