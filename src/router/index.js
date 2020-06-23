@@ -6,7 +6,7 @@ import Upload from '../views/Upload'
 import Contact from '../views/Contact'
 import Register from '../components/Register'
 import Login from '../components/Login'
-import Account from '../components/Account'
+import Account from '../views/Account'
 
 Vue.use(VueRouter)
 
