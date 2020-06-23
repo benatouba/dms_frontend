@@ -5,7 +5,8 @@
     "register": "Register",
     "clear": "Clear",
     "cancel": "Cancel",
-    "confirm": "OK"
+    "confirm": "OK",
+    "send": "Send"
   },
   "nav": {
     "data_standard": "Data Standard",
@@ -37,7 +38,8 @@
     "title": "Search",
     "placeholder": "Search in standard name",
     "file_title": "Files",
-    "download_all": "Download all"
+    "download_all": "Download all",
+    "items_per_page": "Items per page"
   },
   "register": {
     "title": "Register",
@@ -57,6 +59,13 @@
     "password": "Password",
     "user_missing": "Username is required",
     "password_missing": "Password is required"
+  },
+  "account": {
+    "title": "Account",
+    "change_password": "Change Password",
+    "old_password": "Old password",
+    "new_password1": "New password",
+    "new_password2": "Repeat new password"
   },
   "footer": {
     "system": "Data Management System [UC²] - BMBF Programme Urban Climate Under Change"

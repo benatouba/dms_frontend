@@ -5,7 +5,8 @@
     "register": "Registrieren",
     "clear": "Löschen",
     "cancel": "Zurück",
-    "confirm": "OK"
+    "confirm": "OK",
+    "send": "Senden"
   },
   "nav": {
     "data_standard": "Datenstandard",
@@ -37,7 +38,8 @@
     "title": "Suche",
     "placeholder": "Suche in standard_name",
     "file_title": "Dateien",
-    "download_all": "Alle Herunterladen"
+    "download_all": "Alle Herunterladen",
+    "items_per_page": "Items pro Seite"
   },
   "register": {
     "title": "Registrieren",
@@ -59,7 +61,11 @@
     "password_missing": "Passwort fehlt"
   },
   "account": {
-    "title": "Nutzerkonto"
+    "title": "Nutzerkonto",
+    "change_password": "Passwort ändern",
+    "old_password": "Altes Passwort",
+    "new_password1": "Neues Passwort",
+    "new_password2": "Neues Passwort wiederholen"
   },
   "footer": {
     "system": "Datenmanagementsystem [UC²] - BMBF-Fördermaßnahme Stadtklima im Wandel"
