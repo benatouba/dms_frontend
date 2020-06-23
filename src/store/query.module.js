@@ -5,7 +5,7 @@ const getDefaultState = () => {
         queried: false,
         querying: false,
         error: null,
-        result: null,
+        result: [],
         downloading: false,
         downloaded: true,
         download_file: null,
@@ -81,7 +81,7 @@ const mutations = {
         state.result = result
     },
     queryFailure(state) {
-        state.queryed = false
+        state.queried = false
         state.querying = false
     },
     downloadRequest(state, file) {

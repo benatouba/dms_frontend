@@ -25,11 +25,32 @@
             </v-col>
         </v-row>
         <v-container class="text--primary">
+            <v-row>
+                <v-col>
+                    <v-pagination
+                            v-model="page"
+                            v-if="getPageCount > 1"
+                            :length=getPageCount
+                            :total-visible="7"
+                            prev-icon="mdi-menu-left"
+                            next-icon="mdi-menu-right"
+                    ></v-pagination>
+                </v-col>
+                <v-col cols="12" sm="4" md="3" lg="2">
+                    <v-select
+                        v-model="pageLength"
+                        :items="pageLengthChoices"
+                        :label="$t('query.items_per_page')"
+                        dense
+                        flat
+                        ></v-select>
+                </v-col>
+            </v-row>
             <v-expansion-panels
                 focusable
                 accordion
                 hover
-                v-for="data in getQueried"
+                v-for="data in getPageItems"
                 :key="data.id"
                 elevation="5"
                 outlined
@@ -71,23 +92,52 @@
                     </v-row>
                 </v-expansion-panel>
             </v-expansion-panels>
+            <v-row>
+            <v-col>
+                <v-pagination
+                        v-model="page"
+                        v-if="getPageCount > 1"
+                        :length=getPageCount
+                        :total-visible="7"
+                        prev-icon="mdi-menu-left"
+                        next-icon="mdi-menu-right"
+                ></v-pagination>
+            </v-col>
+            <v-col class="self-center" cols="12" sm="4" md="3" lg="2">
+                <v-select
+                        v-model="pageLength"
+                        :items="pageLengthChoices"
+                        :label="$t('query.items_per_page')"
+                        dense
+                        flat
+                ></v-select>
+            </v-col>
+            </v-row>
         </v-container>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
     name: 'query',
     computed: {
-        ...mapState('queries', ['result']),
+        // ...mapState({
+        //     result: state => state.queries.result
+        // }),
         ...mapGetters({
-            allFiles: 'queries/queriedFiles',
+            queriedFiles: 'queries/queriedFiles',
             isLoggedIn: 'accounts/isLoggedIn',
         }),
         getQueried() {
-            return this.allFiles
+            return this.queriedFiles
         },
+        getPageItems() {
+            return this.queriedFiles.slice(this.pageLength*(this.page-1), this.pageLength*(this.page))
+        },
+        getPageCount() {
+            return Math.ceil((this.queriedFiles.length/this.pageLength))
+        }
     },
     methods: {
         ...mapActions({
@@ -96,10 +146,11 @@ export default {
             delete: 'queries/delete',
             resetQueryState: 'queries/resetQueryState',
         }),
-        // eslint-disable-next-line no-unused-vars
-        handleSubmit() {
+        handleSubmit: function () {
             this.show = false
-            this.resetQueryState()
+            if (this.queriedFiles) {
+                this.resetQueryState()
+            }
             let search = this.searchInput
             this.query({ search }) // this needs to be parsed as dict. else it defaults to 'undefined'
         },
@@ -108,7 +159,7 @@ export default {
         },
         handleBatchDownload() {
             let files = this.getQueried
-            files.forEach(file => this.download(file))
+            files.forEach(file => this.download({ file }))
         },
         handleDelete(file) {
             this.delete({ file })
@@ -133,6 +184,9 @@ export default {
         return {
             searchInput: '',
             show: false,
+            page: 1,
+            pageLength: 10,
+            pageLengthChoices: [5, 10, 20, 50]
         }
     },
 }
