@@ -182,7 +182,7 @@ Object.keys(rules).forEach(rule => {
 })
 
 export default {
-    name: 'SignIn',
+    name: 'Register',
     components: {
         ValidationObserver,
         ValidationProvider,
