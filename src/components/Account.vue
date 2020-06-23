@@ -1,6 +1,6 @@
 <template>
     <v-container fluid class="text--primary">
-        <h1 class="ma-5">{{ $t('account.title') }}</h1>
+        <h1 class="ma-5 text--primary">{{ $t('account.title') }}</h1>
             <v-card>
                 <v-card-title>
                     <v-avatar class="ma-5">
@@ -12,6 +12,7 @@
                         v-for="(field, key) in getShowInfo(accountInfo[0])"
                         :key="key"
                 >
+                    <v-divider></v-divider>
                     <v-row>
                         <v-col dense
                                 class="text-no-wrap"
@@ -28,7 +29,6 @@
                             <b>{{ field }}</b>
                         </v-col>
                     </v-row>
-                    <v-divider></v-divider>
                 </v-card-text>
             </v-card>
     </v-container>
