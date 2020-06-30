@@ -11,15 +11,16 @@ Vue.use(FlagIcon)
 
 Vue.config.productionTip = false
 
-router.beforeEach((to, from, next) => {
-    let language = to.params.lang
-    if (!language) {
-        language = 'en'
-    }
-
-    i18n.locale = language
-    next()
-})
+// router.beforeEach((to, from, next) => {
+//     // let lang = to.params.locale
+//     // console.log(lang)
+//     // if (!lang) {
+//     //     lang = 'en'
+//     // }
+//
+//     //i18n.locale = lang
+//     next()
+// })
 
 new Vue({
     el: '#app',
@@ -30,4 +31,4 @@ new Vue({
     render: h => h(App),
 }).$mount('#app')
 
-i18n.locale = 'de'
+// i18n.locale = 'de'
