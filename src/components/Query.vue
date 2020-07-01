@@ -158,7 +158,7 @@ export default {
             this.download({ file })
         },
         handleBatchDownload() {
-            let files = this.getQueried
+            let files = this.queriedFiles
             files.forEach(file => this.download({ file }))
         },
         handleDelete(file) {
