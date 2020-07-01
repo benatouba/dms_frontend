@@ -55,22 +55,27 @@ function register(user) {
     return answer
 }
 
-function patch(field, value) {
-    const myHeaders = new Headers()
-    myHeaders.append('Authorization', authHeader())
-    myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
-
+async function patch(toChange) {
+    const requestOptions = authHeader('PATCH')
+    alert(toChange)
     const urlencoded = new URLSearchParams()
-    urlencoded.append(field, value)
+    Object.keys(toChange)
+        .forEach(function eachKey(key) {
+            alert(key); // alerts key
+            alert(toChange[key]); // alerts value
+            urlencoded.append(key, toChange[key])
+        });
 
-    const requestOptions = {
-        method: 'PATCH',
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: 'follow',
-    }
 
-    fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions).then(handleResponse)
+
+    // urlencoded.append('user', localStorage.getItem('user'))
+    requestOptions.headers.append('Content-Type', 'application/x-www-form-urlencoded')
+    requestOptions.body = urlencoded
+    requestOptions.redirect = 'follow'
+
+    let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/`, requestOptions)
+    console.log(resp)
+    return resp
 }
 
 async function list() {

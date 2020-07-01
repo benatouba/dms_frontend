@@ -23,11 +23,12 @@ const actions = {
             .then(
                 user => {
                     commit('loginSuccess', user)
+                    dispatch('alerts/success', 'You are now logged in', { root: true })
                     router.push('Upload')
                 },
                 error => {
                     commit('loginFailure', error)
-                    dispatch('alert/error', 'Login not successful', { root: true })
+                    dispatch('alert/error', 'Login failed', { root: true })
                 }
             )
             .catch(err => console.log(err))
@@ -57,6 +58,15 @@ const actions = {
     async info({ dispatch }) {
         try {
             let resp = await userService.list()
+            return resp
+        } catch(error) {
+            dispatch('alerts/error', error, { root: true })
+        }
+    },
+    async patch({dispatch}, toChange) {
+        try {
+            let resp = await userService.patch(toChange)
+            dispatch('alerts/success', 'Password changed', { root: true })
             return resp
         } catch(error) {
             dispatch('alerts/error', error, { root: true })

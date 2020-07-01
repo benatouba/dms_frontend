@@ -1,14 +1,20 @@
 <template>
     <div class="home">
         <v-container class="mx-4 primary--text">
-        <Account />
+            <Account />
+<!--            <ChangePassword />-->
         </v-container>
     </div>
 </template>
 
 <script>
-    import Account from '@/components/Account'
+import Account from '../components/Account'
+// import ChangePassword from '../components/ChangePassword'
 export default {
-    name: 'Account',
+    name: 'AccountView',
+    components: {
+        Account,
+        // ChangePassword
+    }
 }
 </script>
