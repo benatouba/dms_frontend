@@ -1,40 +1,33 @@
 <template>
-    <div>
-        <h1>Hi {{ this.user }}!</h1>
-        Welcome to the
-        <!--<em v-if="users.loading">Loading users...</em>
-        <span v-if="users.error" class="text-danger">ERROR: {{ users.error }}</span>
-        <ul v-if="users.items">
-            <li v-for="user in users.items" :key="user.id">
-                {{ user.first_name + ' ' + user.last_name }}
-                <span v-if="user.deleting"><em> - Deleting...</em></span>
-                <span v-else-if="user.deleteError" class="text-danger"> - ERROR: {{ user.deleteError }}</span>
-                <span v-else> - <a @click="deleteUser(user.id)" class="text-danger">Delete</a></span>
-            </li>
-        </ul>-->
-    </div>
+  <div class="home">
+    <v-container class="mx-4 primary--text">
+      <h1>Home</h1>
+      <p class="secondary--text">{{ $t('home.text1') }}</p>
+      <v-row align="center" justify="center">
+        <v-img
+            :src="$t('home.img_link')"
+            :lazy-src="$t('home.img_link')"
+            class="grey lighten-2 my-4"
+            max-width="600"
+        >
+          <template v-slot:placeholder>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
+        <br>
+        <p class="caption text-center secondary--text my-4">
+          {{ $t('home.caption') }}
+        </p>
+        <p class="secondary--text">{{ $t('home.text2') }}</p>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
-
 export default {
     name: 'Home',
-    computed: {
-        ...mapState({
-            accounts: state => state.accounts,
-            users: state => state.users.all,
-        }),
-        ...mapGetters({
-            user: 'accounts/user',
-            isLoggedIn: 'accounts/isLoggedIn',
-        }),
-    },
-    methods: {
-        ...mapActions('users', {
-            listUsers: 'list',
-            deleteUser: 'delete',
-        }),
-    },
 }
 </script>
