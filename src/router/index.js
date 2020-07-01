@@ -46,7 +46,7 @@ const routes = [
         name: 'Account',
         component: Account,
     },
-    { path: '*', redirect: 'Home' },
+    { path: '/*', redirect: '/' },
 ]
 
 const router = new VueRouter({
