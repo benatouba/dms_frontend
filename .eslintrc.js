@@ -6,7 +6,7 @@ module.exports = {
     extends: ['plugin:vue/essential', 'eslint:recommended'],
     parserOptions: {
         parser: 'babel-eslint',
-        ecmaVersion: 5,
+        ecmaVersion: 6,
         sourceType: "module",
         ecmaFeatures: {
             "jsx": false
@@ -15,8 +15,6 @@ module.exports = {
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-        quotes: [ "warn", "single" ],
-        semi: "off",
         strict: 'off',
     },
     overrides: [
