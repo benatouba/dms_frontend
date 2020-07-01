@@ -1,6 +1,6 @@
 <template>
     <v-app id="inspire">
-        <v-content>
+        <v-main>
             <v-container class="fill-height" fluid>
                 <v-row align="center" justify="center">
                     <v-col cols="12" sm="12" md="10" lg="8" xl="5">
@@ -167,7 +167,7 @@
                     </v-col>
                 </v-row>
             </v-container>
-        </v-content>
+        </v-main>
     </v-app>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
     <v-app class="primary">
         <Navbar />
-        <v-content style="margin: auto; width: 80%;">
+        <v-main style="margin: auto; width: 80%;">
             <LoginInfo v-if="!isLoggedIn && loginInfo" />
             <Notification />
             <router-view></router-view>
-        </v-content>
+        </v-main>
         <Footer />
     </v-app>
 </template>

@@ -1,11 +1,11 @@
 <template>
     <v-app id="inspire">
-        <v-content>
+        <v-main>
             <v-container class="fill-height">
                 <v-row align="center" justify="center">
                     <v-col cols="12" sm="12" md="8">
                         <v-card class="elevation-5">
-                            <v-toolbar color="primary" flat>
+                            <v-toolbar id="header" color="primary" flat>
                                 <v-toolbar-title>{{ $t('login.title') }}</v-toolbar-title>
                             </v-toolbar>
                             <v-form ref="form" @submit.prevent="handleSubmit">
@@ -15,7 +15,7 @@
                                         :label="$t('login.username')"
                                         name="username"
                                         prepend-icon="person"
-                                        class="form-control"
+                                        class="username form-control"
                                         :class="{ 'is-invalid': submitted && !username }"
                                         type="text"
                                     />
@@ -24,11 +24,10 @@
                                     </div>
                                     <v-text-field
                                         v-model="password"
-                                        id="password"
                                         :label="$t('login.password')"
                                         name="password"
                                         prepend-icon="lock"
-                                        class="form-control"
+                                        class="password form-control"
                                         :class="{ 'is-invalid': submitted && !password }"
                                         type="password"
                                     />
@@ -42,6 +41,7 @@
                                     }}</router-link>
                                     <v-spacer />
                                     <v-btn
+                                        class="login_button"
                                         color="primary"
                                         @click="handleSubmit"
                                         @keyup.enter="handleSubmit"
@@ -64,7 +64,7 @@
                     </v-col>
                 </v-row>
             </v-container>
-        </v-content>
+        </v-main>
     </v-app>
 </template>
 
