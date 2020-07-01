@@ -40,13 +40,13 @@
                     class="primary--text"
                     text
                     v-model="$root.$i18n.locale"
-                    v-for="lang in locales"
-                    v-show="lang.lang !== $root.$i18n.locale"
-                    :key="lang.lang"
-                    @click="$root.$i18n.locale = lang.lang"
+                    v-for="loc in locales"
+                    v-show="loc.lang !== $root.$i18n.locale"
+                    :key="loc.lang"
+                    @click="switchLocale(loc.lang)"
                 >
-                    <flag :iso="lang.flag" v-bind:squared="false" />
-                    {{ lang.lang }}
+                    <flag :iso="loc.flag" v-bind:squared="false" />
+                    {{ loc.lang }}
                 </v-btn>
             </div>
         </v-app-bar>
@@ -104,6 +104,9 @@ export default {
     },
     methods: {
         ...mapActions({ logout: 'accounts/logout' }),
+      switchLocale(language) {
+        this.$root.$i18n.locale = language
+      }
     },
 }
 </script>
