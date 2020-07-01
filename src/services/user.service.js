@@ -38,16 +38,6 @@ function logout() {
 
 function register(user) {
     const requestOptions = authHeader('POST')
-    // const myHeaders = new Headers()
-    // myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
-
-    /*const urlencoded = new URLSearchParams()
-    urlencoded.append('username', JSON.stringify(user.name))
-    urlencoded.append('password', JSON.stringify(user.password))
-    urlencoded.append('first_name', JSON.stringify(user.first_name))
-    urlencoded.append('last_name', JSON.stringify(user.last_name))
-    urlencoded.append('email', JSON.stringify(user.email))
-    urlencoded.append('phone_number', JSON.stringify(user.phone))*/
 
     requestOptions.body = JSON.stringify(user)
     requestOptions.redirect = 'follow'
@@ -66,9 +56,6 @@ async function patch(toChange) {
             urlencoded.append(key, toChange[key])
         });
 
-
-
-    // urlencoded.append('user', localStorage.getItem('user'))
     requestOptions.headers.append('Content-Type', 'application/x-www-form-urlencoded')
     requestOptions.body = urlencoded
     requestOptions.redirect = 'follow'

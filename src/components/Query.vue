@@ -122,16 +122,10 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     name: 'query',
     computed: {
-        // ...mapState({
-        //     result: state => state.queries.result
-        // }),
         ...mapGetters({
             queriedFiles: 'queries/queriedFiles',
             isLoggedIn: 'accounts/isLoggedIn',
         }),
-        getQueried() {
-            return this.queriedFiles
-        },
         getPageItems() {
             return this.queriedFiles.slice(this.pageLength*(this.page-1), this.pageLength*(this.page))
         },

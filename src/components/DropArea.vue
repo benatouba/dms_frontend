@@ -50,11 +50,6 @@ const STATUS_SAVING = 1,
 export default {
     name: 'DropArea',
     computed: {
-        /*...mapState({
-            files: state => state.files,
-            message: state => state.alerts.message,
-            status: state => state.alerts.status,
-        }),*/
         ...mapGetters({
             allFiles: 'upload/allFiles',
             uploadedFiles: 'upload/uploadedFiles',

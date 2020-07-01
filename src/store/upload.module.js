@@ -1,58 +1,8 @@
 import { uploadService } from '../services/upload.service'
 
 const state = {
-    files: [
-        /*{
-            result: {
-                file_standard_name: 'test',
-                size: 111,
-                message: 'this is a message',
-                id: 1,
-            },
-            errors: [],
-            fatal: ['fatal error'],
-            warnings: [],
-            status: 1,
-        },
-        {
-            result: {
-                file_standard_name: 'test',
-                size: 111,
-                message: 'this is a message',
-                id: 2,
-            },
-            errors: ['The given version numbers...'],
-            fatal: ['fatal error'],
-            warnings: ['warning note'],
-            status: 2,
-        },
-        {
-            result: {
-                file_standard_name: 'test',
-                size: 111,
-                message: 'this is a message',
-                id: 3,
-            },
-            errors: ['The given version numbers...'],
-            fatal: ['fatal error'],
-            warnings: ['warning note'],
-            status: 3,
-        },
-        {
-            result: {
-                file_standard_name: 'test',
-                size: 111,
-                message: 'this is a message',
-                id: 4,
-            },
-            errors: ['The given version numbers...'],
-            fatal: ['fatal error'],
-            warnings: ['warning note'],
-            status: 4,
-        },*/
-    ],
+    files: [],
 }
-// const state = { files: [] }
 
 const getters = {
     notUploadedFiles: state => {

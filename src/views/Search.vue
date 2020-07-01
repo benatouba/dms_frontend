@@ -7,7 +7,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Query from '@/components/Query'
 
 export default {

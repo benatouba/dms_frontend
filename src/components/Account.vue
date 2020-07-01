@@ -19,7 +19,7 @@
                                 cols="3"
                                 sm="3"
                         >
-<!--                            NOTE: We user the register-components messages here to reduce duplication-->
+<!--                            NOTE: We user the register-components messages DRY reasons-->
                             <p class="key"> {{ $t(`register.${key}`) }}</p>
                         </v-col>
                         <v-col

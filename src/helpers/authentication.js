@@ -1,7 +1,3 @@
-// import Vue from 'vue'
-// Vue.http.headers.common['Access-Control-Allow-Origin'] = '*'
-// Vue.http.headers.common['Access-Control-Request-Method'] = '*'
-
 export default function authHeader(method) {
     // return authorization header with jwt token
     let user = localStorage.getItem('user')
@@ -18,6 +14,5 @@ export default function authHeader(method) {
         myHeaders.append('Content-Type', 'application/json')
     }
     requestOptions.headers = myHeaders
-    // requestOptions.redirect = 'follow'
     return requestOptions
 }
