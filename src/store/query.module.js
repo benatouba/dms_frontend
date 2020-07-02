@@ -1,4 +1,4 @@
-import { queryService } from '../services/query.service'
+import queryService from '../services/query.service'
 
 const getDefaultState = () => {
     return {
@@ -25,7 +25,7 @@ const actions = {
     },
     query({ dispatch, commit }, input) {
         commit('queryRequest', input)
-        queryService.query(input.search).then(
+        queryService.query(input).then(
             result => {
                 commit('querySuccess', result)
             },

@@ -1,11 +1,83 @@
 <template>
     <div>
         <h1>{{ $t('query.title') }}</h1>
-        <input v-model="searchInput" :placeholder="$t('query.placeholder')" class="input text--secondary my-2" />
+        <input
+                v-model="searchInput.file_standard_name"
+                @keypress.enter="handleSubmit"
+                :placeholder="$t('query.placeholder')"
+                class="input text--secondary my-2" />
         <br />
         <v-btn @click="handleSubmit" icon x-large target="_blank">
             <v-icon left color="primary">mdi-cloud-search</v-icon>
         </v-btn>
+        <v-container class="text--primary">
+            <v-card>
+                <v-card-title>
+                    {{ $t('query.filter_options')}}
+                </v-card-title>
+                <v-card-actions>
+                    <v-col cols="12">
+                        <v-row>
+                        <v-autocomplete
+                            v-model="searchInput.institution"
+                            :items="choices.institution"
+                            item-text="ge_title"
+                            item-value="acronym"
+                            label="Institution"
+                            color="primary"
+                            @change="handleSubmit"
+                        ></v-autocomplete>
+                        <v-icon
+                            :disabled="!searchInput.institution"
+                            @click="searchInput.institution = ''"
+                            small
+                            flat
+                            icon
+                            depressed
+                        >mdi-close-circle</v-icon>
+                        </v-row>
+                        <v-row>
+                        <v-autocomplete
+                            v-model="searchInput.site__id"
+                            :items="choices.site"
+                            item-text="site"
+                            item-value="id"
+                            label="Site"
+                            color="primary"
+                            @change="handleSubmit"
+                        ></v-autocomplete>
+                        <v-icon
+                                :disabled="!searchInput.site__id"
+                                @click="searchInput.site__id = ''"
+                                small
+                                flat
+                                icon
+                                depressed
+                        >mdi-close-circle</v-icon>
+                        </v-row>
+                        <v-row>
+                        <v-autocomplete
+                                v-model="searchInput.variables__id"
+                                :items="choices.variable"
+                                item-text="long_name"
+                                item-value="id"
+                                label="Variable"
+                                color="primary"
+                                @change="handleSubmit"
+                        ></v-autocomplete>
+                        <v-icon
+                                :disabled="!searchInput.variables__id"
+                                @click="searchInput.variables__id = ''"
+                                small
+                                flat
+                                icon
+                                depressed
+                        >mdi-close-circle</v-icon>
+                        </v-row>
+                    </v-col>
+                </v-card-actions>
+            </v-card>
+        </v-container>
         <v-divider class="my-3"></v-divider>
         <v-row>
             <h2 class="mx-3">{{ $t('query.file_title') }}</h2>
@@ -142,11 +214,10 @@ export default {
         }),
         handleSubmit: function () {
             this.show = false
-            if (this.queriedFiles) {
+            //if (this.queriedFiles) {
                 this.resetQueryState()
-            }
-            let search = this.searchInput
-            this.query({ search }) // this needs to be parsed as dict. else it defaults to 'undefined'
+            //}
+            this.query(this.searchInput) // this needs to be parsed as dict. else it defaults to 'undefined'
         },
         handleDownload(file) {
             this.download({ file })
@@ -170,13 +241,38 @@ export default {
 
             return newDict
         },
+        fetchMeta(input) {
+            fetch(`${process.env['VUE_APP_API_ENDPOINT']}/${input}`)
+                .then(resp => resp.json())
+                .then(data => {
+                    this.choices[input] = data
+                })
+        },
+        getChoices(input, choice) { // extract choices for filtering from respective objects
+            let output = []
+            input.forEach(key => output.push(key[choice]))
+            return output
+        }
     },
     mounted() {
         this.handleSubmit()
+        this.fetchMeta('institution')
+        this.fetchMeta('site')
+        this.fetchMeta('variable')
     },
     data() {
         return {
-            searchInput: '',
+            searchInput: {
+                file_standard_name: '',
+                institution: '',
+                site__id: '',
+                variables__id: '',
+            },
+            choices: {
+                institution: [],
+                site: [],
+                variable:[],
+            },
             show: false,
             page: 1,
             pageLength: 10,

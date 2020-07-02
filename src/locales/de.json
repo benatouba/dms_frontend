@@ -39,7 +39,8 @@
     "placeholder": "Suche in standard_name",
     "file_title": "Dateien",
     "download_all": "Alle Herunterladen",
-    "items_per_page": "Items pro Seite"
+    "items_per_page": "Items pro Seite",
+    "filter_options": "Filteroptionen"
   },
   "register": {
     "title": "Registrieren",

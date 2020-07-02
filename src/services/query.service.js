@@ -2,8 +2,14 @@ import authHeader from '../helpers/authentication'
 
 function query(input) {
     const requestOptions = authHeader('GET')
+    let searchString = '?'
+    let entries = Object.entries(input)
+    for (const [key, value] of entries) {
+        searchString = searchString.concat(`${key}=${value}&`)
+    }
+    console.log(searchString)
     let answer = fetch(
-        `${process.env.VUE_APP_API_ENDPOINT}/uc2list/?file_standard_name=${input}`,
+        `${process.env.VUE_APP_API_ENDPOINT}/uc2list/${searchString}`,
         requestOptions
     ).then(resp => resp.json())
     return answer
@@ -16,7 +22,6 @@ function download(file) {
     let answer = fetch(`${process.env.VUE_APP_API_ENDPOINT}/uc2list/${file.id}`, requestOptions)
         .then(response => response.blob())
         .then(blob => {
-            console.log(blob)
             let url = window.URL.createObjectURL(blob)
             let a = document.createElement('a')
             a.href = url
@@ -45,7 +50,7 @@ function deleteFile(file) {
     return response
 }
 
-export const queryService = {
+export default {
     query,
     download,
     deleteFile,
