@@ -9,7 +9,7 @@
                                 <v-toolbar-title>{{ $t('login.title') }}</v-toolbar-title>
                             </v-toolbar>
                             <v-form ref="form" @submit.prevent="handleSubmit">
-                                <v-card-text>
+                                <v-card-text @keyup.enter="handleSubmit">
                                     <v-text-field
                                         v-model="username"
                                         :label="$t('login.username')"
@@ -44,7 +44,6 @@
                                         class="login_button"
                                         color="primary"
                                         @click="handleSubmit"
-                                        @keyup.enter="handleSubmit"
                                         :disabled="!username || !password"
                                         >{{ $t('buttons.login') }}</v-btn
                                     >
