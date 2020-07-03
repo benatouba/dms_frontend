@@ -36,7 +36,7 @@
   },
   "query": {
     "title": "Search",
-    "placeholder": "Search in standard name",
+    "placeholder": "Search in file_standard_name",
     "file_title": "Files",
     "download_all": "Download all",
     "items_per_page": "Items per page",
