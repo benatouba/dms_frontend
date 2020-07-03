@@ -26,7 +26,7 @@
   },
   "upload": {
     "title": "Dateien Hochladen",
-    "droparea": "Datei(en) hier hineinziehen</br>oder zum Auswählen klicken",
+    "droparea": "NetCDF-Datei(en) hier hineinziehen</br>oder zum Auswählen klicken",
     "uploading1": "Eine Datei | {count} Dateien",
     "uploading2": "wird | werden",
     "uploading3": "hochgeladen..."
