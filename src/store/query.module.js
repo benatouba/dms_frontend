@@ -23,17 +23,15 @@ const actions = {
     resetQueryState({ commit }) {
         commit('resetState')
     },
-    query({ dispatch, commit }, input) {
+    async query({ dispatch, commit }, input) {
         commit('queryRequest', input)
-        queryService.query(input).then(
-            result => {
-                commit('querySuccess', result)
-            },
-            error => {
-                commit('queryFailure', error)
-                dispatch('alerts/error', error, { root: true })
-            }
-        )
+        try {
+            let promise = await queryService.query(input)
+            commit('querySuccess', promise)
+        } catch(error) {
+            commit('queryFailure', error)
+            dispatch('alerts/error', error, { root: true })
+        }
     },
     download({ dispatch, commit }, { file }) {
         commit('downloadRequest', file)
