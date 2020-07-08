@@ -53,7 +53,7 @@
 
         <v-navigation-drawer app v-model="drawer" class="primary">
             <v-list>
-                <v-list-item v-for="link in links" :key="link.route" router :to="link.route">
+                <v-list-item v-show="!link.superuser || !is_superuser" v-for="link in links" :key="link.route" router :to="link.route">
                     <v-list-item-action>
                         <v-icon class="white--text">{{ link.icon }}</v-icon>
                     </v-list-item-action>
@@ -67,11 +67,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
     name: 'Navbar',
     computed: {
         ...mapGetters({ isLoggedIn: 'accounts/isLoggedIn' }),
+        ...mapState({
+            is_superuser: state => state.accounts.is_superuser
+        }),
         get_data_standard_link() {
             return this.data_standard_link[this.$i18n.locale]
         },
@@ -81,10 +84,11 @@ export default {
             drawer: true,
             links: [
                 { icon: 'mdi-home', text: { en: 'Home', de: 'Home' }, route: '/' },
-                { icon: 'mdi-cloud-search', text: { en: 'Search', de: 'Suche' }, route: '/search' },
-                { icon: 'mdi-cloud-upload', text: { en: 'Upload', de: 'Hochladen' }, route: '/upload' },
-                { icon: 'mdi-help', text: { en: 'Contact', de: 'Kontakt' }, route: '/contact' },
-                { icon: 'mdi-account-circle', text: { en: 'Account', de: 'Konto' }, route: '/account' },
+                { icon: 'mdi-cloud-search', text: { en: 'Search', de: 'Suche' }, route: '/search', superuser: false },
+                { icon: 'mdi-cloud-upload', text: { en: 'Upload', de: 'Hochladen' }, route: '/upload', superuser: false },
+                { icon: 'mdi-help', text: { en: 'Contact', de: 'Kontakt' }, route: '/contact', superuser: false },
+                { icon: 'mdi-account-circle', text: { en: 'Account', de: 'Konto' }, route: '/account', superuser: false },
+                { icon: 'mdi-account-tie-outline', text: { en: 'Administration', de: 'Administration' }, route: '/administration', superuser: true },
             ],
             data_standard_link: {
                 en: 'http://www.uc2-program.org/uc2_data_standard.pdf',
@@ -104,9 +108,9 @@ export default {
     },
     methods: {
         ...mapActions({ logout: 'accounts/logout' }),
-      switchLocale(language) {
-        this.$root.$i18n.locale = language
-      }
-    },
+        switchLocale(language) {
+            this.$root.$i18n.locale = language
+        }
+    }
 }
 </script>

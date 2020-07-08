@@ -7,6 +7,7 @@ import Contact from '../views/Contact'
 import Register from '../components/Register'
 import Login from '../components/Login'
 import Account from '../views/Account'
+import Administration from '../views/Administration'
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,11 @@ const routes = [
         path: '/account',
         name: 'Account',
         component: Account,
+    },
+    {
+        path: '/administration',
+        name: 'Administration',
+        component: Administration,
     },
     { path: '/*', redirect: '/' },
 ]
