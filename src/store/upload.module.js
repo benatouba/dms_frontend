@@ -2,6 +2,7 @@ import { uploadService } from '../services/upload.service'
 
 const state = {
     files: [],
+    metadataLists: [],
 }
 
 const getters = {
@@ -52,6 +53,21 @@ const actions = {
         let answer = await promise
         return answer
     },
+    async metadataList({ dispatch, commit }, { file, listname }) {
+        commit('uploadRequest')
+        let promise = uploadService.uploadMetadataList(file, listname).then(
+            file => {
+                commit('uploadMetaSuccess', file)
+            },
+            error => {
+                commit('uploadMetaFailure', error)
+                dispatch('alerts/error', error, { root: true })
+            }
+        )
+        await new Promise(resolve => setTimeout(resolve, 3000))
+        let answer = await promise
+        return answer
+    }
 }
 
 const mutations = {
@@ -82,6 +98,17 @@ const mutations = {
     },
     updateMessage(state, id, message) {
         state.files[id].message = message
+    },
+    uploadMetaSuccess: (state, file) => {
+        file.uploaded = true
+        file.uploading = false
+        state.metadataLists.push(file)
+    },
+    uploadMetaFailure: (state, error) => {
+        state.metadataLists.push(error)
+        state.metadataLists.error = error
+        state.metadataLists.uploaded = false
+        state.metadataLists.uploading = false
     },
 }
 
