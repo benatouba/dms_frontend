@@ -6,8 +6,9 @@ function query(input) {
     let entries = Object.entries(input)
     for (const [key, value] of entries) {
         searchString = searchString.concat(`${key}=${value}&`)
-    }
-    console.log(searchString)
+        }
+    searchString = searchString.slice(0, searchString.length - 1) // cut off unnecessary last symbol '&'
+
     let answer = fetch(
         `${process.env.VUE_APP_API_ENDPOINT}/uc2list/${searchString}`,
         requestOptions
