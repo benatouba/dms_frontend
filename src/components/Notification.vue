@@ -1,5 +1,5 @@
 <template>
-    <v-alert v-if="alerts.message" text type="info" :class="`d-flex alert ${alerts.type}`">
+    <v-alert v-if="alerts.message" border="left" :class="alerts.type">
         {{ alerts.message }}
     </v-alert>
 </template>
@@ -27,5 +27,3 @@ export default {
     },
 }
 </script>
-
-<style scoped></style>
