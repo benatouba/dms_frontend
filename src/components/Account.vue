@@ -19,7 +19,7 @@
                                 cols="3"
                                 sm="3"
                         >
-<!--                            NOTE: We user the register-components messages DRY reasons-->
+<!--                            NOTE: We use the register-components messages DRY reasons-->
                             <p class="key"> {{ $t(`register.${key}`) }}</p>
                         </v-col>
                         <v-col
@@ -54,7 +54,8 @@ export default {
         },
     },
     async mounted() {
-        this.accountInfo = await this.getInfo
+        this.accountInfo = await this.$store.dispatch('accounts/info', localStorage.getItem('user'))
+        console.log(this.accountInfo)
     },
     data() {
         return {
