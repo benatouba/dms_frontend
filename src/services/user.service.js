@@ -19,7 +19,8 @@ function login({ username, password }) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('user', json.user)
                     localStorage.setItem('token', json.token)
-                    resolve(json.user)
+                    localStorage.setItem('is_superuser', json.is_superuser)
+                    resolve(json)
                 } else {
                     json.status = { loggedIn: false }
                     reject(json)
@@ -34,6 +35,7 @@ function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user')
     localStorage.removeItem('token')
+    localStorage.removeItem('is_superuser')
 }
 
 function register(user) {
@@ -61,29 +63,25 @@ async function patch(toChange) {
     requestOptions.redirect = 'follow'
 
     let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/`, requestOptions)
-    console.log(resp)
     return resp
 }
 
-async function list() {
+async function list(searchParam) {
     const requestOptions = authHeader('GET')
     requestOptions.headers.append('Content-Type', 'application/json')
     requestOptions.redirect = 'follow'
-    let searchParam = localStorage.getItem('user')
+
     let response = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/?username=${searchParam}`, requestOptions)
     let user = await response.json()
     return user
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id) {
-    const myHeaders = new Headers()
-    myHeaders.append('Authorization', authHeader())
-
-    const requestOptions = {
-        method: 'DELETE',
-        headers: myHeaders,
-    }
+function manage(id, action) {
+    const requestOptions = authHeader('POST')
+    requestOptions.headers.append('Content-Type', 'application/json')
+    requestOptions.redirect = 'follow'
+    requestOptions.body = JSON.stringify(id, action)
 
     return fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/${id}`, requestOptions).then(handleResponse)
 }
@@ -112,5 +110,5 @@ export const userService = {
     register,
     patch,
     list,
-    delete: _delete,
+    manage,
 }

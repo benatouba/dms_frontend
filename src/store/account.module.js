@@ -1,8 +1,10 @@
 import { userService } from '../services'
 import router from '../router'
+import i18n from '../plugins/i18n'
 
 const user = localStorage.getItem('user')
 const state = user ? { status: { isLoggedIn: true }, user } : { status: { isLoggedIn: false }, user: null }
+state.is_superuser = false
 state.status.isLoggingIn = false
 state.status
 
@@ -22,16 +24,17 @@ const actions = {
             .login({ username, password })
             .then(
                 user => {
+                    console.log(user)
                     commit('loginSuccess', user)
-                    dispatch('alerts/success', 'You are now logged in', { root: true })
-                    router.push('Upload')
+                    dispatch('alerts/success', i18n.t('login.success'), { root: true })
+                    router.push('Home')
                 },
                 error => {
                     commit('loginFailure', error)
-                    dispatch('alert/error', 'Login failed', { root: true })
+                    dispatch('alert/error', i18n.t('login.failure'), { root: true })
                 }
             )
-            .catch(err => console.log(err))
+            .catch(err => alert(err))
     },
     logout({ commit }) {
         userService.logout()
@@ -56,20 +59,20 @@ const actions = {
             }
         )
     },
-    async info({ dispatch }) {
+    async info({ dispatch }, searchParam) {
         try {
-            let resp = await userService.list()
+            let resp = await userService.list(searchParam)
             return resp
-        } catch(error) {
+        } catch (error) {
             dispatch('alerts/error', error, { root: true })
         }
     },
-    async patch({dispatch}, toChange) {
+    async patch({ dispatch }, toChange) {
         try {
             let resp = await userService.patch(toChange)
             dispatch('alerts/success', 'Password changed', { root: true })
             return resp
-        } catch(error) {
+        } catch (error) {
             dispatch('alerts/error', error, { root: true })
         }
     },
@@ -80,9 +83,10 @@ const mutations = {
         state.status = { isLoggingIn: true }
         state.user = user
     },
-    loginSuccess(state, user) {
+    loginSuccess(state, data) {
         state.status = { isLoggedIn: true }
-        state.user = user
+        state.user = data.user
+        state.is_superuser = data.is_superuser
     },
     loginFailure(state) {
         state.status = {}
