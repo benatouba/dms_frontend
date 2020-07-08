@@ -59,7 +59,9 @@
     "username": "Username",
     "password": "Password",
     "user_missing": "Username is required",
-    "password_missing": "Password is required"
+    "password_missing": "Password is required",
+    "success": "Login successful",
+    "failure": "Login failed"
   },
   "account": {
     "title": "Account",
@@ -70,5 +72,12 @@
   },
   "footer": {
     "system": "Data Management System [UC²] - BMBF Programme Urban Climate Under Change"
+  },
+  "admin": {
+    "title": "Administration",
+    "meta_title": "Metadaten hochladen",
+    "user_title": "Nutzerbereich",
+    "upload_placeholder": "Upload Metadata list",
+    "upload_label": "CSV-File"
   }
 }

@@ -59,7 +59,9 @@
     "username": "Nutzername",
     "password": "Passwort",
     "user_missing": "Nutzername fehlt",
-    "password_missing": "Passwort fehlt"
+    "password_missing": "Passwort fehlt",
+    "success": "Login erfolgreich",
+    "failure": "Login nicht erfolgreich"
   },
   "account": {
     "title": "Nutzerkonto",
@@ -70,5 +72,12 @@
   },
   "footer": {
     "system": "Datenmanagementsystem [UC²] - BMBF-Fördermaßnahme Stadtklima im Wandel"
+  },
+  "admin": {
+    "title": "Administration",
+    "meta_title": "Metadaten hochladen",
+    "user_title": "Nutzerbereich",
+    "upload_placeholder": "Metadatenliste hochladen",
+    "upload_label": "CSV-Datei"
   }
 }
