@@ -16,7 +16,7 @@
                     </v-list>
                     <v-btn v-if="user.is_active" @click="manageUser(user.id, 0); overlay=true">Admit</v-btn>
                     <v-btn v-if="user.is_active" @click="manageUser(user.id, 1)">Decline</v-btn>
-                    <v-overlay class="text-center" absolute="true" :value="overlay" :opacity=".8">
+                    <v-overlay class="text-center" absolute :value="overlay" :opacity=".8">
                         <Notification />
                         <v-btn
                                 color="primary white--text v-size--large"
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+    // TODO: approve/decline group change button
+    // TODO: delete user button
 import { mapState, mapActions } from 'vuex'
 export default {
     name: 'UserCards',
