@@ -28,7 +28,7 @@
                             @change="handleSubmit"
                         ></v-autocomplete>
                         <v-icon
-                            :disabled="!searchInput.institution"
+                            v-show="!searchInput.institution"
                             @click="searchInput.institution = ''"
                             small
                             flat
@@ -47,7 +47,7 @@
                             @change="handleSubmit"
                         ></v-autocomplete>
                         <v-icon
-                                :disabled="!searchInput.site__id"
+                                v-show="searchInput.site__id"
                                 @click="searchInput.site__id = ''"
                                 small
                                 flat
@@ -66,7 +66,7 @@
                                 @change="handleSubmit"
                         ></v-autocomplete>
                         <v-icon
-                                :disabled="!searchInput.variables__id"
+                                v-show="!searchInput.variables__id"
                                 @click="searchInput.variables__id = ''"
                                 small
                                 flat
@@ -203,7 +203,12 @@ export default {
         },
         getPageCount() {
             return Math.ceil((this.queriedFiles.length/this.pageLength))
-        }
+        },
+        getChoices(input, choice) { // extract choices for filtering from respective objects
+            let output = []
+            input.forEach(key => output.push(key[choice]))
+            return output
+        },
     },
     methods: {
         ...mapActions({
@@ -248,11 +253,6 @@ export default {
                     this.choices[input] = data
                 })
         },
-        getChoices(input, choice) { // extract choices for filtering from respective objects
-            let output = []
-            input.forEach(key => output.push(key[choice]))
-            return output
-        }
     },
     mounted() {
         this.handleSubmit()
