@@ -54,19 +54,18 @@ const actions = {
         return answer
     },
     async metadataList({ dispatch, commit }, { file, listname }) {
-        commit('uploadRequest')
-        let promise = uploadService.uploadMetadataList(file, listname).then(
-            file => {
-                commit('uploadMetaSuccess', file)
-            },
-            error => {
-                commit('uploadMetaFailure', error)
-                dispatch('alerts/error', error, { root: true })
-            }
-        )
-        await new Promise(resolve => setTimeout(resolve, 3000))
-        let answer = await promise
-        return answer
+        commit('uploadRequest', file, listname)
+        try {
+            let resp = await uploadService.uploadMetadataList(file, listname)
+            console.log(resp)
+            commit('uploadMetaSuccess', resp)
+            return resp
+        } catch(error) {
+            error.message = error.file[0] // error message is store in "file" value of obj
+            commit('uploadMetaFailure', error)
+            dispatch('alerts/error', error, { root: true })
+            return error
+        }
     }
 }
 
@@ -82,19 +81,19 @@ const mutations = {
         let index = state.findIndex(state => state.files.id == id)
         state.splice(index, 1)
     },
-    uploadRequest(state) {
-        state.uploading = true
+    uploadRequest(state, file) {
+        state.uploading = { ongoing: true, file }
     },
     uploadSuccess: (state, file) => {
-        file.uploaded = true
-        file.uploading = false
+        state.uploaded = true
+        state.uploading = { ongoing: false, file }
         state.files.push(file)
     },
     uploadFailure: (state, error) => {
         state.files.push(error)
         state.files.error = error
         state.files.uploaded = false
-        state.files.uploading = false
+        state.files.uploading = { ongoing: false, error }
     },
     updateMessage(state, id, message) {
         state.files[id].message = message

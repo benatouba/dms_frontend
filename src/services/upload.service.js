@@ -27,7 +27,7 @@ async function upload(file) {
     return answer
 }
 
-async function uploadMetadataList(file, listname) {
+function uploadMetadataList(file, listname) {
     const requestOptions = authHeader('POST')
 
     const formdata = new FormData()
@@ -35,10 +35,9 @@ async function uploadMetadataList(file, listname) {
 
     requestOptions.body = formdata
     requestOptions.redirect = 'follow'
-    requestOptions.headers.append('Content-Type', 'multipart/form-data')
-    console.log(file)
-    console.log(listname)
-    let promise = await fetch(process.env.VUE_APP_API_ENDPOINT + `/${listname}/`, requestOptions)
+    requestOptions.headers.append('Content-Type', 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW')
+
+    let resp = fetch(process.env.VUE_APP_API_ENDPOINT + `/${listname}/`, requestOptions)
         .then(resp => resp.json())
         .then(resp => {
             let answer = new Promise(function(resolve, reject) {
@@ -50,8 +49,7 @@ async function uploadMetadataList(file, listname) {
             })
             return answer
         })
-    let answer = await promise
-    return answer
+    return resp
 }
 
 export const uploadService = {

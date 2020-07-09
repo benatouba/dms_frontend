@@ -11,6 +11,8 @@
                     prepend-icon="mdi-file-delimited"
                     @keyup.enter="handleMetadataUpload"
                     clearable
+                    type="file"
+                    accept=".csv"
             >
                 <template v-slot:selection="{ text }">
                     <v-chip
@@ -26,7 +28,7 @@
             <v-btn-toggle
                     v-model="listname"
                     mandatory
-                    elevation="3"
+                    elevation="1"
                     dense
                     group
             >
@@ -48,9 +50,9 @@
                         dark
                         text
                         ripple
-                        elevation="3"
+                        elevation="1"
                 >
-                    Upload
+                    {{ $t('buttons.upload')}}
                 </v-btn>
             </v-row>
         </v-container>
