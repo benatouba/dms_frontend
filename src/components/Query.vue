@@ -28,7 +28,7 @@
                             @change="handleSubmit"
                         ></v-autocomplete>
                         <v-icon
-                            v-show="!searchInput.institution"
+                            v-show="searchInput.institution"
                             @click="searchInput.institution = ''"
                             small
                             flat
@@ -66,7 +66,7 @@
                                 @change="handleSubmit"
                         ></v-autocomplete>
                         <v-icon
-                                v-show="!searchInput.variables__id"
+                                v-show="searchInput.variables__id"
                                 @click="searchInput.variables__id = ''"
                                 small
                                 flat
