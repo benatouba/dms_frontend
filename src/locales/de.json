@@ -6,7 +6,8 @@
     "clear": "Löschen",
     "cancel": "Zurück",
     "confirm": "OK",
-    "send": "Senden"
+    "send": "Senden",
+    "upload": "Hochladen"
   },
   "nav": {
     "data_standard": "Datenstandard",

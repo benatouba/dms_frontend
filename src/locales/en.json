@@ -6,7 +6,8 @@
     "clear": "Clear",
     "cancel": "Cancel",
     "confirm": "OK",
-    "send": "Send"
+    "send": "Send",
+    "upload": "Upload"
   },
   "nav": {
     "data_standard": "Data Standard",
