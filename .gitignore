@@ -1,12 +1,14 @@
 .DS_Store
 node_modules
 cypress/
+dist/
 cypress.json
-cypress.env.json
 
 # local env files
+cypress.env.json
 .env.local
 .env.*.local
+.prettierrc
 
 # Log files
 npm-debug.log*
