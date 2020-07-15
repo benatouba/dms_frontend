@@ -5,10 +5,11 @@
       <p class="secondary--text">{{ $t('home.text1') }}</p>
       <v-row align="center" justify="center">
         <v-img
-            :src="$t('home.img_link')"
-            :lazy-src="$t('home.img_link')"
-            class="grey lighten-2 my-4"
-            max-width="600"
+                v-if="$i18n.locale === 'de'"
+                src="@/assets/dms_graphic_de.png"
+                lazy-src="@/assets/dms_graphic_de.png"
+                class="grey lighten-2 my-4"
+                max-width="600"
         >
           <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
@@ -16,17 +17,30 @@
             </v-row>
           </template>
         </v-img>
-        <br>
-        <p class="caption text-center secondary--text my-4">
-          {{ $t('home.caption') }}
-        </p>
-        <p class="secondary--text">{{ $t('home.text2') }}</p>
+        <v-img
+                v-if="$i18n.locale === 'en'"
+                src="@/assets/dms_graphic_en.png"
+                lazy-src="@/assets/dms_graphic_en.png"
+                class="grey lighten-2 my-4"
+                max-width="600"
+        >
+          <template v-slot:placeholder>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
       </v-row>
+      <p class="caption text-center secondary--text my-4">
+        {{ $t('home.caption') }}
+      </p>
+      <p class="secondary--text">{{ $t('home.text2') }}</p>
     </v-container>
   </div>
 </template>
 
 <script>
+// import i18n from 'vue-i18n'
 export default {
     name: 'Home',
 }
