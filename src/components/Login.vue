@@ -49,15 +49,18 @@
                                     >
                                 </v-card-actions>
                             </v-form>
-                            <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="1">
-                                <Notification />
-                                <router-link
-                                    to="/"
+                            <v-overlay
+                                    v-if="submitted & alerts.info.status !== 1"
+                                    class="text-center"
+                                    :absolute="absolute"
+                                    :opacity=".9">
+                                <strong>{{ alerts.info.message }}</strong>
+                                <v-btn
                                     class="primary white--text v-btn v-size--large"
-                                    @click="overlay = false"
+                                    @click="submitted = false; clearAlert"
                                 >
                                     {{ $t('buttons.confirm') }}
-                                </router-link>
+                                </v-btn>
                             </v-overlay>
                         </v-card>
                     </v-col>
@@ -68,51 +71,48 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
-import Notification from './Notification'
+import { mapActions, mapState } from 'vuex'
+
 export default {
     name: 'Login',
-    components: { Notification },
     data() {
         return {
             username: null,
             password: null,
             submitted: false,
             loading: false,
-            error: '',
             absolute: true,
-            overlay: false,
+            loginInfo: false,
         }
     },
     beforeRouteLeave(to, from, next) {
         if (this.isLoggedIn) {
+            // this.clearAlert()
             next()
         } else {
             this.to = to
-            this.toggleLoginInfo()
+            this.showLoginInfo(true)
             next()
         }
     },
     computed: {
         ...mapState({
-            status: 'accounts/status',
-        }),
-        ...mapGetters({
-            isLoggedIn: 'accounts/isLoggedIn',
-            loginInfo: 'alerts/loginInfo',
+            alerts: state => state.alerts,
+            isLoggedIn: state => state.accounts.status.isLoggedIn
         }),
     },
     created() {
         if (this.isLoggedIn) {
             this.logout()
         }
-        this.toggleLoginInfo()
+        this.showLoginInfo(false)
     },
     methods: {
         ...mapActions({
             login: 'accounts/login',
             logout: 'accounts/logout',
-            toggleLoginInfo: 'alerts/toggleLoginInfo',
+            clearAlert: 'alerts/clear',
+            showLoginInfo: 'alerts/showLoginInfo',
         }),
         handleSubmit() {
             this.submitted = true
@@ -121,7 +121,6 @@ export default {
             if (username && password) {
                 this.login({ username, password })
             }
-            this.overlay = true
         },
     },
 }
