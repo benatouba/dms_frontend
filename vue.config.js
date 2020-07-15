@@ -13,4 +13,7 @@ module.exports = {
             enableInSFC: false,
         },
     },
+
+    //publicPath: '',
+    assetsDir: 'assets/'
 }
