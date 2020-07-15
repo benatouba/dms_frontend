@@ -1,8 +1,6 @@
 import { userService } from '../services/user.service'
 
-const state = {
-    all: {},
-}
+const state = { status: { loading: false, loaded: false }}
 
 const actions = {
     async list({ commit, dispatch }, searchParam) {
@@ -33,13 +31,14 @@ const actions = {
 
 const mutations = {
     listRequest(state) {
-        state.all = { loading: true }
+        state.status = {loading: true, loaded: false }
     },
     listSuccess(state, users) {
-        state.all = { items: users }
+        Object.assign(state, users)
+        state.status = {loading: true, loaded: false }
     },
-    listFailure(state, error) {
-        state.all = { error }
+    listFailure(state) {
+        state.status = {loading: false, loaded: false }
     },
     deleteRequest(state, id) {
         // add property, to mark deletion request is sent

@@ -5,7 +5,7 @@
             <v-row>
             <v-file-input
                     color="primary"
-                    v-model="metaDataList"
+                    v-model="data"
                     :placeholder="$t('admin.upload_placeholder')"
                     :label="$t('admin.upload_label')"
                     prepend-icon="mdi-file-delimited"
@@ -62,31 +62,19 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
-    name: 'MetadatUpload',
-    computed: {
+    name: 'MetadataUpload',
+    methods: {
         ...mapActions({
-            getInfo: 'accounts/info',
             uploadMetadataList: 'upload/metadataList'
         }),
-    },
-    methods: {
         handleMetadataUpload() {
-            this.$store.dispatch('upload/metadataList', {file: this.metaDataList, listname: this.listname})
+            this.uploadMetadataList({ file: this.data, type: this.listname })
         },
-        getUserList(data) {
-            let newDict = Object.assign({}, data)
-            delete newDict.groups
-            delete newDict.username
-            return newDict
-        },
-    },
-    async mounted() {
-        this.accountInfo = await this.$store.dispatch('accounts/info', '')
     },
     data() {
         return {
-            metaDataList: null,
-            listname: '',
+            data: null,
+            listname: 'institution',
         }
     },
 }
