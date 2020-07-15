@@ -6,6 +6,7 @@ import Upload from '../views/Upload'
 import Contact from '../views/Contact'
 import SignUp from '../components/SignUp'
 import SignIn from '../components/SignIn'
+import tree_example from '../views/tree_example'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,11 @@ const routes = [
         name: 'Contact',
         component: Contact,
     },
+    {
+        path: '/test',
+        name: 'tree_example',
+        component: tree_example,
+    },
     { path: '*', redirect: 'Home' },
 ]
 
@@ -51,7 +57,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     // redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = ['/login', '/register', '/home', '/contact', '/', '/search']
+    const publicPages = ['/login', '/register', '/home', '/contact', '/', '/search', '/test']
     const authRequired = !publicPages.includes(to.path)
     const loggedIn = localStorage.getItem('user')
 
