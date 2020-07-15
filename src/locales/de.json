@@ -7,7 +7,8 @@
     "cancel": "Zurück",
     "confirm": "OK",
     "send": "Senden",
-    "upload": "Hochladen"
+    "upload": "Hochladen",
+    "upload_with_warnings": "Trotz Warnung(en) Hochladen"
   },
   "nav": {
     "data_standard": "Datenstandard",
@@ -23,7 +24,7 @@
     "text1": "Umfassende Daten zu Wetter, Klima und Luftqualität in Großstädten sind bis heute leider nur begrenzt verfügbar. Im Rahmen der Fördermaßnahme sollen daher durch Modul B bereits verfügbare Daten aufbereitet, und neue bzw. fehlende Daten mittels Langzeitmessungen, Intensivmesskampagnen und physikalischer Modellierung erhoben werden. Um den Austausch von Beobachtungs- sowie Modelldaten zwischen den Projektpartnern auch über die Modulgrenzen hinweg zu Modul A und C z.B. für die Validierung des neu entwickelten Stadtklimamodells PALM-4U oder für stadtklimatologische und wissenschaftliche Studien zu unterstützen, wird in der Fördermaßnahme ein Datenmanagementsystem (DMS) entwickelt.",
     "text2": "Die Verwendung eines einheitlichen Datenformates sowie verbindlicher Konventionen für die Nutzung der Daten und Metadaten ist eine wesentliche Voraussetzung für ihre effektive und effiziente Verwaltung im DMS. Zusätzlich ermöglicht ein einheitlicher Datenstandard auch die Entwicklung und Bereitstellung innovativer Werkzeuge zur Analyse und Visualisierung der komplexen und sehr heterogenen Daten. Nach Abschluss der Fördermaßnahme werden Daten mit der [UC]² Research Licence sowie der [UC]² Open Licence der Öffentlichkeit zur Verfügung gestellt werden.",
     "caption": "Abbildung: Datenmanagementsystem der BMBF-Fördermaßnahme Stadtklima im Wandel [UC]2. Der Datenfluss erfolgt in Abhängigkeit von der vergebenen Datennutzungsrichtlinie.",
-    "img_link": "http://www.uc2-program.org/sites/default/files/inline-images/DMS%20Grafik%20Deutsch.png"
+    "img_link": "@/assets/dms_graphic_de.png"
   },
   "upload": {
     "title": "Dateien Hochladen",
@@ -35,9 +36,9 @@
   "login_info": {
     "text": "Du bist nicht eingeloggt. Es werden nur Daten unter öffentlicher Lizenz angezeigt. Um weitere Daten angezeigt zu bekommen, bitte melde dich an. Du hast noch keinen Account? Bitte registriere dich."
   },
-  "query": {
+  "search": {
     "title": "Suche",
-    "placeholder": "Suche in file_standard_name",
+    "placeholder": "Suche in allen Feldern",
     "file_title": "Dateien",
     "download_all": "Alle Herunterladen",
     "items_per_page": "Items pro Seite",
@@ -52,6 +53,7 @@
     "institution": "institution",
     "email": "E-Mail",
     "phone_number": "Telefon",
+    "groups": "Gruppen",
     "password1": "Passwort",
     "password2": "Passwort wiederholen"
   },
