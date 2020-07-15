@@ -1,16 +1,16 @@
 import authHeader from '../helpers/authentication'
 
-function query(input) {
+function search(query) {
     const requestOptions = authHeader('GET')
     let searchString = '?'
-    let entries = Object.entries(input)
+    let entries = Object.entries(query)
     for (const [key, value] of entries) {
         searchString = searchString.concat(`${key}=${value}&`)
         }
     searchString = searchString.slice(0, searchString.length - 1) // cut off unnecessary last symbol '&'
 
     let answer = fetch(
-        `${process.env.VUE_APP_API_ENDPOINT}/uc2list/${searchString}`,
+        `${process.env.VUE_APP_API_ENDPOINT}/data/file/${searchString}`,
         requestOptions
     ).then(resp => resp.json())
     return answer
@@ -20,7 +20,7 @@ function download(file) {
     // cut filename from file path
     const requestOptions = authHeader('GET')
     // requestOptions.headers['Content-Type'] = 'multipart/form-data'
-    let answer = fetch(`${process.env.VUE_APP_API_ENDPOINT}/uc2list/${file.id}`, requestOptions)
+    let answer = fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}`, requestOptions)
         .then(response => response.blob())
         .then(blob => {
             let url = window.URL.createObjectURL(blob)
@@ -38,7 +38,23 @@ function download(file) {
 function deleteFile(file) {
     const requestOptions = authHeader('DELETE')
 
-    let response = fetch(`${process.env.VUE_APP_API_ENDPOINT}/uc2list/${file.id}`, requestOptions).then(resp => {
+    let response = fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}`, requestOptions).then(resp => {
+        let response = new Promise(function(resolve, reject) {
+            if (resp.status === 403) {
+                reject('Unauthorized')
+            } else {
+                resolve(resp.json())
+            }
+        })
+        return response
+    })
+    return response
+}
+
+function setFileInvalid(file) {
+    const requestOptions = authHeader('PATCH')
+
+    let response = fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}/set_invalid/`, requestOptions).then(resp => {
         let response = new Promise(function(resolve, reject) {
             if (resp.status === 403) {
                 reject('Unauthorized')
@@ -52,7 +68,8 @@ function deleteFile(file) {
 }
 
 export default {
-    query,
+    search,
     download,
     deleteFile,
+    setFileInvalid,
 }
