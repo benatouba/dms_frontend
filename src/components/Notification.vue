@@ -1,26 +1,33 @@
 <template>
-    <v-hover v-slot:default="{ hover }">
         <v-banner
                 app
-                v-if="alerts.message"
-                :color="alerts.type"
+                v-if="alerts.info.type && alerts.loginInfo"
+                :color="alerts.info.type"
                 rounded
                 sticky
-                :elevation="hover ? 24 : 5"
+                :elevation="5"
                 style="z-index: 10;"
             >
-            <v-btn
-                    icon
-                    @click="clearAlert"
-                    rounded
-            >
-                <v-icon>
-                    mdi-close-circle
-                </v-icon>
-            </v-btn>
-            {{ alerts.message }}
+            <v-row align="center">
+                <v-col cols="12">
+                    <v-btn
+                            icon
+                            @click="clearAlert"
+                            rounded
+                    >
+                        <v-icon>
+                            mdi-close-circle
+                        </v-icon>
+                    </v-btn>
+                        <span
+                                v-for="info of Object.entries(this.alerts.info)"
+                                :key="info[0]"
+                                v-show="typeof info[1] === 'object' && info[1]">
+                            {{ info[1] }}
+                        </span>
+                </v-col>
+            </v-row>
         </v-banner>
-    </v-hover>
 </template>
 
 <script>
@@ -36,13 +43,13 @@ export default {
     methods: {
         ...mapActions({
             clearAlert: 'alerts/clear',
-        })
+        }),
     },
     watch: {
         $route() {
             // clear alert on location change
             this.clearAlert()
         },
-    }
+    },
 }
 </script>
