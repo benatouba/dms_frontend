@@ -13,5 +13,6 @@ export default new Vuetify({
         info: '#ffaa2c',
         error: '#f83e70',
         warning: '#faffc7',
+        accent: '#000000',
     },
 })
