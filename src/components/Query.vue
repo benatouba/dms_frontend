@@ -1,10 +1,10 @@
 <template>
     <div>
-        <h1>{{ $t('query.title') }}</h1>
+        <h1>{{ $t('search.title') }}</h1>
         <input
-                v-model="searchInput.file_standard_name"
+                v-model="searchInput.search"
                 @keypress.enter="handleSubmit"
-                :placeholder="$t('query.placeholder')"
+                :placeholder="$t('search.placeholder')"
                 class="input text--secondary my-2" />
         <br />
         <v-btn @click="handleSubmit" icon x-large target="_blank">
@@ -13,7 +13,7 @@
         <v-container class="text--primary">
             <v-card>
                 <v-card-title>
-                    {{ $t('query.filter_options')}}
+                    {{ $t('search.filter_options')}}
                 </v-card-title>
                 <v-card-actions>
                     <v-col cols="12">
@@ -25,7 +25,7 @@
                             item-value="acronym"
                             label="Institution"
                             color="primary"
-                            @change="handleSubmit"
+                            @change="handleSubmit; getChoices(choices.site, 'site', searchInput.institution)"
                         ></v-autocomplete>
                         <v-icon
                             v-show="searchInput.institution"
@@ -80,7 +80,7 @@
         </v-container>
         <v-divider class="my-3"></v-divider>
         <v-row>
-            <h2 class="mx-3">{{ $t('query.file_title') }}</h2>
+            <h2 class="mx-3">{{ $t('search.file_title') }}</h2>
             <v-col class="text-lg-right">
                 <v-btn
                     text
@@ -92,7 +92,7 @@
                     target="_blank"
                 >
                     <v-icon left color="primary">mdi-download</v-icon>
-                    {{ $t('query.download_all') }}
+                    {{ $t('search.download_all') }}
                 </v-btn>
             </v-col>
         </v-row>
@@ -112,7 +112,7 @@
                     <v-select
                         v-model="pageLength"
                         :items="pageLengthChoices"
-                        :label="$t('query.items_per_page')"
+                        :label="$t('search.items_per_page')"
                         dense
                         flat
                         ></v-select>
@@ -141,12 +141,13 @@
                         </v-col>
                         <v-col class="d-flex my-3 justify-center" md="1">
                             <v-btn
-                                v-if="data.download_count === 0 && isLoggedIn"
-                                @click="handleDelete(data)"
-                                icon
-                                depressed
-                                small
-                                absolute
+                                    v-if="isLoggedIn"
+                                    :disabled="data.download_count || data.uploader !== accounts.user"
+                                    @click="handleDelete(data)"
+                                    icon
+                                    depressed
+                                    small
+                                    absolute
                             >
                                 <v-icon color="primary">mdi-delete</v-icon>
                             </v-btn>
@@ -179,7 +180,7 @@
                 <v-select
                         v-model="pageLength"
                         :items="pageLengthChoices"
-                        :label="$t('query.items_per_page')"
+                        :label="$t('search.items_per_page')"
                         dense
                         flat
                 ></v-select>
@@ -190,10 +191,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
-    name: 'query',
+    name: 'search',
     computed: {
+        ...mapState({
+            accounts: state => state.accounts
+        }),
         ...mapGetters({
             queriedFiles: 'queries/queriedFiles',
             isLoggedIn: 'accounts/isLoggedIn',
@@ -204,15 +208,10 @@ export default {
         getPageCount() {
             return Math.ceil((this.queriedFiles.length/this.pageLength))
         },
-        getChoices(input, choice) { // extract choices for filtering from respective objects
-            let output = []
-            input.forEach(key => output.push(key[choice]))
-            return output
-        },
     },
     methods: {
         ...mapActions({
-            query: 'queries/query',
+            search: 'queries/search',
             download: 'queries/download',
             delete: 'queries/delete',
             resetQueryState: 'queries/resetQueryState',
@@ -222,7 +221,7 @@ export default {
             //if (this.queriedFiles) {
                 this.resetQueryState()
             //}
-            this.query(this.searchInput) // this needs to be parsed as dict. else it defaults to 'undefined'
+            this.search(this.searchInput) // this needs to be parsed as dict. else it defaults to 'undefined'
         },
         handleDownload(file) {
             this.download({ file })
@@ -247,11 +246,16 @@ export default {
             return newDict
         },
         fetchMeta(input) {
-            fetch(`${process.env['VUE_APP_API_ENDPOINT']}/${input}`)
+            fetch(`${process.env['VUE_APP_API_ENDPOINT']}/data/${input}`)
                 .then(resp => resp.json())
                 .then(data => {
                     this.choices[input] = data
                 })
+        },
+        getChoices(input, name, choice) { // extract choices for filtering from respective objects
+            let output = []
+            input.forEach(key => output.push(key[choice]))
+            this.choices[name] = output
         },
     },
     mounted() {
@@ -263,7 +267,7 @@ export default {
     data() {
         return {
             searchInput: {
-                file_standard_name: '',
+                search: '',
                 institution: '',
                 site__id: '',
                 variables__id: '',
