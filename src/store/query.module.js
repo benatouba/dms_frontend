@@ -23,43 +23,43 @@ const actions = {
     resetQueryState({ commit }) {
         commit('resetState')
     },
-    async query({ dispatch, commit }, input) {
+    async search({ dispatch, commit }, input) {
         commit('queryRequest', input)
         try {
-            let promise = await queryService.query(input)
-            commit('querySuccess', promise)
-        } catch(error) {
+            let resp = await queryService.search(input)
+            commit('querySuccess', resp)
+        } catch (error) {
             commit('queryFailure', error)
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/error', error, {root: true})
         }
     },
     download({ dispatch, commit }, { file }) {
         commit('downloadRequest', file)
-        let result = queryService.download(file).then(
-            result => {
+        let resp = queryService.download(file).then(
+            resp => {
                 commit('downloadSuccess')
-                return result
+                return resp
             },
             error => {
                 commit('downloadFailure', error)
                 dispatch('alerts/error', error, { root: true })
             }
         )
-        return result
+        return resp
     },
     delete({ dispatch, commit }, { file }) {
         commit('deleteRequest', file)
-        let response = queryService.deleteFile(file).then(
-            response => {
+        let resp = queryService.deleteFile(file).then(
+            resp => {
                 commit('deleteSuccess', file.id)
-                return response
+                return resp
             },
             error => {
                 commit('deleteFailure')
                 dispatch('alerts/error', error, { root: true })
             }
         )
-        return response
+        return resp
     },
 }
 
