@@ -2,8 +2,8 @@
     <v-container>
         <h3>{{ $t('admin.user_title') }}</h3>
         <em v-if="users.loading">Loading users...</em>
-        <v-expansion-panels v-for="user in users.items" :key="user.id" elevation="5" outlined>
-            <v-expansion-panel>
+        <v-expansion-panels v-for="user in users" :key="user.id" elevation="5" outlined>
+            <v-expansion-panel v-if="user.id">
                 <v-expansion-panel-header>
                     {{ user.username }}
                 </v-expansion-panel-header>
@@ -34,12 +34,13 @@
 <script>
     // TODO: approve/decline group change button
     // TODO: delete user button
+    // TODO: add user search
 import { mapState, mapActions } from 'vuex'
 export default {
     name: 'UserCards',
     computed: {
         ...mapState({
-            users: state => state.users.all
+            users: state => state.users,
         })
     },
     created () {
