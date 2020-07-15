@@ -8,21 +8,18 @@ function login({ username, password }) {
         password: password,
     }
     requestOptions.body = JSON.stringify(user)
+    requestOptions.headers.append('Content-Type', 'application/json')
 
     let answer = fetch(process.env.VUE_APP_API_ENDPOINT + '/auth/login/', requestOptions)
         .then(resp => resp.json())
         .then(json => {
             let answer = new Promise(function(resolve, reject) {
                 if (json.token) {
-                    json.user = username
-                    json.status = { loggedIn: true }
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('user', json.user)
+                    localStorage.setItem('user', json.username)
                     localStorage.setItem('token', json.token)
-                    localStorage.setItem('is_superuser', json.is_superuser)
                     resolve(json)
                 } else {
-                    json.status = { loggedIn: false }
                     reject(json)
                 }
             })
@@ -62,7 +59,7 @@ async function patch(toChange) {
     requestOptions.body = urlencoded
     requestOptions.redirect = 'follow'
 
-    let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/`, requestOptions)
+    let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/`, requestOptions)
     return resp
 }
 
@@ -71,7 +68,17 @@ async function list(searchParam) {
     requestOptions.headers.append('Content-Type', 'application/json')
     requestOptions.redirect = 'follow'
 
-    let response = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/?username=${searchParam}`, requestOptions)
+    let response = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/?username=${searchParam}`, requestOptions)
+    let user = await response.json()
+    return user
+}
+
+async function info(id) {
+    const requestOptions = authHeader('GET')
+    requestOptions.headers.append('Content-Type', 'application/json')
+    requestOptions.redirect = 'follow'
+
+    let response = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/${id}`, requestOptions)
     let user = await response.json()
     return user
 }
@@ -110,5 +117,6 @@ export const userService = {
     register,
     patch,
     list,
+    info,
     manage,
 }
