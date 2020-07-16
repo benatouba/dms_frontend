@@ -77,7 +77,7 @@
                         <v-row justify="center">
                             <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_invalid" label="Show invalid" value="1" input-value="false"></v-switch>
                             <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_old" label="Show old" value="1" input-value="false"></v-switch>
-                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.uploader" label="Uploaded by me" :value="user"></v-switch>
+                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.uploader" label="Uploaded by me" :value="accounts.user"></v-switch>
                         </v-row>
                         <!--<v-row justify="center">
                             <v-col cols="4">
@@ -321,7 +321,7 @@ export default {
             pageLength: 10,
             pageLengthChoices: [5, 10, 20, 50],
             // FIXME: get from data store for production
-            user: localStorage.getItem('user'),
+            // user: localStorage.getItem('user'),
         }
     }
 }
