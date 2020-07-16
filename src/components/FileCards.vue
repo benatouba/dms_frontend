@@ -1,72 +1,53 @@
 <template>
     <v-container>
         <v-expansion-panels v-for="data in files" :key="data.file.name" elevation="5" outlined>
-            <v-expansion-panel>
+            <v-expansion-panel v-if="Object.keys(data.resp).length">
                 <v-row align="center" no-gutters>
                 <v-expansion-panel-header :class="`filename${data.resp.status}`">
-                        <strong>{{ data.file.name }}</strong>
-                        <span color="#000000">{{ data.uploaded? 'uploaded': 'not uploaded'}}</span>
-                        <v-btn
-                                v-if="data.resp.status === 2"
-                                @click="uploadWithWarnings(data.file)"
-                                text
-                                left
-                                ripple
-                                class="ma-2 primary--text"
-                                outlined
-                                tile
-                                target="_blank"
-                        >
-                            {{ $t('buttons.upload_with_warnings') }}
-                        </v-btn>
+                    <strong>{{ data.file.name }}</strong>
+                    <span color="#000000">{{ data.uploaded? 'uploaded': 'not uploaded'}}</span>
+                    <v-btn
+                            v-if="data.resp.status === 2"
+                            @click="uploadAnyway(data.file,true, false)"
+                            text
+                            left
+                            ripple
+                            class="ma-2 primary--text"
+                            outlined
+                            tile
+                            target="_blank"
+                    >
+                        {{ $t('buttons.upload_with_warnings') }}
+                    </v-btn>
+                    <v-btn
+                            v-if="data.resp.status === 3 && is_superuser"
+                            @click="uploadAnyway(data.file, true, true)"
+                            text
+                            left
+                            ripple
+                            class="ma-2 primary--text"
+                            outlined
+                            tile
+                            target="_blank"
+                    >
+                        {{ $t('buttons.upload_with_errors') }}
+                    </v-btn>
 
                 </v-expansion-panel-header>
                 </v-row>
                 <v-expansion-panel-content>
-                    <v-list
-                            v-for="(item, key) of data.resp"
+                    <v-treeview
+                            :items="buildTree(value, key)"
                             :key="key"
-                            class="justify-center"
-                            dense
+                            v-for="(value, key) in data.resp"
+                            :class="`${key}`"
+                            rounded
+                            hoverable
+                            activatable
+                            open-all
+                            open-on-click
                     >
-                        <v-row no-gutters align="center">
-                            <v-col cols="12" justify="start" dense>
-                                <v-list-item
-                                        v-if="Array.isArray(item) && item.length"
-                                        :class="`${key}`"
-                                >
-                                    <v-list
-                                            dense
-                                    >
-                                        <v-list-item
-                                                v-for="msg of item"
-                                                :key="msg"
-                                                dense>
-                                            <div v-if="Array.isArray(msg)">
-                                                <v-list-item-subtitle
-                                                        v-for="(value, key) in msg"
-                                                        :key="key">
-                                                    {{ value }}
-                                                </v-list-item-subtitle>
-                                            </div>
-                                            <div v-else>
-                                                <v-list-item-subtitle >
-                                                    {{ msg }}
-                                                </v-list-item-subtitle>
-                                            </div>
-                                        </v-list-item>
-                                    </v-list>
-                                </v-list-item>
-                            </v-col>
-                        </v-row>
-                    </v-list>
-                    <v-divider></v-divider>
-                    <v-list v-for="(value, key) in data.resp.result" :key="key" dense>
-                        <v-list-item v-for="(item, id) in value" :key="id">
-                            <v-list-item-title>{{ key }}</v-list-item-title>
-                            <v-list-item-subtitle>{{ item }}</v-list-item-subtitle>
-                        </v-list-item>
-                    </v-list>
+                    </v-treeview>
                 </v-expansion-panel-content>
             </v-expansion-panel>
         </v-expansion-panels>
@@ -74,6 +55,7 @@
 </template>
 
 <script>
+import { build_obj, mapper } from '../helpers/treebuilder.js'
 import { mapState } from 'vuex'
 
 export default {
@@ -81,16 +63,22 @@ export default {
     computed: {
         ...mapState({
             files: state => state.upload.files,
+            is_superuser: state => state.accounts.is_superuser
         }),
     },
     methods: {
-        uploadWithWarnings(file) {
+        uploadAnyway(file, ignore_warnings, ignore_errors) {
             this.$store.dispatch('upload/uploadFiles', {
                 file,
-                ignore_warnings: true,
-                ignore_errors: false,
+                ignore_warnings,
+                ignore_errors,
                 }
             )
+        },
+        buildTree(data, name) {
+            if (Object.keys(data).length) {
+                return [build_obj(0, name, mapper(data, 1)[0])]
+            }
         }
     }
 }
