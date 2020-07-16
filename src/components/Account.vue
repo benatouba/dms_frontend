@@ -57,16 +57,17 @@ export default {
         },
         getShowInfo(data) {
             let newDict = Object.assign({}, data)
-            // delete newDict.groups
+            newDict.groups = []
+            data.groups.forEach(obj => newDict.groups.push(obj.name))
             delete newDict.username
             delete newDict.is_superuser
             delete newDict.id
+            delete newDict['is_active']
             return newDict
         },
     },
     async created() {
         this.accountInfo = await this.getInfo(this.account.id)
-        console.log(this.accountInfo)
     },
     data() {
         return {
