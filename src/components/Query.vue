@@ -74,6 +74,27 @@
                                 depressed
                         >mdi-close-circle</v-icon>
                         </v-row>
+                        <v-row justify="center">
+                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_invalid" label="Show invalid" value="1" input-value="false"></v-switch>
+                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_old" label="Show old" value="1" input-value="false"></v-switch>
+                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.uploader" label="Uploaded by me" :value="user"></v-switch>
+                        </v-row>
+                        <!--<v-row justify="center">
+                            <v-col cols="4">
+                                <date-picker
+                                        :date="new Date('2020-07-01').toISOString().substr(0, 10)"
+                                        v-model="searchInput.uploader"
+                                >
+
+                                </date-picker>
+                            </v-col>
+                            <v-col cols="4">
+                                <date-picker
+                                        :date="new Date().toISOString().substr(0, 10)"
+                                        v-model="searchInput.uploader"
+                                ></date-picker>
+                            </v-col>
+                        </v-row>-->
                     </v-col>
                 </v-card-actions>
             </v-card>
@@ -110,11 +131,12 @@
                 </v-col>
                 <v-col cols="12" sm="4" md="3" lg="2">
                     <v-select
-                        v-model="pageLength"
-                        :items="pageLengthChoices"
-                        :label="$t('search.items_per_page')"
-                        dense
-                        flat
+                            v-if="getPageCount > 1"
+                            v-model="pageLength"
+                            :items="pageLengthChoices"
+                            :label="$t('search.items_per_page')"
+                            dense
+                            flat
                         ></v-select>
                 </v-col>
             </v-row>
@@ -128,7 +150,7 @@
                 outlined
             >
                 <v-expansion-panel dense>
-                    <v-row cols="12" class="d-flex">
+                    <v-row cols="12" class="d-flex" justify="center">
                         <v-col md="10">
                             <v-expansion-panel-header hide-actions>
                                 {{ data.file_standard_name }}
@@ -139,19 +161,27 @@
                                 <v-icon color="primary">mdi-download</v-icon>
                             </v-btn>
                         </v-col>
-                        <v-col class="d-flex my-3 justify-center" md="1">
-                            <v-btn
-                                    v-if="isLoggedIn"
-                                    :disabled="data.download_count || data.uploader !== accounts.user"
-                                    @click="handleDelete(data)"
-                                    icon
-                                    depressed
-                                    small
-                                    absolute
-                            >
-                                <v-icon color="primary">mdi-delete</v-icon>
-                            </v-btn>
-                        </v-col>
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-col class="d-flex my-3 justify-center"
+                                       md="1"
+                                       v-bind="attrs"
+                                       v-on="on">
+                                    <v-btn
+                                            v-if="isLoggedIn"
+                                            :disabled="data.download_count || data.uploader !== accounts.user"
+                                            @click="handleDelete(data)"
+                                            icon
+                                            depressed
+                                            small
+                                            absolute
+                                    >
+                                        <v-icon color="primary">mdi-delete</v-icon>
+                                    </v-btn>
+                                </v-col>
+                            </template>
+                            <span>Can only be deleted if you are the uploader and file has not been downloaded.</span>
+                        </v-tooltip>
                         <v-col md="12">
                             <v-expansion-panel-content>
                                 <v-list v-for="(item, key) in getListObjects(data)" :key="key" dense>
@@ -178,6 +208,7 @@
             </v-col>
             <v-col class="self-center" cols="12" sm="4" md="3" lg="2">
                 <v-select
+                        v-if="getPageCount > 1"
                         v-model="pageLength"
                         :items="pageLengthChoices"
                         :label="$t('search.items_per_page')"
@@ -192,8 +223,12 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
+// import DatePicker from "./DatePicker";
 export default {
     name: 'search',
+    components: {
+        // DatePicker,
+    },
     computed: {
         ...mapState({
             accounts: state => state.accounts
@@ -271,6 +306,10 @@ export default {
                 institution: '',
                 site__id: '',
                 variables__id: '',
+                uploader: null,
+                is_invalid: false,
+                is_old: false,
+                // origin_time: new Date('2020-07-01').toISOString().substr(0, 10)
             },
             choices: {
                 institution: [],
@@ -280,9 +319,11 @@ export default {
             show: false,
             page: 1,
             pageLength: 10,
-            pageLengthChoices: [5, 10, 20, 50]
+            pageLengthChoices: [5, 10, 20, 50],
+            // FIXME: get from data store for production
+            user: localStorage.getItem('user'),
         }
-    },
+    }
 }
 </script>
 
