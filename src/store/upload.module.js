@@ -84,7 +84,6 @@ const mutations = {
     },
     uploadRequest(state, {file, ignore_warnings, ignore_errors}) {
         const item = state.files.find(data => data.file.name === file.name)
-        console.log(item)
         if (item) {
             item.uploading = true
             item.uploaded = false
@@ -117,7 +116,6 @@ const mutations = {
         item.ignore_errors = payload.ignore_errors
         item.uploaded = payload.resp.status === 1
         item.uploading = false
-        console.log(item)
     },
     updateMessage(state, id, message) {
         state.files[id].message = message
