@@ -1,10 +1,15 @@
 import { userService } from '../services'
 import router from '../router'
+import i18n from '../plugins/i18n'
+function getDefaultState() {
+    return {
+        is_superuser: false,
+        status: { isLoggingIn: false, isLoggedIn: false },
+        user: false
+    }
+}
 
-const user = localStorage.getItem('user')
-const state = user ? { status: { isLoggedIn: true }, user } : { status: { isLoggedIn: false }, user: null }
-state.status.isLoggingIn = false
-state.status
+const state = getDefaultState()
 
 const getters = {
     user: state => {
@@ -21,22 +26,21 @@ const actions = {
         userService
             .login({ username, password })
             .then(
-                user => {
-                    commit('loginSuccess', user)
-                    console.log('Login Success')
-                    router.push('Upload')
+                resp => {
+                    commit('loginSuccess', resp)
+                    dispatch('alerts/success', i18n.t('login.success'), { root: true })
+                    router.push('Home')
                 },
                 error => {
-                    console.log('login error')
                     commit('loginFailure', error)
-                    dispatch('alert/error', error, { root: true })
+                    dispatch('alerts/error', error, { root: true })
                 }
             )
-            .catch(err => console.log(err))
     },
     logout({ commit }) {
         userService.logout()
         commit('logout')
+        router.push('/')
     },
     register({ dispatch, commit }, user) {
         commit('registerRequest', user)
@@ -46,7 +50,7 @@ const actions = {
                 // router.push('Home')
                 setTimeout(() => {
                     // display success message after route change completes
-                    dispatch('alerts/success', 'Registration Form was sent', { root: true })
+                    dispatch('alerts/success', { message: 'Registration Form was sent' }, { root: true })
                 })
             },
             error => {
@@ -56,6 +60,24 @@ const actions = {
             }
         )
     },
+    async info({ commit, dispatch }, id) {
+        try {
+            let resp = await userService.info(id)
+            commit('userInfoSuccess', resp)
+            return resp
+        } catch (error) {
+            dispatch('alerts/error', error, { root: true })
+        }
+    },
+    async patch({ dispatch }, toChange) {
+        try {
+            let resp = await userService.patch(toChange)
+            dispatch('alerts/success', 'Password changed', { root: true })
+            return resp
+        } catch (error) {
+            dispatch('alerts/error', error, { root: true })
+        }
+    },
 }
 
 const mutations = {
@@ -63,17 +85,25 @@ const mutations = {
         state.status = { isLoggingIn: true }
         state.user = user
     },
-    loginSuccess(state, user) {
-        state.status = { isLoggedIn: true }
-        state.user = user
+    loginSuccess(state, data) {
+        state.status = { isLoggedIn: true, isLoggingIn: false }
+        Object.entries(data).forEach(
+            item => {
+                state[item[0]] = item[1]
+            }
+        )
+        state.user = data.username
+        if (data.is_superuser) {
+            state.is_superuser = data.is_superuser
+        }
     },
     loginFailure(state) {
-        state.status = {}
+        state.status.isLoggedIn = false
+        state.status.isLoggingIn = false
         state.user = null
     },
     logout(state) {
-        state.status = {}
-        state.user = null
+        Object.assign(state, getDefaultState())
     },
     registerRequest(state) {
         state.status = { registering: true }
@@ -84,6 +114,13 @@ const mutations = {
     registerFailure(state) {
         state.status = {}
     },
+    userInfoSuccess(state, data) {
+        Object.entries(data).forEach(
+            item => {
+                state[item[0]] = item[1]
+            }
+        )
+    }
 }
 
 export default {

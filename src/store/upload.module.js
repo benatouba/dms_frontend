@@ -1,58 +1,9 @@
 import { uploadService } from '../services/upload.service'
 
 const state = {
-    files: [
-        {
-            result: {
-                file_standard_name: 'test',
-                size: 111,
-                message: 'this is a message',
-                id: 1,
-            },
-            errors: [],
-            fatal: ['fatal error'],
-            warnings: [],
-            status: 1,
-        },
-        {
-            result: {
-                file_standard_name: 'test',
-                size: 111,
-                message: 'this is a message',
-                id: 2,
-            },
-            errors: ['The given version numbers...'],
-            fatal: ['fatal error'],
-            warnings: ['warning note'],
-            status: 2,
-        },
-        {
-            result: {
-                file_standard_name: 'test',
-                size: 111,
-                message: 'this is a message',
-                id: 3,
-            },
-            errors: ['The given version numbers...'],
-            fatal: ['fatal error'],
-            warnings: ['warning note'],
-            status: 3,
-        },
-        {
-            result: {
-                file_standard_name: 'test',
-                size: 111,
-                message: 'this is a message',
-                id: 4,
-            },
-            errors: ['The given version numbers...'],
-            fatal: ['fatal error'],
-            warnings: ['warning note'],
-            status: 4,
-        },
-    ],
+    files: [],
+    meta: [],
 }
-// const state = { files: [] }
 
 const getters = {
     notUploadedFiles: state => {
@@ -69,7 +20,7 @@ const getters = {
     },
     fatalFiles: state => {
         return state.filter(file => file.status === 4)
-    },
+    }
 }
 
 const actions = {
@@ -85,23 +36,38 @@ const actions = {
     removeFile({ commit }, f) {
         commit('removeFile', f)
     },
-    async uploadFiles({ dispatch, commit }, { file }) {
-        commit('uploadRequest')
-        let promise = uploadService.upload(file).then(
-            file => {
-                commit('uploadSuccess', file)
-            },
-            error => {
-                error.result.file_standard_name = file.name
-                error.result.id = file.name
-                commit('uploadFailure', error)
-                dispatch('alerts/error', error, { root: true })
-            }
-        )
-        await new Promise(resolve => setTimeout(resolve, 3000))
-        let answer = await promise
-        return answer
+    /**
+     * Action triggering file upload.
+     *
+     * Fires upload service function and handles logging in store
+     *
+     * @since 0.1.0
+     *
+     * @see services/uploadService
+     *
+     * @param {Object} data An object containing all info to pass to backend
+     */
+    async uploadFiles({ dispatch, commit }, data) {
+        commit('uploadRequest', data)
+        try {
+            let resp = await uploadService.upload(data)
+            commit('uploadResult', { ...data, resp, })
+        } catch(error) {
+            dispatch('alerts/error', error, { root: true })
+        }
     },
+    async metadataList({ dispatch, commit }, obj) {
+        commit('uploadMetaRequest', obj)
+        try {
+            let resp = await uploadService.uploadMetadataList(obj)
+            commit('uploadMetaResult', {resp, obj})
+            return resp
+        } catch(error) {
+            // commit('uploadMetaFailure', error, file, 'metaData')
+            dispatch('alerts/error', error, { root: true })
+            return error
+        }
+    }
 }
 
 const mutations = {
@@ -116,23 +82,52 @@ const mutations = {
         let index = state.findIndex(state => state.files.id == id)
         state.splice(index, 1)
     },
-    uploadRequest(state) {
-        state.uploading = true
+    uploadRequest(state, {file, ignore_warnings, ignore_errors}) {
+        const item = state.files.find(data => data.file.name === file.name)
+        console.log(item)
+        if (item) {
+            item.uploading = true
+            item.uploaded = false
+            item.ignore_warnings = ignore_warnings
+            item.ignore_errors = ignore_errors
+        } else {
+            state.files.push({
+                file,
+                resp: {},
+                uploaded: false,
+                uploading: true,
+                ignore_errors,
+                ignore_warnings,
+            })
+        }
     },
-    uploadSuccess: (state, file) => {
-        file.uploaded = true
-        file.uploading = false
-        state.files.push(file)
+    uploadMetaRequest(state, obj) {
+        const item = state.meta.find(data => data.name === obj.file.name)
+        if (item) {
+            item.uploading = true
+            item.uploaded = false
+        } else {
+            state.meta.push({ name: obj.file.name, type: obj.type, uploaded: false, uploading: true })
+        }
     },
-    uploadFailure: (state, error) => {
-        state.files.push(error)
-        state.files.error = error
-        state.files.uploaded = false
-        state.files.uploading = false
+    uploadResult: (state, payload) => {
+        const item = state.files.find(data => data.file.name === payload.file.name)
+        item.resp = payload.resp
+        item.ignore_warnings = payload.ignore_warnings
+        item.ignore_errors = payload.ignore_errors
+        item.uploaded = payload.resp.status === 1
+        item.uploading = false
+        console.log(item)
     },
     updateMessage(state, id, message) {
         state.files[id].message = message
     },
+    uploadMetaResult: (state, payload) => {
+        const item = state.meta.find(item => item.name === payload.obj.file.name)
+        item.uploaded = payload.resp.status === 1
+        item.uploading = false
+        item.result = payload.resp
+    }
 }
 
 export default {

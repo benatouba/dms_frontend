@@ -1,31 +1,29 @@
 <template>
     <v-app class="primary">
         <Navbar />
-        <v-content style="margin: auto; width: 80%;">
-            <LoginInfo v-if="!isLoggedIn && loginInfo" />
-            <v-alert v-if="alerts.message" text type="info" :class="`d-flex alert ${alerts.type}`">
-                {{ alerts.message }}
-            </v-alert>
+        <v-main style="margin: auto; width: 80%;">
+            <LoginInfo v-if="!isLoggedIn && alerts.loginInfo" />
+            <Notification />
             <router-view></router-view>
-        </v-content>
+        </v-main>
+        <Footer />
     </v-app>
 </template>
 
 <script>
 import Navbar from './components/Navbar'
 import LoginInfo from './components/LoginInfo'
-import { mapActions, mapState, mapGetters } from 'vuex'
+import Footer from './components/Footer'
+import { mapActions, mapState } from 'vuex'
+import Notification from './components/Notification';
 export default {
     name: 'App',
-    components: { Navbar, LoginInfo },
+    components: { Notification, Navbar, LoginInfo, Footer },
     computed: {
         ...mapState({
             alerts: state => state.alerts,
-        }),
-        ...mapGetters({
-            isLoggedIn: 'accounts/isLoggedIn',
-            loginInfo: 'alerts/loginInfo',
-        }),
+            isLoggedIn: state => state.accounts.status.isLoggedIn
+        })
     },
     methods: {
         ...mapActions({

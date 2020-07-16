@@ -1,50 +1,53 @@
 import authHeader from '../helpers/authentication'
 
-async function upload(file) {
+async function upload({file, ignore_warnings, ignore_errors}) {
     const requestOptions = authHeader('POST')
 
     const formdata = new FormData()
     formdata.append('file_type', 'UC2')
     formdata.append('file', file)
+    if (ignore_warnings) {
+        formdata.append('ignore_warnings', 'true')
+    }
+    if (ignore_errors) {
+        formdata.append('ignore_errors', 'true')
+    }
 
     requestOptions.body = formdata
     requestOptions.redirect = 'follow'
 
-    let promise = fetch(process.env.VUE_APP_API_ENDPOINT + `/uc2upload/`, requestOptions)
+    let promise = fetch(process.env.VUE_APP_API_ENDPOINT + `/data/file/`, requestOptions)
         .then(resp => resp.json())
-        .then(resp => {
-            let answer = new Promise(function(resolve, reject) {
-                if (resp.status !== 1) {
-                    reject(resp)
-                } else {
-                    resolve(resp)
-                }
-            })
-            return answer
-        })
+        // .then(resp => {
+        //     let answer = new Promise(function(resolve, reject) {
+        //         if (resp.status !== 1) {
+        //             reject(resp)
+        //         } else {
+        //             resolve(resp)
+        //         }
+        //     })
+        //     return answer
+        // })
     let answer = await promise
-    await new Promise(resolve => setTimeout(resolve, 3000))
+    // await new Promise(resolve => setTimeout(resolve, 3000))
     return answer
 }
 
-/*function handleResponse(response) {
-    console.log(response)
-    return response.text().then(text => {
-        const data = text && JSON.parse(text)
-        if (!response.ok) {
-            if (response.status === 401) {
-                // auto logout if 401 response returned from api
-                location.reload()
-            }
+function uploadMetadataList(obj) {
+    const requestOptions = authHeader('POST')
 
-            const error = (data && data.message) || response.statusText
-            return Promise.reject(error)
-        }
+    const formdata = new FormData()
+    formdata.append('file', obj.file)
 
-        return data
-    })
-}*/
+    requestOptions.body = formdata
+    requestOptions.redirect = 'follow'
+    requestOptions.headers.append('Content-Type', 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW')
+
+    return fetch(process.env.VUE_APP_API_ENDPOINT + `/data/${obj.type}/`, requestOptions)
+        .then(resp => resp.json())
+}
 
 export const uploadService = {
     upload,
+    uploadMetadataList,
 }

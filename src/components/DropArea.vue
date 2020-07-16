@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Upload files</h2>
+        <h2>{{ $t('upload.title') }}</h2>
         <v-container>
             <v-layout row wrap>
                 <v-row cols="12" wrap>
@@ -22,14 +22,15 @@
                                     :disabled="isSaving"
                                     @change="handleSubmit($event.target.files)"
                                     fileCount="$event.target.files.length"
-                                    accept="*.nc"
+                                    accept="*.nc*"
                                     class="input-file"
                                 />
-                                <p>
-                                    Drag your file(s) here<br />
-                                    or click to browse
+                                <p v-html="$t('upload.droparea')" />
+                                <p v-if="isSaving">
+                                    {{ $tc('upload.uploading1', fileCount, { count: fileCount }) }}
+                                    {{ $tc('upload.uploading2', fileCount) }}
+                                    {{ $t('upload.uploading3') }}
                                 </p>
-                                <p v-if="isSaving">Uploading {{ fileCount }} files...</p>
                             </v-card>
                         </form>
                     </div>
@@ -40,44 +41,16 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
-
-const STATUS_SAVING = 1,
-    STATUS_SUCCESS = 2,
-    STATUS_FAILED = 3
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 
 export default {
     name: 'DropArea',
     computed: {
-        /*...mapState({
-            files: state => state.files,
-            message: state => state.alerts.message,
-            status: state => state.alerts.status,
-        }),*/
         ...mapGetters({
             allFiles: 'upload/allFiles',
             uploadedFiles: 'upload/uploadedFiles',
         }),
-        files: {
-            get() {
-                return this.$store.state.files
-            },
-            set(obj) {
-                Array.from(obj).forEach(f => {
-                    this.uploadFiles.append(f)
-                    this.$store.commit('addFile', f)
-                })
-            },
-        },
-        isSaving() {
-            return this.currentStatus === STATUS_SAVING
-        },
-        isSuccess() {
-            return this.currentStatus === STATUS_SUCCESS
-        },
-        isFailed() {
-            return this.currentStatus === STATUS_FAILED
-        },
+        ...mapState('upload', ['files'])
     },
     methods: {
         ...mapActions({
@@ -89,26 +62,25 @@ export default {
             updateMessage: 'upload/updateMessage',
         }),
         handleSubmit(files) {
-            this.currentStatus = STATUS_SAVING
+            this.isSaving = true
 
             if (!files.length) return
 
-            files.forEach((file, id) => {
-                this.uploadFiles({ file, id })
-                    .then((this.currentStatus = STATUS_SUCCESS))
-                    .catch(err => {
-                        this.uploadError = err.response
-                        this.currentStatus = STATUS_FAILED
-                    })
+            files.forEach((file) => {
+                this.$store.dispatch('upload/uploadFiles', {
+                    file,
+                    ignore_warnings: false,
+                    ignore_errors: false,
+                })
             })
+            this.isSaving = false
         },
     },
     data() {
         return {
-            // uploadFiles: [],
             uploadError: null,
-            currentStatus: null,
-            uploadFieldName: 'photos',
+            isSaving: null,
+            uploadFieldName: 'netCDF',
             fileCount: null,
         }
     },

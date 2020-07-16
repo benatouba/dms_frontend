@@ -1,52 +1,65 @@
-const state = {
-    type: null,
-    message: null,
-    loginInfo: true,
+function getInitialInfoState() {
+    return {
+            type: null,
+            message: null,
+            fatal: null,
+            errors: null,
+            warnings: null,
+            status: 0
+    }
 }
+const state = {}
+state.info = getInitialInfoState()
+state.loginInfo = true
 
-const getters = {
-    loginInfo: state => {
-        return state.loginInfo
-    },
-}
 const actions = {
     success({ commit }, message) {
-        commit('success', message)
+        commit('success', {message, status: 1})
     },
     error({ commit }, message) {
-        commit('error', message)
+        commit('error', {message, status: 3})
     },
     clear({ commit }) {
         commit('clear')
     },
-    toggleLoginInfo({ commit }) {
-        commit('toggleLoginInfo')
+    showLoginInfo({ commit }, isTrue) {
+        commit('showLoginInfo', isTrue)
     },
 }
-
+let types = ['info', 'success', 'warning', 'error', 'error']
 const mutations = {
-    success(state, message) {
-        state.type = 'alert-success'
-        state.message = message
+    success(state, result) {
+        Object.entries(result).forEach(
+            item => {
+                state.info[item[0]] = item[1]
+            }
+        )
+        state.info.type = types[result.status]
     },
-    error(state, error) {
-        state.type = 'alert-danger'
-        state.status = error.status
-        state.message = error.message
+    error(state, result) {
+        Object.entries(result).forEach(
+            item => {
+                state.info[item[0]] = item[1]
+            }
+        )
+        state.info.type = types[result.status]
+        // state.message = result.message
+        // state.type = types[result.status]
+        // state.warnings = result.warnings
+        // state.fatal = result.fatal
+        // state.errors = result.errors
+    },
+    showLoginInfo(state, isTrue) {
+        state.loginInfo = isTrue
     },
     clear(state) {
-        state.type = null
-        state.message = null
-    },
-    toggleLoginInfo(state) {
-        state.loginInfo = !state.loginInfo
+        state.info = getInitialInfoState()
     },
 }
 
 export default {
     namespaced: true,
     state,
-    getters,
     actions,
     mutations,
 }

@@ -1,14 +1,15 @@
 <template>
-    <div class="home">
-        <v-container class="mx-4 primary--text">
-            <h1>Home</h1>
-        </v-container>
-    </div>
+  <div class="home">
+    <v-container class="mx-4">
+      <Home />
+    </v-container>
+  </div>
 </template>
 
 <script>
+import Home from '@/components/Home'
 export default {
-    name: 'Home',
-    components: {},
+    name: 'HomeView',
+    components: { Home },
 }
 </script>

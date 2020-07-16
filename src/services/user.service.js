@@ -8,24 +8,21 @@ function login({ username, password }) {
         password: password,
     }
     requestOptions.body = JSON.stringify(user)
+    requestOptions.headers.append('Content-Type', 'application/json')
 
-    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/login/`, requestOptions)
+    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + '/auth/login/', requestOptions)
         .then(resp => resp.json())
         .then(json => {
             let answer = new Promise(function(resolve, reject) {
                 if (json.token) {
-                    json.user = username
-                    json.status = { loggedIn: true }
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('user', json.user)
+                    localStorage.setItem('user', json.username)
                     localStorage.setItem('token', json.token)
-                    resolve(json.user)
+                    resolve(json)
                 } else {
-                    json.status = { loggedIn: false }
                     reject(json)
                 }
             })
-            console.log(answer)
             return answer
         })
     return answer
@@ -35,78 +32,68 @@ function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user')
     localStorage.removeItem('token')
+    localStorage.removeItem('is_superuser')
 }
 
 function register(user) {
     const requestOptions = authHeader('POST')
-    // const myHeaders = new Headers()
-    // myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
-
-    /*const urlencoded = new URLSearchParams()
-    urlencoded.append('username', JSON.stringify(user.name))
-    urlencoded.append('password', JSON.stringify(user.password))
-    urlencoded.append('first_name', JSON.stringify(user.first_name))
-    urlencoded.append('last_name', JSON.stringify(user.last_name))
-    urlencoded.append('email', JSON.stringify(user.email))
-    urlencoded.append('phone_number', JSON.stringify(user.phone))*/
 
     requestOptions.body = JSON.stringify(user)
     requestOptions.redirect = 'follow'
-    console.log(requestOptions)
-    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + `/auth/`, requestOptions)
-    console.log(answer)
+    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + '/auth/', requestOptions)
     return answer
 }
 
-function patch(field, value) {
-    const myHeaders = new Headers()
-    myHeaders.append('Authorization', authHeader())
-    myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
-
+async function patch(toChange) {
+    const requestOptions = authHeader('PATCH')
+    alert(toChange)
     const urlencoded = new URLSearchParams()
-    urlencoded.append(field, value)
+    Object.keys(toChange)
+        .forEach(function eachKey(key) {
+            alert(key); // alerts key
+            alert(toChange[key]); // alerts value
+            urlencoded.append(key, toChange[key])
+        });
 
-    const requestOptions = {
-        method: 'PATCH',
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: 'follow',
-    }
+    requestOptions.headers.append('Content-Type', 'application/x-www-form-urlencoded')
+    requestOptions.body = urlencoded
+    requestOptions.redirect = 'follow'
 
-    fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions)
-        .then(handleResponse)
-        .then(result => console.log(result))
+    let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/`, requestOptions)
+    return resp
 }
 
-function list() {
-    const myHeaders = new Headers()
-    myHeaders.append('Authorization', authHeader())
-    const requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow',
-    }
+async function list(searchParam) {
+    const requestOptions = authHeader('GET')
+    requestOptions.headers.append('Content-Type', 'application/json')
+    requestOptions.redirect = 'follow'
 
-    return fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/`, requestOptions)
-        .then(handleResponse)
-        .then(result => console.log(result))
+    let response = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/?username=${searchParam}`, requestOptions)
+    let user = await response.json()
+    return user
+}
+
+async function info(id) {
+    const requestOptions = authHeader('GET')
+    requestOptions.headers.append('Content-Type', 'application/json')
+    requestOptions.redirect = 'follow'
+
+    let response = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/${id}`, requestOptions)
+    let user = await response.json()
+    return user
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id) {
-    const myHeaders = new Headers()
-    myHeaders.append('Authorization', authHeader())
-
-    const requestOptions = {
-        method: 'DELETE',
-        headers: myHeaders,
-    }
+function manage(id, action) {
+    const requestOptions = authHeader('POST')
+    requestOptions.headers.append('Content-Type', 'application/json')
+    requestOptions.redirect = 'follow'
+    requestOptions.body = JSON.stringify(id, action)
 
     return fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/${id}`, requestOptions).then(handleResponse)
 }
 
 function handleResponse(response) {
-    console.log(response)
     return response.text().then(text => {
         const data = text && JSON.parse(text)
         if (!response.ok) {
@@ -130,5 +117,6 @@ export const userService = {
     register,
     patch,
     list,
-    delete: _delete,
+    info,
+    manage,
 }

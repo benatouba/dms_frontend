@@ -1,13 +1,13 @@
 <template>
     <v-app id="inspire">
-        <v-content>
+        <v-main>
             <v-container class="fill-height" fluid>
                 <v-row align="center" justify="center">
-                    <v-col cols="12" sm="8" md="4">
+                    <v-col cols="12" sm="12" md="10" lg="8" xl="5">
                         <ValidationObserver ref="obs" v-slot="{ invalid, validated, passes }">
-                            <v-card class="elevation-12">
-                                <v-toolbar color="primary darken-2" flat>
-                                    <v-toolbar-title>{{ $t('welcomeMsg', name) }}</v-toolbar-title>
+                            <v-card class="elevation-5">
+                                <v-toolbar color="primary" flat>
+                                    <v-toolbar-title>{{ $t('register.title') }}</v-toolbar-title>
                                 </v-toolbar>
                                 <v-card-text>
                                     <v-form>
@@ -21,7 +21,7 @@
                                                 :counter="10"
                                                 :error-messages="errors"
                                                 :success="valid"
-                                                label="Username"
+                                                :label="$t('register.username')"
                                                 name="username"
                                                 prepend-icon="person"
                                                 type="text"
@@ -37,7 +37,7 @@
                                                 v-model="first_name"
                                                 :error-messages="errors"
                                                 :success="valid"
-                                                label="First Name"
+                                                :label="$t('register.first_name')"
                                                 name="first_name"
                                                 required
                                             />
@@ -51,7 +51,7 @@
                                                 v-model="last_name"
                                                 :error-messages="errors"
                                                 :success="valid"
-                                                label="Last Name"
+                                                :label="$t('register.last_name')"
                                                 name="last_name"
                                                 required
                                             />
@@ -65,7 +65,7 @@
                                                 v-model="institution"
                                                 :error-messages="errors"
                                                 :success="valid"
-                                                label="Institution"
+                                                :label="$t('register.institution')"
                                                 name="institution"
                                                 required
                                             />
@@ -79,7 +79,7 @@
                                                 v-model="email"
                                                 :error-messages="errors"
                                                 :success="valid"
-                                                label="E-Mail"
+                                                :label="$t('register.email')"
                                                 name="email"
                                                 prepend-icon="email"
                                                 required
@@ -94,7 +94,7 @@
                                                 v-model="phone"
                                                 :error-messages="errors"
                                                 :success="valid"
-                                                label="Phone Number"
+                                                :label="$t('register.phone')"
                                                 name="phone"
                                                 prepend-icon="phone"
                                                 required
@@ -111,7 +111,7 @@
                                                 :error-messages="errors"
                                                 :success="valid"
                                                 id="password"
-                                                label="Password"
+                                                :label="$t('register.password1')"
                                                 name="password"
                                                 prepend-icon="lock"
                                                 type="password"
@@ -129,7 +129,7 @@
                                                 :error-messages="errors"
                                                 :success="valid"
                                                 id="password2"
-                                                label="Repeat Password"
+                                                :label="$t('register.password2')"
                                                 name="password2"
                                                 prepend-icon="lock"
                                                 type="password"
@@ -138,23 +138,36 @@
                                     </v-form>
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-btn @click="clear">{{ $t('clear') }}</v-btn>
-                                    <router-link to="/login" class="btn btn-link">Cancel</router-link>
+                                    <v-btn @click="clear">{{ $t('buttons.clear') }}</v-btn>
+                                    <router-link to="/login" class="btn btn-link ma-2">{{
+                                        $t('buttons.cancel')
+                                    }}</router-link>
                                     <v-spacer></v-spacer>
                                     <v-btn
                                         color="primary darken-2"
                                         :disabled="invalid || !validated"
                                         @click="passes(handleSubmit)"
+                                        @keyup.enter="passes(handleSubmit)"
                                     >
-                                        {{ $t('register') }}
+                                        {{ $t('buttons.register') }}
                                     </v-btn>
                                 </v-card-actions>
+                                <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="1">
+                                    <Notification />
+                                    <router-link
+                                        to="/"
+                                        class="primary white--text v-btn v-size--large"
+                                        @click="overlay = false"
+                                    >
+                                        {{ $t('buttons.confirm') }}
+                                    </router-link>
+                                </v-overlay>
                             </v-card>
                         </ValidationObserver>
                     </v-col>
                 </v-row>
             </v-container>
-        </v-content>
+        </v-main>
     </v-app>
 </template>
 
@@ -162,16 +175,18 @@
 import { mapActions, mapState } from 'vuex'
 import { extend, ValidationObserver, ValidationProvider } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
+import Notification from './Notification'
 
 Object.keys(rules).forEach(rule => {
     extend(rule, rules[rule])
 })
 
 export default {
-    name: 'SignIn',
+    name: 'Register',
     components: {
         ValidationObserver,
         ValidationProvider,
+        Notification,
     },
     computed: {
         ...mapState('accounts', ['status']),
@@ -197,6 +212,7 @@ export default {
                 institution: this.institution,
             }
             this.register(user)
+            this.overlay = true
         },
     },
     data() {
@@ -211,6 +227,9 @@ export default {
             last_name: null,
             institution: null,
             submitted: false,
+            // notification after submission
+            absolute: true,
+            overlay: false,
         }
     },
 }

@@ -1,39 +1,44 @@
 import { userService } from '../services/user.service'
 
-const state = {
-    all: {},
-}
+const state = { status: { loading: false, loaded: false }}
 
 const actions = {
-    // This action triggers mutation to store that user list is requested
-    list({ commit }) {
+    async list({ commit, dispatch }, searchParam) {
         commit('listRequest')
-        userService.list().then(
-            users => commit('listSuccess', users),
-            error => commit('listFailure', error)
-        )
+        try {
+            let resp = await userService.list(searchParam)
+            commit('listSuccess', resp)
+        } catch (error) {
+            dispatch('alerts/error', error, { root: true })
+        }
     },
+    // This action triggers mutation to store that user list is requested
 
-    delete({ commit }, id) {
+    async manage({ commit, dispatch }, id, action) {
         /*Action triggers mutates store state to record that user should be deleted,
     then triggers service function that sends the request to the backend.
     Depending on the response, mutations will be triggered to alter the store state. */
-        commit('deleteRequest', id)
-        userService
-            .delete(id)
-            .then(commit('deleteSuccess', id), error => commit('deleteFailure', { id, error: error.toString() }))
+        commit('manageRequest', id, action)
+        try {
+            let resp = await userService.manage(id, action)
+            commit('manageSuccess', id, action, resp)
+        } catch (error) {
+            commit('manageFailure', { id, error: error.toString() })
+            dispatch('alerts/error', error, { root: true })
+        }
     },
 }
 
 const mutations = {
     listRequest(state) {
-        state.all = { loading: true }
+        state.status = {loading: true, loaded: false }
     },
     listSuccess(state, users) {
-        state.all = { items: users }
+        Object.assign(state, users)
+        state.status = {loading: true, loaded: false }
     },
-    listFailure(state, error) {
-        state.all = { error }
+    listFailure(state) {
+        state.status = {loading: false, loaded: false }
     },
     deleteRequest(state, id) {
         // add property, to mark deletion request is sent
@@ -43,17 +48,16 @@ const mutations = {
         // remove deleted user from state
         state.all.items = state.all.items.filter(user => user.id !== id)
     },
-    deleteFailure(state, { id, error }) {
+    deleteFailure(state, { id, error, action }) {
         // remove 'deleting:true' property and add 'deleteError:[error]' property to user
         state.all.items = state.items.map(user => {
             if (user.id === id) {
                 // make copy of user without 'deleting:true' property
-                const { deleting, ...userCopy } = user
-                console.log(deleting)
+                const { managing, ...userCopy } = user
+                console.log(managing)
                 // return copy of user with 'deleteError:[error]' property
-                return { ...userCopy, deleteError: error }
+                return { ...userCopy, manageError: { error, action }}
             }
-
             return user
         })
     },

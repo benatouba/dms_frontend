@@ -1,29 +1,70 @@
 <template>
     <v-container>
-        <v-expansion-panels v-for="data in files" :key="data.result.name" elevation="5" outlined>
+        <v-expansion-panels v-for="data in files" :key="data.file.name" elevation="5" outlined>
             <v-expansion-panel>
-                <v-expansion-panel-header :class="`filename${data.status}`">
-                    {{ data.result.file_standard_name }}
+                <v-row align="center" no-gutters>
+                <v-expansion-panel-header :class="`filename${data.resp.status}`">
+                        <strong>{{ data.file.name }}</strong>
+                        <span color="#000000">{{ data.uploaded? 'uploaded': 'not uploaded'}}</span>
+                        <v-btn
+                                v-if="data.resp.status === 2"
+                                @click="uploadWithWarnings(data.file)"
+                                text
+                                left
+                                ripple
+                                class="ma-2 primary--text"
+                                outlined
+                                tile
+                                target="_blank"
+                        >
+                            {{ $t('buttons.upload_with_warnings') }}
+                        </v-btn>
+
                 </v-expansion-panel-header>
+                </v-row>
                 <v-expansion-panel-content>
-                    <v-list v-for="(item, key) in createMsgDict(data)" :key="key" class="justify-center" dense>
-                        <v-list-item v-show="item !== []" :class="`${key}`">
-                            <v-list-item-title v-text="key"></v-list-item-title>
-                            <v-list v-for="msg in item" :key="msg">
-                                <v-col align="center" justify="space-around">
-                                    <v-list-item>
-                                        <v-list-item-subtitle v-text="msg"> </v-list-item-subtitle>
-                                    </v-list-item>
-                                    <v-divider></v-divider>
-                                </v-col>
-                            </v-list>
-                        </v-list-item>
+                    <v-list
+                            v-for="(item, key) of data.resp"
+                            :key="key"
+                            class="justify-center"
+                            dense
+                    >
+                        <v-row no-gutters align="center">
+                            <v-col cols="12" justify="start" dense>
+                                <v-list-item
+                                        v-if="Array.isArray(item) && item.length"
+                                        :class="`${key}`"
+                                >
+                                    <v-list
+                                            dense
+                                    >
+                                        <v-list-item
+                                                v-for="msg of item"
+                                                :key="msg"
+                                                dense>
+                                            <div v-if="Array.isArray(msg)">
+                                                <v-list-item-subtitle
+                                                        v-for="(value, key) in msg"
+                                                        :key="key">
+                                                    {{ value }}
+                                                </v-list-item-subtitle>
+                                            </div>
+                                            <div v-else>
+                                                <v-list-item-subtitle >
+                                                    {{ msg }}
+                                                </v-list-item-subtitle>
+                                            </div>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-list-item>
+                            </v-col>
+                        </v-row>
                     </v-list>
                     <v-divider></v-divider>
-                    <v-list v-for="(item, key) in data.result" :key="key" dense>
-                        <v-list-item>
-                            <v-list-item-title v-text="key"></v-list-item-title>
-                            <v-list-item-subtitle v-text="item"></v-list-item-subtitle>
+                    <v-list v-for="(value, key) in data.resp.result" :key="key" dense>
+                        <v-list-item v-for="(item, id) in value" :key="id">
+                            <v-list-item-title>{{ key }}</v-list-item-title>
+                            <v-list-item-subtitle>{{ item }}</v-list-item-subtitle>
                         </v-list-item>
                     </v-list>
                 </v-expansion-panel-content>
@@ -43,15 +84,15 @@ export default {
         }),
     },
     methods: {
-        createMsgDict(data) {
-            let newDict = {
-                fatal: data.fatal,
-                errors: data.errors,
-                warnings: data.warnings,
-            }
-            return newDict
-        },
-    },
+        uploadWithWarnings(file) {
+            this.$store.dispatch('upload/uploadFiles', {
+                file,
+                ignore_warnings: true,
+                ignore_errors: false,
+                }
+            )
+        }
+    }
 }
 </script>
 
@@ -61,15 +102,19 @@ export default {
 }
 .filename2 {
     border-left: 4px solid #ffaa2c;
+    color: #ffaa2c;
 }
 .filename3 {
     border-left: 4px solid #f83e70;
+    color: #f83e70;
 }
 .filename4 {
     border-left: 4px solid #f83e70;
+    color: #f83e70;
 }
 .warnings {
     border-left: 4px solid #ffaa2c;
+    color: #ffaa2c;
 }
 .errors {
     border-left: 4px solid #f83e70;

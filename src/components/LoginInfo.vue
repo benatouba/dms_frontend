@@ -1,14 +1,13 @@
 <template>
     <!--    TODO: add button to disable login info box-->
     <v-alert class="d-flex" icon="mdi-account" border="bottom" colored-border text type="info" elevation="2">
-        You're not logged in. You can only see data under public licenses. To see more data, please log in. If you don't
-        have an account, please register.
+        <p>{{ $t('login_info.text') }}</p>
         <v-divider></v-divider>
         <v-btn>
-            <router-link to="login">Log In</router-link>
+            <router-link to="login">{{ $t('buttons.login') }}</router-link>
         </v-btn>
         <v-btn>
-            <router-link to="register">Register</router-link>
+            <router-link to="register">{{ $t('buttons.register') }}</router-link>
         </v-btn>
     </v-alert>
 </template>

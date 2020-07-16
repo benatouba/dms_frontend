@@ -1,0 +1,86 @@
+{
+  "buttons": {
+    "logout": "Ausloggen",
+    "login": "Einloggen",
+    "register": "Registrieren",
+    "clear": "Löschen",
+    "cancel": "Zurück",
+    "confirm": "OK",
+    "send": "Senden",
+    "upload": "Hochladen",
+    "upload_with_warnings": "Trotz Warnung(en) Hochladen"
+  },
+  "nav": {
+    "data_standard": "Datenstandard",
+    "data_policy": "Datenrichtlinie",
+    "data_standard_link": "http://www.uc2-program.org/uc2_datenstandard.pdf",
+    "drawer_elements": "{text}",
+    "kb": "KB",
+    "kb_link": "https://www.klima.tu-berlin.de/KB/index.php?KB=KB-UC2",
+    "title": "Stadtklima im Wandel",
+    "short_title": "[UC²]"
+  },
+  "home": {
+    "text1": "Umfassende Daten zu Wetter, Klima und Luftqualität in Großstädten sind bis heute leider nur begrenzt verfügbar. Im Rahmen der Fördermaßnahme sollen daher durch Modul B bereits verfügbare Daten aufbereitet, und neue bzw. fehlende Daten mittels Langzeitmessungen, Intensivmesskampagnen und physikalischer Modellierung erhoben werden. Um den Austausch von Beobachtungs- sowie Modelldaten zwischen den Projektpartnern auch über die Modulgrenzen hinweg zu Modul A und C z.B. für die Validierung des neu entwickelten Stadtklimamodells PALM-4U oder für stadtklimatologische und wissenschaftliche Studien zu unterstützen, wird in der Fördermaßnahme ein Datenmanagementsystem (DMS) entwickelt.",
+    "text2": "Die Verwendung eines einheitlichen Datenformates sowie verbindlicher Konventionen für die Nutzung der Daten und Metadaten ist eine wesentliche Voraussetzung für ihre effektive und effiziente Verwaltung im DMS. Zusätzlich ermöglicht ein einheitlicher Datenstandard auch die Entwicklung und Bereitstellung innovativer Werkzeuge zur Analyse und Visualisierung der komplexen und sehr heterogenen Daten. Nach Abschluss der Fördermaßnahme werden Daten mit der [UC]² Research Licence sowie der [UC]² Open Licence der Öffentlichkeit zur Verfügung gestellt werden.",
+    "caption": "Abbildung: Datenmanagementsystem der BMBF-Fördermaßnahme Stadtklima im Wandel [UC]2. Der Datenfluss erfolgt in Abhängigkeit von der vergebenen Datennutzungsrichtlinie.",
+    "img_link": "@/assets/dms_graphic_de.png"
+  },
+  "upload": {
+    "title": "Dateien Hochladen",
+    "droparea": "NetCDF-Datei(en) hier hineinziehen</br>oder zum Auswählen klicken",
+    "uploading1": "Eine Datei | {count} Dateien",
+    "uploading2": "wird | werden",
+    "uploading3": "hochgeladen..."
+  },
+  "login_info": {
+    "text": "Du bist nicht eingeloggt. Es werden nur Daten unter öffentlicher Lizenz angezeigt. Um weitere Daten angezeigt zu bekommen, bitte melde dich an. Du hast noch keinen Account? Bitte registriere dich."
+  },
+  "search": {
+    "title": "Suche",
+    "placeholder": "Suche in allen Feldern",
+    "file_title": "Dateien",
+    "download_all": "Alle Herunterladen",
+    "items_per_page": "Items pro Seite",
+    "filter_options": "Filteroptionen"
+  },
+  "register": {
+    "title": "Registrieren",
+    "username": "Nutzername",
+    "id": "ID",
+    "first_name": "Vorname",
+    "last_name": "Nachname",
+    "institution": "institution",
+    "email": "E-Mail",
+    "phone_number": "Telefon",
+    "groups": "Gruppen",
+    "password1": "Passwort",
+    "password2": "Passwort wiederholen"
+  },
+  "login": {
+    "title": "Einloggen",
+    "username": "Nutzername",
+    "password": "Passwort",
+    "user_missing": "Nutzername fehlt",
+    "password_missing": "Passwort fehlt",
+    "success": "Login erfolgreich",
+    "failure": "Login nicht erfolgreich"
+  },
+  "account": {
+    "title": "Nutzerkonto",
+    "change_password": "Passwort ändern",
+    "old_password": "Altes Passwort",
+    "new_password1": "Neues Passwort",
+    "new_password2": "Neues Passwort wiederholen"
+  },
+  "footer": {
+    "system": "Datenmanagementsystem [UC²] - BMBF-Fördermaßnahme Stadtklima im Wandel"
+  },
+  "admin": {
+    "title": "Administration",
+    "meta_title": "Metadaten hochladen",
+    "user_title": "Nutzerbereich",
+    "upload_placeholder": "Metadatenliste hochladen",
+    "upload_label": "CSV-Datei"
+  }
+}

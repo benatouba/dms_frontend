@@ -4,9 +4,10 @@ import Home from '../views/Home'
 import Search from '../views/Search'
 import Upload from '../views/Upload'
 import Contact from '../views/Contact'
-import SignUp from '../components/SignUp'
-import SignIn from '../components/SignIn'
-import tree_example from '../views/tree_example'
+import Register from '../components/Register'
+import Login from '../components/Login'
+import Account from '../views/Account'
+import Administration from '../views/Administration'
 
 Vue.use(VueRouter)
 
@@ -19,12 +20,12 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
-        component: SignIn,
+        component: Login,
     },
     {
         path: '/register',
         name: 'Register',
-        component: SignUp,
+        component: Register,
     },
     {
         path: '/search',
@@ -42,11 +43,16 @@ const routes = [
         component: Contact,
     },
     {
-        path: '/test',
-        name: 'tree_example',
-        component: tree_example,
+        path: '/account',
+        name: 'Account',
+        component: Account,
     },
-    { path: '*', redirect: 'Home' },
+    {
+        path: '/administration',
+        name: 'Administration',
+        component: Administration,
+    },
+    { path: '/*', redirect: '/' },
 ]
 
 const router = new VueRouter({
@@ -57,7 +63,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     // redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = ['/login', '/register', '/home', '/contact', '/', '/search', '/test']
+    const publicPages = ['/login', '/register', '/home', '/contact', '/', '/search']
     const authRequired = !publicPages.includes(to.path)
     const loggedIn = localStorage.getItem('user')
 
