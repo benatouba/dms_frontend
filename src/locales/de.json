@@ -8,7 +8,8 @@
     "confirm": "OK",
     "send": "Senden",
     "upload": "Hochladen",
-    "upload_with_warnings": "Trotz Warnung(en) Hochladen"
+    "upload_with_warnings": "Trotz Warnung(en) Hochladen",
+    "upload_with_warnings": "Trotz Fehler Hochladen"
   },
   "nav": {
     "data_standard": "Datenstandard",

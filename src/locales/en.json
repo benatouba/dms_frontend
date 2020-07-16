@@ -8,7 +8,8 @@
     "confirm": "OK",
     "send": "Send",
     "upload": "Upload",
-    "upload_with_warnings": "upload with warnings"
+    "upload_with_warnings": "upload with warnings",
+    "upload_with_errors": "upload with errors"
   },
   "nav": {
     "data_standard": "Data Standard",
