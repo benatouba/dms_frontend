@@ -28,20 +28,5 @@ export default {
             account: state => state.accounts
         })
     },
-    methods: {
-        assignIds(obj) {
-            let newObj = {}
-            let counter = 1
-            for (let item of Object.entries(obj)) {
-                if (typeof item[1] === 'object' && !Array.isArray(item[1])) {
-                    newObj.id = counter
-                    newObj.name = item
-                    counter += 1
-                } else if (typeof item[1] === 'object' && Array.isArray(item[1])) {
-                    this.assignIds(item[1])
-                }
-            }
-        }
-    }
 }
 </script>
