@@ -1,11 +1,11 @@
 <template>
-    <v-card class="primary">
-        <v-tabs v-model="tab" optional centered hide-slider>
+    <v-footer inset app class="justify-center mx-0">
+        <v-tabs app inset v-model="tab" optional centered hide-slider>
             <v-tab v-for="item in links" :key="item.title.de">
                 {{ item.title[$i18n.locale] }}
             </v-tab>
         </v-tabs>
-        <v-tabs-items v-model="tab">
+        <v-tabs-items app v-model="tab">
             <v-tab-item v-for="item in links" :key="item.title.de">
                 <v-card flat class="text-center">
                     <v-card-text>{{ item.text[$i18n.locale] }}</v-card-text>
@@ -15,7 +15,7 @@
         <v-col class="primary py-1 text-center white--text" cols="12">
             {{ new Date().getFullYear() }} — {{ $t('footer.system') }}
         </v-col>
-    </v-card>
+    </v-footer>
 </template>
 
 <script>
