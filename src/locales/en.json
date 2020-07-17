@@ -53,7 +53,7 @@
     "last_name": "Last Name",
     "institution": "Institution",
     "email": "E-Mail",
-    "phone_number": "Phone",
+    "phone": "Phone",
     "groups": "Groups",
     "password1": "Password",
     "password2": "Repeat Password"
