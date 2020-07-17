@@ -152,7 +152,7 @@
                                         {{ $t('buttons.register') }}
                                     </v-btn>
                                 </v-card-actions>
-                                <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="1">
+                                <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity=".8">
                                     <Notification />
                                     <router-link
                                         to="/"
