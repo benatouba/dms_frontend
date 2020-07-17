@@ -58,7 +58,10 @@ export default {
         getShowInfo(data) {
             let newDict = Object.assign({}, data)
             newDict.groups = []
-            data.groups.forEach(obj => newDict.groups.push(obj.name))
+            data.groups.forEach(obj => {
+                newDict.groups.push(obj.name)
+                newDict.groups.push(' ')
+            })
             delete newDict.username
             delete newDict.is_superuser
             delete newDict.id
@@ -66,14 +69,14 @@ export default {
             return newDict
         },
     },
-    async created() {
-        this.accountInfo = await this.getInfo(this.account.id)
-    },
     data() {
         return {
             accountInfo: null
         }
-    }
+    },
+    async created() {
+        this.accountInfo = await this.getInfo(this.account.id)
+    },
 }
 </script>
 
