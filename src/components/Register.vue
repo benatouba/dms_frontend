@@ -91,10 +91,10 @@
                                             v-slot="{ errors }"
                                         >
                                             <v-text-field
-                                                v-model="phone"
+                                                v-model="phone_number"
                                                 :error-messages="errors"
                                                 :success="valid"
-                                                :label="$t('register.phone') + ' (' + $t('buttons.not_required') + ')'"
+                                                :label="$t('register.phone_number') + ' (' + $t('buttons.not_required') + ')'"
                                                 name="phone"
                                                 prepend-icon="phone"
                                             />
@@ -208,7 +208,7 @@ export default {
                 password: this.password,
                 password2: this.password2,
                 email: this.email,
-                phone: this.phone,
+                phone_number: this.phone_number,
                 first_name: this.first_name,
                 last_name: this.last_name,
                 institution: this.institution,
@@ -224,7 +224,7 @@ export default {
             password: null,
             password2: null,
             email: null,
-            phone: null,
+            phone_number: null,
             first_name: null,
             last_name: null,
             institution: null,
