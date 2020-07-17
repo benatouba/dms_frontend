@@ -25,11 +25,11 @@
                             item-value="acronym"
                             label="Institution"
                             color="primary"
-                            @change="handleSubmit; getChoices(choices.site, 'site', searchInput.institution)"
+                            @change="handleSubmit"
                         ></v-autocomplete>
                         <v-icon
                             v-show="searchInput.institution"
-                            @click="searchInput.institution = ''"
+                            @click="searchInput.institution = ''; handleSubmit"
                             small
                             flat
                             icon
@@ -48,7 +48,7 @@
                         ></v-autocomplete>
                         <v-icon
                                 v-show="searchInput.site__id"
-                                @click="searchInput.site__id = ''"
+                                @click="searchInput.site__id = ''; handleSubmit"
                                 small
                                 flat
                                 icon
@@ -67,7 +67,7 @@
                         ></v-autocomplete>
                         <v-icon
                                 v-show="searchInput.variables__id"
-                                @click="searchInput.variables__id = ''"
+                                @click="searchInput.variables__id = ''; handleSubmit"
                                 small
                                 flat
                                 icon
@@ -77,7 +77,14 @@
                         <v-row justify="center">
                             <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_invalid" label="Show invalid" value="1" input-value="false"></v-switch>
                             <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_old" label="Show old" value="1" input-value="false"></v-switch>
-                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.uploader" label="Uploaded by me" :value="accounts.user"></v-switch>
+                            <v-switch
+                                    v-if="isLoggedIn"
+                                    @change="handleSubmit"
+                                    color="primary"
+                                    v-model="searchInput.uploader"
+                                    label="Uploaded by me"
+                                    :value="accounts.user"
+                            ></v-switch>
                         </v-row>
                         <!--<v-row justify="center">
                             <v-col cols="4">
@@ -222,7 +229,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 // import DatePicker from "./DatePicker";
 export default {
     name: 'search',
@@ -231,11 +238,9 @@ export default {
     },
     computed: {
         ...mapState({
-            accounts: state => state.accounts
-        }),
-        ...mapGetters({
-            queriedFiles: 'queries/queriedFiles',
-            isLoggedIn: 'accounts/isLoggedIn',
+            accounts: state => state.accounts,
+            isLoggedIn: state => state.accounts.status.isLoggedIn,
+            queriedFiles: state => state.queries.result,
         }),
         getPageItems() {
             return this.queriedFiles.slice(this.pageLength*(this.page-1), this.pageLength*(this.page))
@@ -253,9 +258,9 @@ export default {
         }),
         handleSubmit: function () {
             this.show = false
-            //if (this.queriedFiles) {
+            if (this.queriedFiles) {
                 this.resetQueryState()
-            //}
+            }
             this.search(this.searchInput) // this needs to be parsed as dict. else it defaults to 'undefined'
         },
         handleDownload(file) {
