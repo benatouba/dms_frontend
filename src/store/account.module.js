@@ -51,11 +51,7 @@ const actions = {
         userService.register(user).then(
             user => {
                 commit('registerSuccess', user.json())
-                // router.push('Home')
-                setTimeout(() => {
-                    // display success message after route change completes
-                    dispatch('alerts/success', { message: i18n.t('register.success_message') }, { root: true })
-                })
+                dispatch('alerts/success', { message: i18n.t('register.success_message') }, { root: true })
             },
             error => {
                 error = error.json()
@@ -76,8 +72,7 @@ const actions = {
     async patch({ dispatch }, toChange) {
         try {
             let resp = await userService.patch(toChange)
-            dispatch('alerts/success', 'Password changed', { root: true })
-            return resp
+            dispatch('alerts/success', resp, { root: true })
         } catch (error) {
             dispatch('alerts/error', error, { root: true })
         }
@@ -105,6 +100,7 @@ const mutations = {
         state.status.isLoggedIn = false
         state.status.isLoggingIn = false
         state.user = null
+        state.token = null
     },
     logout(state) {
         state.token = null
