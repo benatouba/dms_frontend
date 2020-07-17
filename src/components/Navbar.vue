@@ -17,15 +17,19 @@
             </v-btn>
             <v-btn :href="get_data_standard_link" target="_blank" text>
                 <span class="primary--text">{{ $t('nav.data_standard') }}</span>
-                <v-icon x-small dense>mdi-open-in-new</v-icon>
+                <v-icon small dense>mdi-open-in-new</v-icon>
             </v-btn>
             <v-btn href="http://www.uc2-program.org/uc2_data_policy.pdf" target="_blank" text>
                 <span class="primary--text">{{ $t('nav.data_policy') }}</span>
-                <v-icon x-small dense size="1">mdi-open-in-new</v-icon>
+                <v-icon small dense size="1">mdi-open-in-new</v-icon>
             </v-btn>
             <v-btn :href="$t('nav.kb_link')" target="_blank" text>
                 <span class="primary--text">{{ $t('nav.kb') }}</span>
-                <v-icon x-small dense size="1">mdi-open-in-new</v-icon>
+                <v-icon small dense size="1">mdi-open-in-new</v-icon>
+            </v-btn>
+            <v-btn href="http://www.uc2-program.org/" target="_blank" text>
+                <span class="primary--text">{{ $t('nav.uc2website') }}</span>
+                <v-icon small dense size="1">mdi-open-in-new</v-icon>
             </v-btn>
             <v-img
                 alt="Climatology Logo"
@@ -51,7 +55,7 @@
             </div>
         </v-app-bar>
 
-        <v-navigation-drawer expand-on-hover app v-model="drawer" class="primary">
+        <v-navigation-drawer app v-model="drawer" class="primary">
             <v-list>
                 <v-list-item
                         v-show="!link.superuser || is_superuser"
