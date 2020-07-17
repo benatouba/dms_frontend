@@ -54,7 +54,16 @@
                                     class="text-center"
                                     :absolute="absolute"
                                     :opacity=".9">
-                                <strong>{{ alerts.info.message }}</strong>
+                                <v-row>
+                                    <v-col>
+                                    <strong
+                                            v-for="(alert, key) in alerts.info.message"
+                                            :key="key"
+                                    >
+                                        {{ alert[0] }}
+                                        </strong>
+                                    </v-col>
+                                </v-row>
                                 <v-btn
                                     class="primary white--text v-btn v-size--large"
                                     @click="submitted = false; clearAlert"
