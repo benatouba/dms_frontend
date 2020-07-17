@@ -3,7 +3,7 @@
         <Navbar />
         <v-main style="margin: auto; width: 80%;">
             <LoginInfo v-if="!isLoggedIn && alerts.loginInfo" />
-            <Notification />
+            <Notification :banner="true"></Notification>
             <router-view></router-view>
         </v-main>
         <Footer />
