@@ -2,8 +2,8 @@
     <div>
         <h2>{{ $t('upload.title') }}</h2>
         <v-container>
-            <v-layout row wrap>
-                <v-row cols="12" wrap>
+            <v-layout row>
+                <v-row align="center">
                     <div class="container">
                         <form enctype="multipart/form-data" novalidate>
                             <v-card
@@ -25,13 +25,13 @@
                                     accept="*.nc*"
                                     class="input-file"
                                 />
-                                <p v-if="!isSaving" v-html="$t('upload.droparea')" />
-                                <p v-if="isSaving">
+                                <p v-if="!isSaving" v-html="$t('upload.droparea')"/>
+                                <p v-show="isSaving">
                                     {{ $tc('upload.uploading1', fileCount, { count: fileCount }) }}
                                     {{ $tc('upload.uploading2', fileCount) }}
                                     {{ $t('upload.uploading3') }}
                                 </p>
-                                <v-text-field v-if="isSaving" color="black" loading disabled></v-text-field>
+                                <v-text-field v-show="isSaving" color="black" loading disabled></v-text-field>
                             </v-card>
                         </form>
                     </div>
@@ -62,7 +62,7 @@ export default {
             removeFile: 'upload/removeFile',
             updateMessage: 'upload/updateMessage',
         }),
-        handleSubmit(files) {
+        async handleSubmit(files) {
             this.isSaving = true
 
             if (!files.length) return
@@ -74,6 +74,7 @@ export default {
                     ignore_errors: false,
                 })
             })
+            await new Promise(r => setTimeout(r, 2000));
             this.isSaving = false
         },
     },
