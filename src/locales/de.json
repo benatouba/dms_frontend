@@ -10,7 +10,8 @@
     "upload": "Hochladen",
     "upload_with_warnings": "Trotz Warnung(en) Hochladen",
     "upload_with_errors": "Trotz Fehler Hochladen",
-    "not_required": "Kein Pflichtfeld"
+    "not_required": "Kein Pflichtfeld",
+    "option_select": "Bitte auswählen"
   },
   "nav": {
     "data_standard": "Datenstandard",
@@ -20,7 +21,8 @@
     "kb": "KB",
     "kb_link": "https://www.klima.tu-berlin.de/KB/index.php?KB=KB-UC2",
     "title": "Stadtklima im Wandel",
-    "short_title": "[UC²]"
+    "short_title": "[UC²]",
+    "uc2website": "UC²"
   },
   "home": {
     "text1": "Umfassende Daten zu Wetter, Klima und Luftqualität in Großstädten sind bis heute leider nur begrenzt verfügbar. Im Rahmen der Fördermaßnahme sollen daher durch Modul B bereits verfügbare Daten aufbereitet, und neue bzw. fehlende Daten mittels Langzeitmessungen, Intensivmesskampagnen und physikalischer Modellierung erhoben werden. Um den Austausch von Beobachtungs- sowie Modelldaten zwischen den Projektpartnern auch über die Modulgrenzen hinweg zu Modul A und C z.B. für die Validierung des neu entwickelten Stadtklimamodells PALM-4U oder für stadtklimatologische und wissenschaftliche Studien zu unterstützen, wird in der Fördermaßnahme ein Datenmanagementsystem (DMS) entwickelt.",
@@ -54,7 +56,7 @@
     "last_name": "Nachname",
     "institution": "institution",
     "email": "E-Mail",
-    "phone": "Telefon",
+    "phone_number": "Telefon",
     "groups": "Gruppen",
     "password1": "Passwort",
     "password2": "Passwort wiederholen",

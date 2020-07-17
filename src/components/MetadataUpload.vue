@@ -24,12 +24,13 @@
                 </template>
             </v-file-input>
             </v-row>
-            <v-row>
+            <v-row align="center">
             <v-btn-toggle
                     v-model="listname"
                     mandatory
                     elevation="1"
                     dense
+                    dark
                     group
             >
                 <v-btn color="secondary" value="institution" text ripple elevation="3">
@@ -42,6 +43,7 @@
                     Variable
                 </v-btn>
             </v-btn-toggle>
+                <span class="text--secondary">{{ $t('buttons.option_select') }}</span>
             </v-row>
             <v-row>
                 <v-btn
