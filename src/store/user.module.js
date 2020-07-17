@@ -1,6 +1,6 @@
 import { userService } from '../services/user.service'
 
-const state = { status: { loading: false, loaded: false }}
+const state = { items: [], status: { loading: false, loaded: false }}
 
 const actions = {
     async list({ commit, dispatch }, searchParam) {
@@ -18,12 +18,25 @@ const actions = {
         /*Action triggers mutates store state to record that user should be deleted,
     then triggers service function that sends the request to the backend.
     Depending on the response, mutations will be triggered to alter the store state. */
-        commit('manageRequest', id, action)
         try {
             let resp = await userService.manage(id, action)
-            commit('manageSuccess', id, action, resp)
+            commit('manageResult', resp)
         } catch (error) {
-            commit('manageFailure', { id, error: error.toString() })
+            dispatch('alerts/error', error, { root: true })
+        }
+    },
+    async delete({ commit, dispatch }, id, action) {
+        /*Action triggers mutates store state to record that user should be deleted,
+    then triggers service function that sends the request to the backend.
+    Depending on the response, mutations will be triggered to alter the store state. */
+        commit('deleteRequest', id)
+        try {
+            let resp = await userService.delete(id, action)
+            console.log(resp)
+            commit('deleteSuccess', id)
+        } catch (error) {
+            console.log(error)
+            commit('deleteFailure', { id, error })
             dispatch('alerts/error', error, { root: true })
         }
     },
@@ -34,7 +47,7 @@ const mutations = {
         state.status = {loading: true, loaded: false }
     },
     listSuccess(state, users) {
-        Object.assign(state, users)
+        state.items = users
         state.status = {loading: true, loaded: false }
     },
     listFailure(state) {
@@ -42,24 +55,29 @@ const mutations = {
     },
     deleteRequest(state, id) {
         // add property, to mark deletion request is sent
-        state.all.items = state.all.items.map(user => (user.id === id ? { ...user, deleting: true } : user))
+        state.items = state.items.map(user => (user.id === id ? { ...user, deleting: true } : user))
     },
     deleteSuccess(state, id) {
         // remove deleted user from state
-        state.all.items = state.all.items.filter(user => user.id !== id)
+        state.items = state.items.filter(user => user.id !== id)
     },
-    deleteFailure(state, { id, error, action }) {
+    deleteFailure(state, data) {
         // remove 'deleting:true' property and add 'deleteError:[error]' property to user
-        state.all.items = state.items.map(user => {
-            if (user.id === id) {
+        console.log(data)
+        state.items = state.items.map(user => {
+            if (user.id === data.id) {
                 // make copy of user without 'deleting:true' property
-                const { managing, ...userCopy } = user
-                console.log(managing)
+                // eslint-disable-next-line no-unused-vars
+                let { deleting, ...userCopy } = user
                 // return copy of user with 'deleteError:[error]' property
-                return { ...userCopy, manageError: { error, action }}
+                return { ...userCopy, deleteError: data.error}
             }
             return user
         })
+    },
+    manageResult(state, {id, resp}) {
+        let item = state.items.find(user => user.id === id)
+        item.is_active = !!resp.is_active
     },
 }
 

@@ -90,7 +90,15 @@ function manage(id, action) {
     requestOptions.redirect = 'follow'
     requestOptions.body = JSON.stringify(id, action)
 
-    return fetch(`${process.env['VUE_APP_API_ENDPOINT ']}/auth/${id}`, requestOptions).then(handleResponse)
+    return fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/${id}/`, requestOptions).then(handleResponse)
+}
+
+function _delete(id) {
+    const requestOptions = authHeader('DELETE')
+    requestOptions.headers.append('Content-Type', 'application/json')
+    requestOptions.redirect = 'follow'
+
+    return fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/${id}/`, requestOptions).then(handleResponse)
 }
 
 function handleResponse(response) {
@@ -116,6 +124,7 @@ export const userService = {
     logout,
     register,
     patch,
+    delete: _delete,
     list,
     info,
     manage,
