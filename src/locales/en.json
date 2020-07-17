@@ -9,7 +9,8 @@
     "send": "Send",
     "upload": "Upload",
     "upload_with_warnings": "upload with warnings",
-    "upload_with_errors": "upload with errors"
+    "upload_with_errors": "upload with errors",
+    "not_required": "not required"
   },
   "nav": {
     "data_standard": "Data Standard",

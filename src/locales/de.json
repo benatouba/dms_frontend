@@ -9,7 +9,8 @@
     "send": "Senden",
     "upload": "Hochladen",
     "upload_with_warnings": "Trotz Warnung(en) Hochladen",
-    "upload_with_warnings": "Trotz Fehler Hochladen"
+    "upload_with_errors": "Trotz Fehler Hochladen",
+    "not_required": "Kein Pflichtfeld"
   },
   "nav": {
     "data_standard": "Datenstandard",

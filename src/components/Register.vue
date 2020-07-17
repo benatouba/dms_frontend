@@ -87,17 +87,16 @@
                                         </ValidationProvider>
                                         <ValidationProvider
                                             name="Phone"
-                                            rules="required|numeric|min:8"
-                                            v-slot="{ errors, valid }"
+                                            rules="numeric|min:8"
+                                            v-slot="{ errors }"
                                         >
                                             <v-text-field
                                                 v-model="phone"
                                                 :error-messages="errors"
                                                 :success="valid"
-                                                :label="$t('register.phone')"
+                                                :label="$t('register.phone') + ' (' + $t('buttons.not_required') + ')'"
                                                 name="phone"
                                                 prepend-icon="phone"
-                                                required
                                             />
                                         </ValidationProvider>
                                         <ValidationProvider
@@ -145,7 +144,7 @@
                                     <v-spacer></v-spacer>
                                     <v-btn
                                         color="primary darken-2"
-                                        :disabled="invalid || !validated"
+                                        :disabled="!validated"
                                         @click="passes(handleSubmit)"
                                         @keyup.enter="passes(handleSubmit)"
                                     >
@@ -153,7 +152,7 @@
                                     </v-btn>
                                 </v-card-actions>
                                 <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity=".8">
-                                    <Notification />
+                                    <Notification banner="false"></Notification>
                                     <router-link
                                         to="/"
                                         class="primary white--text v-btn v-size--large"
@@ -197,7 +196,7 @@ export default {
             showLoginInfo: 'alerts/showLoginInfo',
         }),
         async clear() {
-            this.name = this.email = this.first_name = this.last_name = this.institution = ''
+            this.name = this.email = this.first_name = this.last_name = this.institution = this.password = this.password2 = ''
             requestAnimationFrame(() => {
                 this.$refs.obs.reset()
             })
