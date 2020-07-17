@@ -3,10 +3,12 @@ import router from '../router'
 import i18n from '../plugins/i18n'
 
 const token = localStorage.getItem('token')
+
 function getDefaultState() {
+    console.log(token)
     return {
         is_superuser: false,
-        status: { isLoggingIn: false, isLoggedIn: !!token },
+        status: { isLoggingIn: false, isLoggedIn: token !== null},
         user: false
     }
 }
@@ -52,7 +54,7 @@ const actions = {
                 // router.push('Home')
                 setTimeout(() => {
                     // display success message after route change completes
-                    dispatch('alerts/success', { message: 'Registration Form was sent' }, { root: true })
+                    dispatch('alerts/success', { message: i18n.t('register.success_message') }, { root: true })
                 })
             },
             error => {
@@ -105,6 +107,7 @@ const mutations = {
         state.user = null
     },
     logout(state) {
+        state.token = null
         Object.assign(state, getDefaultState())
     },
     registerRequest(state) {
