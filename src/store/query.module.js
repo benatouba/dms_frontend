@@ -27,6 +27,7 @@ const actions = {
         commit('queryRequest', input)
         try {
             let resp = await queryService.search(input)
+            console.log(input)
             commit('querySuccess', resp)
         } catch (error) {
             commit('queryFailure', error)
@@ -95,7 +96,7 @@ const mutations = {
         state.downloading = false
     },
     deleteRequest(state, file) {
-        state.deletinig = true
+        state.deleting = true
         state.deleting_file = file
     },
     deleteSuccess(state, id) {
