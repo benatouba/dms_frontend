@@ -22,7 +22,7 @@
                         <span
                                 v-for="info of Object.entries(this.alerts.info)"
                                 :key="info[0]"
-                                v-show="typeof info[1] === 'object' && info[1]">
+                                v-show="info[1]">
                             {{ info[1] }}
                         </span>
                 </v-col>
