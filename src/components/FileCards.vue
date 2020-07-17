@@ -39,7 +39,7 @@
                     <v-treeview
                             :items="buildTree(value, key)"
                             :key="key"
-                            v-for="(value, key) in data.resp"
+                            v-for="(value, key) in getDataForTreeview(data.resp)"
                             :class="`${key}`"
                             rounded
                             hoverable
@@ -79,6 +79,11 @@ export default {
             if (Object.keys(data).length) {
                 return [build_obj(0, name, mapper(data, 1)[0])]
             }
+        },
+        getDataForTreeview(data) {
+            delete data.result
+            delete data.status
+            return data
         }
     }
 }
