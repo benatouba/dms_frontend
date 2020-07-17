@@ -2,11 +2,11 @@ import { userService } from '../services'
 import router from '../router'
 import i18n from '../plugins/i18n'
 
-// const token = localStorage.getItem('token')
+const token = localStorage.getItem('token')
 function getDefaultState() {
     return {
         is_superuser: false,
-        status: { isLoggingIn: false, isLoggedIn: false },
+        status: { isLoggingIn: false, isLoggedIn: !!token },
         user: false
     }
 }
@@ -18,7 +18,7 @@ const getters = {
         return state.user
     },
     isLoggedIn: state => {
-        return state.status.isLoggedIn
+        return !!state.token
     },
 }
 const actions = {
