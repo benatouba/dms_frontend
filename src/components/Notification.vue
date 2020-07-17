@@ -1,7 +1,7 @@
 <template>
         <v-banner
                 app
-                v-if="alerts.info.type && alerts.loginInfo"
+                v-if="alerts.info.type && banner"
                 :color="alerts.info.type"
                 rounded
                 sticky
@@ -41,6 +41,12 @@ export default {
         ...mapState({
             alerts: state => state.alerts,
         }),
+    },
+    props: {
+        banner: {
+            type: Boolean,
+            required: true,
+        }
     },
     methods: {
         ...mapActions({
