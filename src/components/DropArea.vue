@@ -25,12 +25,13 @@
                                     accept="*.nc*"
                                     class="input-file"
                                 />
-                                <p v-html="$t('upload.droparea')" />
+                                <p v-if="!isSaving" v-html="$t('upload.droparea')" />
                                 <p v-if="isSaving">
                                     {{ $tc('upload.uploading1', fileCount, { count: fileCount }) }}
                                     {{ $tc('upload.uploading2', fileCount) }}
                                     {{ $t('upload.uploading3') }}
                                 </p>
+                                <v-text-field v-if="isSaving" color="black" loading disabled></v-text-field>
                             </v-card>
                         </form>
                     </div>
@@ -79,7 +80,7 @@ export default {
     data() {
         return {
             uploadError: null,
-            isSaving: null,
+            isSaving: false,
             uploadFieldName: 'netCDF',
             fileCount: null,
         }
