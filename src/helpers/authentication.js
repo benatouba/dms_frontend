@@ -9,9 +9,6 @@ export default function authHeader(method) {
     if (user && token) {
         // prepare request authorization
         myHeaders.append('Authorization', ' Token ' + localStorage.getItem('token'))
-    } else {
-        // prepare login request
-        myHeaders.append('Content-Type', 'application/json')
     }
     requestOptions.headers = myHeaders
     return requestOptions
