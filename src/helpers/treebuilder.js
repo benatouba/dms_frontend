@@ -282,11 +282,11 @@ export const er = {
     ],
 }
 
-function isArray(a) {
+export function isArray(a) {
     return !!a && a.constructor === Array
 }
 
-function isObj(a) {
+export function isObj(a) {
     return !!a && a.constructor === Object
 }
 

@@ -20,10 +20,11 @@
                         </v-icon>
                     </v-btn>
                         <span
+                                v-show="info[0] !== 'status' && info[0] !== 'type'"
                                 v-for="info of Object.entries(this.alerts.info)"
                                 :key="info[0]"
-                                v-show="info[1]">
-                            {{ info[1] }}
+                        >
+                            {{ reformatAlert(info[1]) }}
                         </span>
                 </v-col>
             </v-row>
@@ -32,6 +33,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import { isObj } from '../helpers/treebuilder'
 
 export default {
     name: 'Notification',
@@ -44,6 +46,13 @@ export default {
         ...mapActions({
             clearAlert: 'alerts/clear',
         }),
+        reformatAlert(alert) {
+            if (isObj(alert)) {
+                return Object.values(alert)[0]
+            } else {
+                return alert
+            }
+        }
     },
     watch: {
         $route() {
