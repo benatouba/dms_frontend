@@ -4,8 +4,8 @@
             <Account></Account>
             <v-divider></v-divider>
 <!--            <ChangePassword />-->
-            <v-divider></v-divider>
-            <ChangeGroups />
+<!--            <v-divider></v-divider>-->
+<!--            <ChangeGroups />-->
         </v-container>
     </div>
 </template>
@@ -13,7 +13,7 @@
 <script>
 import Account from '../components/Account'
 // import ChangePassword from '../components/ChangePassword'
-import ChangeGroups from '../components/ChangeGroups'
+// import ChangeGroups from '../components/ChangeGroups'
 import { mapState} from "vuex"
 
 export default {
@@ -21,7 +21,7 @@ export default {
     components: {
         Account,
         // ChangePassword,
-        ChangeGroups
+        // ChangeGroups
     },
     computed: {
         ...mapState({
