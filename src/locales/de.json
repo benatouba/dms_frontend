@@ -56,7 +56,8 @@
     "phone": "Telefon",
     "groups": "Gruppen",
     "password1": "Passwort",
-    "password2": "Passwort wiederholen"
+    "password2": "Passwort wiederholen",
+    "success_message": "Re. The application will be processed and you will receive Email on status change."
   },
   "login": {
     "title": "Einloggen",

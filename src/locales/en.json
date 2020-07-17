@@ -56,7 +56,8 @@
     "phone": "Phone",
     "groups": "Groups",
     "password1": "Password",
-    "password2": "Repeat Password"
+    "password2": "Repeat Password",
+    "success_message": "Anmeldeformular wurde gesendet. Der Antrag wird bearbeitet und Sie erhalten eine E-Mail bei Statusänderung."
   },
   "login": {
     "title": "Login",
