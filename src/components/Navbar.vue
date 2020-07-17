@@ -8,10 +8,10 @@
                 <span class="font-italic mx-4">{{ $t('nav.title') }}</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="this.isLoggedIn" @click="logout" text color="primary">
+            <v-btn v-if="isLoggedIn" @click="logout" text color="primary">
                 {{ $t('buttons.logout') }}
             </v-btn>
-            <v-btn v-else text color="primary">
+            <v-btn v-else-if="!isLoggedIn" text color="primary">
                 <router-link to="Login">{{ $t('buttons.login') }}</router-link>
                 <v-icon right>mdi-log-in</v-icon>
             </v-btn>
@@ -67,13 +67,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
     name: 'Navbar',
     computed: {
-        ...mapGetters({ isLoggedIn: 'accounts/isLoggedIn' }),
         ...mapState({
-            is_superuser: state => state.accounts.is_superuser
+            is_superuser: state => state.accounts.is_superuser,
+            isLoggedIn: state => state.accounts.status.isLoggedIn
         }),
         get_data_standard_link() {
             return this.data_standard_link[this.$i18n.locale]
@@ -83,7 +83,7 @@ export default {
         return {
             drawer: true,
             links: [
-                { icon: 'mdi-home', text: { en: 'Home', de: 'Home' }, route: '/' },
+                { icon: 'mdi-home', text: { en: 'Home', de: 'Home' }, route: '/', superuser: false },
                 { icon: 'mdi-cloud-search', text: { en: 'Search', de: 'Suche' }, route: '/search', superuser: false },
                 { icon: 'mdi-cloud-upload', text: { en: 'Upload', de: 'Hochladen' }, route: '/upload', superuser: false },
                 { icon: 'mdi-help', text: { en: 'Contact', de: 'Kontakt' }, route: '/contact', superuser: false },
