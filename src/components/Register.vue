@@ -192,7 +192,10 @@ export default {
         ...mapState('accounts', ['status']),
     },
     methods: {
-        ...mapActions({ register: 'accounts/register' }),
+        ...mapActions({
+            register: 'accounts/register',
+            showLoginInfo: 'alerts/showLoginInfo',
+        }),
         async clear() {
             this.name = this.email = this.first_name = this.last_name = this.institution = ''
             requestAnimationFrame(() => {
@@ -232,5 +235,8 @@ export default {
             overlay: false,
         }
     },
+    created() {
+        this.showLoginInfo(false)
+    }
 }
 </script>
