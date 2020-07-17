@@ -31,7 +31,7 @@ function login({ username, password }) {
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user')
-    localStorage.removeItem('token')
+    localStorage.setItem('token', null)
     localStorage.removeItem('is_superuser')
 }
 
@@ -40,7 +40,7 @@ function register(user) {
 
     requestOptions.body = JSON.stringify(user)
     requestOptions.redirect = 'follow'
-    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + '/auth/', requestOptions)
+    let answer = fetch(process.env.VUE_APP_API_ENDPOINT + '/auth/user/', requestOptions)
     return answer
 }
 
