@@ -18,7 +18,7 @@
           </template>
         </v-img>
         <v-img
-                v-if="$i18n.locale === 'en'"
+                v-if="$i18n.locale !== 'de'"
                 src="@/assets/dms_graphic_en.png"
                 lazy-src="@/assets/dms_graphic_en.png"
                 class="grey lighten-2 my-4"
@@ -33,8 +33,12 @@
       </v-row>
       <p class="caption text-center secondary--text my-4">
         {{ $t('home.caption') }}
+          <b-link-button left rounded href="https://dx.doi.org/10.1127/metz/2019/0913">
+          </b-link-button>
       </p>
-      <p class="secondary--text">{{ $t('home.text2') }}</p>
+      <p class="secondary--text">
+          {{ $t('home.text2') }}
+      </p>
     </v-container>
   </div>
 </template>
