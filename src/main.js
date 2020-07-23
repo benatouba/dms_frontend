@@ -6,9 +6,10 @@ import store from './store'
 import FlagIcon from 'vue-flag-icon'
 import './plugins/vee-validate'
 import i18n from './plugins/i18n'
+import './components/_globals'
 
 Vue.use(FlagIcon)
-
+console.log()
 Vue.config.productionTip = false
 
 new Vue({
@@ -18,4 +19,4 @@ new Vue({
     vuetify,
     i18n,
     render: h => h(App),
-})
+}).$mount('#app')
