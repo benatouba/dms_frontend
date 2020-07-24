@@ -17,7 +17,7 @@
     "uploaded_by_me": "Only my files"
   },
   "nav": {
-    "data_standard": "Data Standard",
+    "data_standard": "data standard",
     "data_policy": "Data Policy",
     "data_standard_link": "http://www.uc2-program.org/uc2_data_standard.pdf",
     "drawer_elements": "{text}",
@@ -43,8 +43,10 @@
     "img_link": "./dms_graphic_en.png"
   },
   "upload": {
+    "info_text": "Below you can upload one or more file(s) to the [UC²] Data Management System.\nOn upload, a data conformity check will be run, to verify the file meets the requirements.\nThe results of the test and the status of your upload will be displayed below.",
+    "format_note": "Please note: At the moment we accept only netCDF files meeting the [UC²] %{link} requirements.\nIn the future we will also accept other data.",
     "title": "Upload",
-    "droparea": "Drag your netCDF file(s) here</br>or click to browse",
+    "droparea": "Drag one or more file(s) here</br>or click to browse",
     "uploading1": "Uploading {count}",
     "uploading2": "file | files",
     "uploading3": "..."

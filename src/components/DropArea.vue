@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h2>{{ $t('upload.title') }}</h2>
         <v-container>
             <v-layout row>
                 <v-row align="center">

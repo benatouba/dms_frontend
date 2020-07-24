@@ -43,8 +43,10 @@
     "img_link": "@/assets/dms_graphic_de.png"
   },
   "upload": {
+    "info_text": "In diesem Bereich können Sie eine oder mehrere Datei(en) in das [UC²] Datenmanagementsystem laden.\nBeim Hochladen wird eine Konformitätscheck durchgeführt um zu prüfen ob die Daten Standardkonform sind.\nDie Ergebnisse und der Status Ihres Uploads werden unten angezeigt.\n",
+    "format_note": "Achtung: Zu diesem Zeitpunkt werden nur netCDF-Dateien, welche den [UC²] %{link} erfüllen akzeptiert.\nIn Zukunft wird auch das Ablegen anderer Daten ermöglicht werden.",
     "title": "Dateien Hochladen",
-    "droparea": "NetCDF-Datei(en) hier hineinziehen</br>oder zum Auswählen klicken",
+    "droparea": "Eine oder mehrere Datei(en) hier hineinziehen</br>oder zum Auswählen klicken",
     "uploading1": "Eine Datei | {count} Dateien",
     "uploading2": "wird | werden",
     "uploading3": "hochgeladen..."
