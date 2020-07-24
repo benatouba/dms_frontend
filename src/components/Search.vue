@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>{{ $t('search.title') }}</h1>
         <input
                 v-model="searchInput.search"
                 @keypress.enter="handleSubmit"

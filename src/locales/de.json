@@ -55,6 +55,7 @@
     "text": "Du bist nicht eingeloggt. Es werden nur Daten unter öffentlicher Lizenz angezeigt. Um weitere Daten angezeigt zu bekommen, bitte melde dich an. Du hast noch keinen Account? Bitte registriere dich."
   },
   "search": {
+    "info_text": "Bitte geben Sie gewünschte Schlagwörter in das Suchfeld ein. Ein großer Teil der Metainformationen in der Datenbank werden durchsucht.\nSie können auch nach einer spezifischen Institution, Site oder Variable filtern.\nBenutzen Sie die Schalter um als alt (nicht die neueste Version der Datei) oder ungültig markierte Dateien in die Suche aufzunehmen.\nFarbige Ergenisse weisen auf nicht-standardkonforme oder mit Warnungen versehene Dateien hin.\nEingeloggte Nutzer können sich auch nur selbst hochgeladene Dateien anzeigen lassen.",
     "title": "Suche",
     "placeholder": "Suche in allen Feldern",
     "file_title": "Dateien",

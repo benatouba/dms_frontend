@@ -55,6 +55,7 @@
     "text": "You are not logged in. You are only shown data released under public licences. To see additional data, please log in. Don't have an account yet? Register."
   },
   "search": {
+    "info_text": "Type in your search keywords below. The data base will search for it in most of the meta information available.\nYou can also filter by a specific institution, site or variable.\nUse toggle options to include files marked as old (not the most recent version of the file) or invalid.\nColored results mark erroneous files or files that contain warnings.\nIf logged in, you can also filter for the files you uploaded using the respective toggle option.",
     "title": "Search",
     "placeholder": "Search in all fields",
     "file_title": "Files",
