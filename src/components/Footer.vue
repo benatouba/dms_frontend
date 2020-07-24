@@ -8,7 +8,14 @@
         <v-tabs-items app v-model="tab">
             <v-tab-item v-for="item in links" :key="item.title.de">
                 <v-card flat class="text-center">
-                    <v-card-text>{{ item.text[$i18n.locale] }}</v-card-text>
+                    <v-row>
+                        <v-col cols="10">
+                            <v-card-text>{{ item.text[$i18n.locale] }}</v-card-text>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-icon right @click="tab = null">{{ 'mdi-close' }}</v-icon>
+                        </v-col>
+                    </v-row>
                 </v-card>
             </v-tab-item>
         </v-tabs-items>
