@@ -3,7 +3,7 @@
         <v-app-bar app flat>
             <v-app-bar-nav-icon v-model="drawer" @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-spacer></v-spacer>
-            <v-toolbar-title class="primary--text">
+            <v-toolbar-title class="secondary--text">
                 <span class="font-weight-bold">{{ $t('nav.short_title') }}</span>
                 <span class="font-italic mx-4">{{ $t('nav.title') }}</span>
             </v-toolbar-title>
