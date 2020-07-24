@@ -127,6 +127,7 @@
             <v-row>
                 <v-col>
                     <v-pagination
+                            @input="handleSubmit"
                             v-model="page"
                             v-if="getPageCount > 1"
                             :length=getPageCount
@@ -158,7 +159,7 @@
                 <v-expansion-panel dense>
                     <v-row cols="12" class="d-flex" justify="center">
                         <v-col md="10">
-                            <v-expansion-panel-header hide-actions>
+                            <v-expansion-panel-header>
                                 {{ data.file_standard_name }}
                             </v-expansion-panel-header>
                         </v-col>
