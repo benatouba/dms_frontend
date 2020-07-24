@@ -24,14 +24,33 @@
                 <span class="primary--text">{{ $t('nav.uc2website') }}</span>
                 <v-icon small dense size="1">mdi-open-in-new</v-icon>
             </v-btn>
-            <v-img
-                alt="Climatology Logo"
-                class="shrink primary--text"
-                contain
-                src="@/assets/group_logo.jpg"
-                transition="scale-transition"
-                width="40"
-            ></v-img>
+            <b-link-button large href="http://www.uc2-mosaik.org/">
+                <v-img
+                        src="../assets/uc2_a_logo.png"
+                        contain
+                        aspect-ratio="1"
+                        width="50px"
+                        position="bottom left"
+                ></v-img>
+            </b-link-button>
+            <b-link-button large href="http://www.uc2-3do.org/">
+                <v-img
+                        src="../assets/uc2_b_logo.jpg"
+                        contain
+                        aspect-ratio="1"
+                        width="57px"
+                        position="bottom left"
+                ></v-img>
+            </b-link-button>
+            <b-link-button large href="http://uc2-klimoprax-useuclim.org/">
+                <v-img
+                        src="../assets/uc2_c_logo.png"
+                        contain
+                        aspect-ratio="1"
+                        width="60px"
+                        position="bottom left"
+                ></v-img>
+            </b-link-button>
             <div class="locale-changer">
                 <v-btn
                     class="primary--text"
@@ -71,9 +90,11 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import BLinkButton from "./BLinkButton";
 
 export default {
     name: 'Navbar',
+    components: {BLinkButton},
     computed: {
         ...mapState({
             account: state => state.account
@@ -91,9 +112,6 @@ export default {
             login: { icon: 'mdi-login', route: '/login', show: !this.account.isLoggedIn, },
             logout: { icon: 'mdi-logout', route: '/login', show: !!this.account.isLoggedIn, },
         }},
-    },
-    created () {
-        console.log(this.account)
     },
     data() {
         return {
@@ -120,10 +138,5 @@ export default {
             this.$root.$i18n.locale = language
         },
     },
-    watch: {
-        show: function (val, oldVal) {
-            console.log('new: %s, old: %s', val, oldVal)
-        },
-    }
 }
 </script>

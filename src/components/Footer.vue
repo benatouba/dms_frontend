@@ -6,11 +6,22 @@
             </v-tab>
         </v-tabs>
         <v-tabs-items app v-model="tab">
-            <v-tab-item v-for="item in links" :key="item.title.de">
+            <v-tab-item v-for="(item, id) in links" :key="id">
                 <v-card flat class="text-center">
                     <v-row>
-                        <v-col cols="10">
-                            <v-card-text>{{ item.text[$i18n.locale] }}</v-card-text>
+                        <v-col cols="2">
+                            <v-img
+                                    v-if="id === 0"
+                                    alt="Climatology Logo"
+                                    class="shrink primary--text"
+                                    contain
+                                    src="@/assets/group_logo.jpg"
+                                    transition="scale-transition"
+                                    width="40"
+                            ></v-img>
+                        </v-col>
+                        <v-col cols="8">
+                            {{ item.text[$i18n.locale] }}
                         </v-col>
                         <v-col cols="2">
                             <v-icon right @click="tab = null">{{ 'mdi-close' }}</v-icon>
