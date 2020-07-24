@@ -8,13 +8,6 @@
                 <span class="font-italic mx-4">{{ $t('nav.title') }}</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="isLoggedIn" @click="logout" text color="primary">
-                {{ $t('buttons.logout') }}
-            </v-btn>
-            <v-btn v-else-if="!isLoggedIn" text color="primary">
-                <router-link to="Login">{{ $t('buttons.login') }}</router-link>
-                <v-icon right>mdi-log-in</v-icon>
-            </v-btn>
             <v-btn :href="get_data_standard_link" target="_blank" text>
                 <span class="primary--text">{{ $t('nav.data_standard') }}</span>
                 <v-icon small dense>mdi-open-in-new</v-icon>
@@ -55,20 +48,20 @@
             </div>
         </v-app-bar>
 
-        <v-navigation-drawer app v-model="drawer" class="primary">
+        <v-navigation-drawer app expand-on-hover hide-overlay v-model="drawer" class="primary">
             <v-list>
                 <v-list-item
-                        v-show="!link.superuser || is_superuser"
-                        v-for="link in links"
-                        :key="link.route"
-                        router
-                        :to="link.route"
+                    v-show="link.show"
+                    v-for="(link, key) in links"
+                    :key="key"
+                    router
+                    :to="link.route"
                 >
                     <v-list-item-action>
                         <v-icon class="white--text">{{ link.icon }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-title class="white--text">{{
-                        $t('nav.drawer_elements', { text: link.text[$i18n.locale] })
+                        $t(`nav.${key}`)
                     }}</v-list-item-title>
                 </v-list-item>
             </v-list>
@@ -78,28 +71,33 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+
 export default {
     name: 'Navbar',
     computed: {
         ...mapState({
-            is_superuser: state => state.accounts.is_superuser,
-            isLoggedIn: state => state.accounts.status.isLoggedIn
+            account: state => state.account
         }),
         get_data_standard_link() {
             return this.data_standard_link[this.$i18n.locale]
         },
+        links: function() {return {
+            home:  { icon: 'mdi-home', route: '/', show: true, },
+            search: { icon: 'mdi-cloud-search', route: '/search', show: true, },
+            upload: { icon: 'mdi-cloud-upload', route: '/upload', show: !!this.account.isLoggedIn, },
+            contact: { icon: 'mdi-help', route: '/contact', show: true},
+            account: { icon: 'mdi-account-circle', route: '/account', show: !!this.account.isLoggedIn, },
+            admin: { icon: 'mdi-account-tie-outline', route: '/administration', show: !!this.account.isLoggedIn && !!this.account.is_superuser, },
+            login: { icon: 'mdi-login', route: '/login', show: !this.account.isLoggedIn, },
+            logout: { icon: 'mdi-logout', route: '/login', show: !!this.account.isLoggedIn, },
+        }},
+    },
+    created () {
+        console.log(this.account)
     },
     data() {
         return {
             drawer: true,
-            links: [
-                { icon: 'mdi-home', text: { en: 'Home', de: 'Home' }, route: '/', superuser: false },
-                { icon: 'mdi-cloud-search', text: { en: 'Search', de: 'Suche' }, route: '/search', superuser: false },
-                { icon: 'mdi-cloud-upload', text: { en: 'Upload', de: 'Hochladen' }, route: '/upload', superuser: false },
-                { icon: 'mdi-help', text: { en: 'Contact', de: 'Kontakt' }, route: '/contact', superuser: false },
-                { icon: 'mdi-account-circle', text: { en: 'Account', de: 'Konto' }, route: '/account', superuser: false },
-                { icon: 'mdi-account-tie-outline', text: { en: 'Administration', de: 'Administration' }, route: '/administration', superuser: true },
-            ],
             data_standard_link: {
                 en: 'http://www.uc2-program.org/uc2_data_standard.pdf',
                 de: 'http://www.uc2-program.org/uc2_datenstandard.pdf',
@@ -117,10 +115,15 @@ export default {
         }
     },
     methods: {
-        ...mapActions({ logout: 'accounts/logout' }),
+        ...mapActions({ logout: 'account/logout' }),
         switchLocale(language) {
             this.$root.$i18n.locale = language
-        }
+        },
+    },
+    watch: {
+        show: function (val, oldVal) {
+            console.log('new: %s, old: %s', val, oldVal)
+        },
     }
 }
 </script>

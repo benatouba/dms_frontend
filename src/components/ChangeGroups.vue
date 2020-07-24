@@ -36,7 +36,7 @@ import { mapActions } from 'vuex'
 export default {
     name: 'ChangeGroups',
     methods: {
-        ...mapActions({ patch: 'accounts/patch' }),
+        ...mapActions({ patch: 'account/patch' }),
         handleSubmit() {
         },
         getGroups() {

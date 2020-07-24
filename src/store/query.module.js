@@ -1,4 +1,5 @@
 import queryService from '../services/query.service'
+import i18n from "vue-i18n";
 
 const getDefaultState = () => {
     return {
@@ -9,6 +10,7 @@ const getDefaultState = () => {
         downloading: false,
         downloaded: true,
         download_file: null,
+        count: 0,
     }
 }
 const state = getDefaultState()
@@ -27,7 +29,6 @@ const actions = {
         commit('queryRequest', input)
         try {
             let resp = await queryService.search(input)
-            console.log(input)
             commit('querySuccess', resp)
         } catch (error) {
             commit('queryFailure', error)
@@ -38,7 +39,7 @@ const actions = {
         commit('downloadRequest', file)
         let resp = queryService.download(file).then(
             resp => {
-                commit('downloadSuccess')
+                commit('downloadSuccess', file.id)
                 return resp
             },
             error => {
@@ -48,19 +49,16 @@ const actions = {
         )
         return resp
     },
-    delete({ dispatch, commit }, { file }) {
+    async delete({ dispatch, commit }, { file }) {
         commit('deleteRequest', file)
-        let resp = queryService.deleteFile(file).then(
-            resp => {
-                commit('deleteSuccess', file.id)
-                return resp
-            },
-            error => {
-                commit('deleteFailure')
-                dispatch('alerts/error', error, { root: true })
-            }
-        )
-        return resp
+        try {
+            await queryService.deleteFile(file)
+            commit('deleteSuccess', file.id)
+            dispatch('alerts/success', i18n.t('alerts.file_deleted'))
+        } catch(error) {
+            commit('deleteFailure')
+            dispatch('alerts/error', error, {root: true})
+        }
     },
 }
 
@@ -74,10 +72,15 @@ const mutations = {
         state.querying = true
         state.query = input
     },
-    querySuccess(state, result) {
+    querySuccess(state, resp) {
         state.queried = true
         state.querying = false
-        state.result = result
+        if (resp.results) { // if pagination is requested resp contains multiple objects
+            state.result = resp.results // page result items
+            state.count = resp.count // resp.count // count of total items to return
+        } else {
+            state.result = resp // all items
+        }
     },
     queryFailure(state) {
         state.queried = false
@@ -87,9 +90,11 @@ const mutations = {
         state.downloading = true
         state.download_file = file
     },
-    downloadSuccess(state) {
+    downloadSuccess(state, id) {
         state.downloaded = true
         state.downloading = false
+        let item = state.result.find(item => item.id === id)
+        item.download_count = item.download_count + 0
     },
     downloadFailure(state) {
         state.downloaded = false

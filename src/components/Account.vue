@@ -6,11 +6,11 @@
                     <v-avatar class="ma-5">
                         <v-icon right color="primary" x-large>mdi-account-circle</v-icon>
                     </v-avatar>
-                    <span>{{ accountInfo.username}}</span>
+                    <span>{{ account.username}}</span>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-card-text
-                        v-for="(item, key) in getShowInfo(accountInfo)"
+                        v-for="(item, key) in getShowInfo(account)"
                         :key="key"
                         dense
                 >
@@ -38,45 +38,41 @@
 <script>
     // TODO: activate password change request
     // TODO: add group change request
-import {mapActions, mapState} from "vuex";
+import { mapState} from "vuex";
 
 export default {
     name: 'Account',
     computed: {
         ...mapState({
-            account: state => state.accounts
+            account: state => state.account
         }),
     },
     methods: {
-        ...mapActions({
-            getInfo: 'accounts/info'
-        }),
-        handlePasswordChange() {
-        },
-        handleGroupChange() {
-        },
+        // ...mapActions({
+        //     getInfo: 'account/info'
+        // }),
         getShowInfo(data) {
-            let newDict = Object.assign({}, data)
-            newDict.groups = []
-            data.groups.forEach(obj => {
-                newDict.groups.push(obj.name)
-                newDict.groups.push(' ')
-            })
-            delete newDict.username
-            delete newDict.is_superuser
-            delete newDict.id
-            delete newDict['is_active']
-            return newDict
+            let newObj = Object.assign({}, data)
+            let groups = []
+            data.groups.forEach(x => groups.push(x.name))
+            newObj.groups = groups.join()
+            delete newObj.user
+            delete newObj.isLoggedIn
+            delete newObj.is_superuser
+            delete newObj.id
+            delete newObj.token
+            delete newObj['is_active']
+            return newObj
         },
     },
-    data() {
-        return {
-            accountInfo: null
-        }
-    },
-    async created() {
-        this.accountInfo = await this.getInfo(this.account.id)
-    },
+    // data() {
+    //     return {
+    //         accountInfo: null
+    //     }
+    // },
+    // async created() {
+    //     this.accountInfo = await this.getInfo(this.account.id)
+    // },
 }
 </script>
 

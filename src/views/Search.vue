@@ -1,18 +1,18 @@
 <template>
     <div class="search">
         <v-container class="mx-4 primary--text">
-            <Query />
+            <Search />
         </v-container>
     </div>
 </template>
 
 <script>
-import Query from '@/components/Query'
+import Search from '@/components/Search'
 
 export default {
-    name: 'Search',
+    name: 'SearchView',
     components: {
-        Query,
+        Search,
     },
 }
 </script>

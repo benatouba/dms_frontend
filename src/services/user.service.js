@@ -18,6 +18,7 @@ function login({ username, password }) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('user', json.username)
                     localStorage.setItem('token', json.token)
+                    localStorage.setItem('loggedIn', 'true')
                     resolve(json)
                 } else {
                     reject(json)
@@ -33,6 +34,7 @@ function logout() {
     localStorage.removeItem('user')
     localStorage.removeItem('token')
     localStorage.removeItem('is_superuser')
+    localStorage.setItem('loggedIn', '') // set to empty string, since f.e. firefox can only store 'strings'. JS will coerce this to bool false.
 }
 
 function register(user) {

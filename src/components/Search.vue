@@ -19,7 +19,7 @@
                     <v-col cols="12">
                         <v-row>
                         <v-autocomplete
-                            v-model="searchInput.institution"
+                            v-model="searchInput.acronym"
                             :items="choices.institution"
                             item-text="ge_title"
                             item-value="acronym"
@@ -28,8 +28,8 @@
                             @change="handleSubmit"
                         ></v-autocomplete>
                         <v-icon
-                            v-show="searchInput.institution"
-                            @click="searchInput.institution = ''; handleSubmit"
+                            v-show="searchInput.acronym"
+                            @click="searchInput.acronym = ''; handleSubmit()"
                             small
                             flat
                             icon
@@ -48,7 +48,7 @@
                         ></v-autocomplete>
                         <v-icon
                                 v-show="searchInput.site__id"
-                                @click="searchInput.site__id = ''; handleSubmit"
+                                @click="searchInput.site__id = ''; handleSubmit()"
                                 small
                                 flat
                                 icon
@@ -67,7 +67,7 @@
                         ></v-autocomplete>
                         <v-icon
                                 v-show="searchInput.variables__id"
-                                @click="searchInput.variables__id = ''; handleSubmit"
+                                @click="searchInput.variables__id = ''; handleSubmit()"
                                 small
                                 flat
                                 icon
@@ -75,15 +75,15 @@
                         >mdi-close-circle</v-icon>
                         </v-row>
                         <v-row justify="center">
-                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_invalid" label="Show invalid" value="1" input-value="false"></v-switch>
-                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_old" label="Show old" value="1" input-value="false"></v-switch>
+                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_invalid" :label="$t('buttons.show_invalid')" value="1" input-value="false"></v-switch>
+                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_old" :label="$t('buttons.show_old')" value="1" input-value="false"></v-switch>
                             <v-switch
                                     v-if="isLoggedIn"
                                     @change="handleSubmit"
                                     color="primary"
                                     v-model="searchInput.uploader"
-                                    label="Uploaded by me"
-                                    :value="accounts.user"
+                                    :label="$t('buttons.uploaded_by_me')"
+                                    :value="account.id"
                             ></v-switch>
                         </v-row>
                         <!--<v-row justify="center">
@@ -151,7 +151,7 @@
                 focusable
                 accordion
                 hover
-                v-for="data in getPageItems"
+                v-for="data in queriedFiles"
                 :key="data.id"
                 elevation="5"
                 outlined
@@ -176,7 +176,7 @@
                                        v-on="on">
                                     <v-btn
                                             v-if="isLoggedIn"
-                                            :disabled="data.download_count || data.uploader !== accounts.user"
+                                            :disabled="!!data.download_count && data.uploader !== account.user"
                                             @click="handleDelete(data)"
                                             icon
                                             depressed
@@ -205,6 +205,7 @@
             <v-row>
             <v-col>
                 <v-pagination
+                        @input="handleSubmit"
                         v-model="page"
                         v-if="getPageCount > 1"
                         :length=getPageCount
@@ -238,15 +239,13 @@ export default {
     },
     computed: {
         ...mapState({
-            accounts: state => state.accounts,
-            isLoggedIn: state => state.accounts.status.isLoggedIn,
+            account: state => state.account,
+            isLoggedIn: state => state.account.isLoggedIn,
             queriedFiles: state => state.queries.result,
+            itemCount: state => state.queries.count,
         }),
-        getPageItems() {
-            return this.queriedFiles.slice(this.pageLength*(this.page-1), this.pageLength*(this.page))
-        },
         getPageCount() {
-            return Math.ceil((this.queriedFiles.length/this.pageLength))
+            return Math.ceil((this.itemCount/this.pageLength))
         },
     },
     methods: {
@@ -258,6 +257,8 @@ export default {
         }),
         handleSubmit: function () {
             this.show = false
+            this.searchInput.offset = (this.page-1)*this.pageLength
+            this.searchInput.limit = this.pageLength
             if (this.queriedFiles) {
                 this.resetQueryState()
             }
@@ -298,24 +299,22 @@ export default {
             this.choices[name] = output
         },
     },
-    mounted() {
+    created() {
         this.handleSubmit()
         this.fetchMeta('institution')
         this.fetchMeta('site')
         this.fetchMeta('variable')
     },
+    mounted() {
+        this.pageLength = 10
+        this.page = 1
+    },
     data() {
+        if (!this.page) {
+            this.page = 1
+            this.pageLength = 10
+        }
         return {
-            searchInput: {
-                search: '',
-                institution: '',
-                site__id: '',
-                variables__id: '',
-                uploader: null,
-                is_invalid: false,
-                is_old: false,
-                // origin_time: new Date('2020-07-01').toISOString().substr(0, 10)
-            },
             choices: {
                 institution: [],
                 site: [],
@@ -327,6 +326,16 @@ export default {
             pageLengthChoices: [5, 10, 20, 50],
             // FIXME: get from data store for production
             // user: localStorage.getItem('user'),
+            searchInput: {
+                search: '',
+                acronym: '',
+                site__id: '',
+                variables__id: '',
+                uploader: null,
+                is_invalid: false,
+                is_old: false,
+                // origin_time: new Date('2020-07-01').toISOString().substr(0, 10)
+            },
         }
     }
 }

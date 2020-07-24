@@ -93,7 +93,6 @@
                                             <v-text-field
                                                 v-model="phone_number"
                                                 :error-messages="errors"
-                                                :success="valid"
                                                 :label="$t('register.phone_number') + ' (' + $t('buttons.not_required') + ')'"
                                                 name="phone"
                                                 prepend-icon="phone"
@@ -188,11 +187,11 @@ export default {
         Notification,
     },
     computed: {
-        ...mapState('accounts', ['status']),
+        ...mapState('account', ['status']),
     },
     methods: {
         ...mapActions({
-            register: 'accounts/register',
+            register: 'account/register',
             showLoginInfo: 'alerts/showLoginInfo',
         }),
         async clear() {

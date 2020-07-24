@@ -104,7 +104,7 @@ export default {
         Notification,
     },
     methods: {
-        ...mapActions({ patch: 'accounts/patch' }),
+        ...mapActions({ patch: 'account/patch' }),
         handleSubmit() {
             this.submitted = true
             const password = this.new_password

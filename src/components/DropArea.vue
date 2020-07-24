@@ -22,7 +22,7 @@
                                     :disabled="isSaving"
                                     @change="handleSubmit($event.target.files)"
                                     fileCount="$event.target.files.length"
-                                    accept="*.nc*"
+                                    accept="binary/*"
                                     class="input-file"
                                 />
                                 <p v-if="!isSaving" v-html="$t('upload.droparea')"/>

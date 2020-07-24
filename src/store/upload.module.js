@@ -20,7 +20,7 @@ const getters = {
     },
     fatalFiles: state => {
         return state.filter(file => file.status === 4)
-    }
+    },
 }
 
 const actions = {
@@ -51,8 +51,8 @@ const actions = {
         commit('uploadRequest', data)
         try {
             let resp = await uploadService.upload(data)
-            commit('uploadResult', { ...data, resp, })
-        } catch(error) {
+            commit('uploadResult', { ...data, resp })
+        } catch (error) {
             dispatch('alerts/error', error, { root: true })
         }
     },
@@ -60,14 +60,15 @@ const actions = {
         commit('uploadMetaRequest', obj)
         try {
             let resp = await uploadService.uploadMetadataList(obj)
-            commit('uploadMetaResult', {resp, obj})
+            let payload = { resp, obj }
+            commit('uploadMetaResult', payload)
             return resp
-        } catch(error) {
+        } catch (error) {
             // commit('uploadMetaFailure', error, file, 'metaData')
             dispatch('alerts/error', error, { root: true })
             return error
         }
-    }
+    },
 }
 
 const mutations = {
@@ -82,7 +83,7 @@ const mutations = {
         let index = state.findIndex(state => state.files.id == id)
         state.splice(index, 1)
     },
-    uploadRequest(state, {file, ignore_warnings, ignore_errors}) {
+    uploadRequest(state, { file, ignore_warnings, ignore_errors }) {
         const item = state.files.find(data => data.file.name === file.name)
         if (item) {
             item.uploading = true
@@ -122,10 +123,11 @@ const mutations = {
     },
     uploadMetaResult: (state, payload) => {
         const item = state.meta.find(item => item.name === payload.obj.file.name)
+        console.log(item)
         item.uploaded = payload.resp.status === 1
         item.uploading = false
         item.result = payload.resp
-    }
+    },
 }
 
 export default {

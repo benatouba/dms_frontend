@@ -3,7 +3,7 @@
         <Navbar />
         <v-main style="margin: auto; width: 80%;">
             <LoginInfo v-if="!isLoggedIn && alerts.loginInfo" />
-            <Notification :banner="true"></Notification>
+            <Notification :banner="showErrorBanner"></Notification>
             <router-view></router-view>
         </v-main>
         <Footer />
@@ -22,7 +22,8 @@ export default {
     computed: {
         ...mapState({
             alerts: state => state.alerts,
-            isLoggedIn: state => state.accounts.status.isLoggedIn
+            isLoggedIn: state => state.account.isLoggedIn,
+            showErrorBanner: state => state.errorBanner
         })
     },
     methods: {
@@ -34,6 +35,7 @@ export default {
         $route() {
             // clear alert on location change
             this.clearAlert()
+            this.$store.commit('showErrorBanner', true)
         },
     },
 }

@@ -107,7 +107,7 @@ export default {
     computed: {
         ...mapState({
             alerts: state => state.alerts,
-            isLoggedIn: state => state.accounts.status.isLoggedIn
+            isLoggedIn: state => state.account.isLoggedIn
         }),
     },
     created() {
@@ -118,8 +118,8 @@ export default {
     },
     methods: {
         ...mapActions({
-            login: 'accounts/login',
-            logout: 'accounts/logout',
+            login: 'account/login',
+            logout: 'account/logout',
             clearAlert: 'alerts/clear',
             showLoginInfo: 'alerts/showLoginInfo',
         }),

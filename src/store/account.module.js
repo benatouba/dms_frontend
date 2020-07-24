@@ -2,14 +2,12 @@ import { userService } from '../services'
 import router from '../router'
 import i18n from '../plugins/i18n'
 
-const token = localStorage.getItem('token')
-
+const loggedIn = localStorage.getItem('loggedIn') || false
 function getDefaultState() {
-    console.log(token)
     return {
         is_superuser: false,
-        status: { isLoggingIn: false, isLoggedIn: token !== null},
-        user: false
+        isLoggedIn: !!loggedIn,
+        user: false,
     }
 }
 
@@ -26,20 +24,19 @@ const getters = {
 const actions = {
     login({ dispatch, commit }, { username, password }) {
         commit('loginRequest', { username })
+        commit('showErrorBanner', false, { root: true })
 
-        userService
-            .login({ username, password })
-            .then(
-                resp => {
-                    commit('loginSuccess', resp)
-                    dispatch('alerts/success', i18n.t('login.success'), { root: true })
-                    router.push('Home')
-                },
-                error => {
-                    commit('loginFailure', error)
-                    dispatch('alerts/error', error, { root: true })
-                }
-            )
+        userService.login({ username, password }).then(
+            resp => {
+                commit('loginSuccess', resp)
+                dispatch('alerts/success', i18n.t('login.success'), { root: true })
+                router.push('Home')
+            },
+            error => {
+                commit('loginFailure', error)
+                dispatch('alerts/error', error, { root: true })
+            }
+        )
     },
     logout({ commit }) {
         userService.logout()
@@ -81,47 +78,41 @@ const actions = {
 
 const mutations = {
     loginRequest(state, user) {
-        state.status = { isLoggingIn: true }
+        state.isLoggedIn = false
         state.user = user
     },
     loginSuccess(state, data) {
-        state.status = { isLoggedIn: true, isLoggingIn: false }
-        Object.entries(data).forEach(
-            item => {
-                state[item[0]] = item[1]
-            }
-        )
+        state.isLoggedIn = true
+        Object.entries(data).forEach(item => {
+            state[item[0]] = item[1]
+        })
         state.user = data.username
-        if (data.is_superuser) {
-            state.is_superuser = data.is_superuser
-        }
+        state.is_superuser = !!data.is_superuser
     },
     loginFailure(state) {
-        state.status.isLoggedIn = false
-        state.status.isLoggingIn = false
+        state.isLoggedIn = false
         state.user = null
         state.token = null
     },
     logout(state) {
         state.token = null
+        state.isLoggedIn = false
         Object.assign(state, getDefaultState())
     },
     registerRequest(state) {
-        state.status = { registering: true }
+        state.registering = true
     },
     registerSuccess(state) {
-        state.status = {}
+        state.registered = true
     },
     registerFailure(state) {
-        state.status = {}
+        state.registered = false
     },
     userInfoSuccess(state, data) {
-        Object.entries(data).forEach(
-            item => {
-                state[item[0]] = item[1]
-            }
-        )
-    }
+        Object.entries(data).forEach(item => {
+            state[item[0]] = item[1]
+        })
+    },
 }
 
 export default {

@@ -2,13 +2,13 @@
     <v-container>
         <v-expansion-panels v-for="data in files" :key="data.file.name" elevation="5" outlined>
             <v-expansion-panel v-if="Object.keys(data.resp).length">
-                <v-row align="center" no-gutters>
+                <v-row no-gutters>
                 <v-expansion-panel-header :class="`filename${data.resp.status}`">
                     <strong>{{ data.file.name }}</strong>
                     <span color="#000000">{{ data.uploaded? 'uploaded': 'not uploaded'}}</span>
                     <v-btn
                             v-if="data.resp.status === 2"
-                            @click="uploadAnyway(data.file,true, false)"
+                            v-on:click.stop="uploadAnyway(data.file,true, false)"
                             text
                             left
                             ripple
@@ -21,13 +21,15 @@
                     </v-btn>
                     <v-btn
                             v-if="data.resp.status === 3 && is_superuser"
-                            @click="uploadAnyway(data.file, true, true)"
+                            v-on:click.stop="uploadAnyway(data.file, true, true)"
                             text
+                            x-small
                             left
                             ripple
                             class="ma-2 primary--text"
                             outlined
                             tile
+                            dense
                             target="_blank"
                     >
                         {{ $t('buttons.upload_with_errors') }}
