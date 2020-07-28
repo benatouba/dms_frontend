@@ -12,10 +12,6 @@
                 <span class="primary--text">{{ $t('nav.data_standard') }}</span>
                 <v-icon small dense>mdi-open-in-new</v-icon>
             </v-btn>
-            <v-btn href="http://www.uc2-program.org/uc2_data_policy.pdf" target="_blank" text>
-                <span class="primary--text">{{ $t('nav.data_policy') }}</span>
-                <v-icon small dense size="1">mdi-open-in-new</v-icon>
-            </v-btn>
             <v-btn :href="$t('nav.kb_link')" target="_blank" text>
                 <span class="primary--text">{{ $t('nav.kb') }}</span>
                 <v-icon small dense size="1">mdi-open-in-new</v-icon>
@@ -38,7 +34,7 @@
                         src="../assets/uc2_b_logo.jpg"
                         contain
                         aspect-ratio="1"
-                        width="57px"
+                        width="65px"
                         position="bottom left"
                 ></v-img>
             </b-link-button>
@@ -117,8 +113,8 @@ export default {
         return {
             drawer: true,
             data_standard_link: {
-                en: 'http://www.uc2-program.org/uc2_data_standard.pdf',
-                de: 'http://www.uc2-program.org/uc2_datenstandard.pdf',
+                en: 'http://www.uc2-program.org/index.php/en/datamanagement',
+                de: 'http://www.uc2-program.org/index.php/datenmanagement',
             },
             locales: [
                 {

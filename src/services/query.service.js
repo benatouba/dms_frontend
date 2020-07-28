@@ -6,13 +6,12 @@ function search(query) {
     let entries = Object.entries(query)
     for (const [key, value] of entries) {
         searchString = searchString.concat(`${key}=${value}&`)
-        }
+    }
     searchString = searchString.slice(0, searchString.length - 1) // cut off unnecessary last symbol '&'
 
-    let answer = fetch(
-        `${process.env.VUE_APP_API_ENDPOINT}/data/file/${searchString}`,
-        requestOptions
-    ).then(resp => resp.json())
+    let answer = fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${searchString}`, requestOptions).then(resp =>
+        resp.json()
+    )
     return answer
 }
 
@@ -51,25 +50,19 @@ function deleteFile(file) {
     return response
 }
 
-function setFileInvalid(file) {
+async function setInvalid(file) {
     const requestOptions = authHeader('PATCH')
-
-    let response = fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}/set_invalid/`, requestOptions).then(resp => {
-        let response = new Promise(function(resolve, reject) {
-            if (resp.status === 403) {
-                reject('Unauthorized')
-            } else {
-                resolve(resp.json())
-            }
-        })
-        return response
-    })
-    return response
+    try {
+        let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}/set_invalid/`, requestOptions)
+        return resp
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export default {
     search,
     download,
     deleteFile,
-    setFileInvalid,
+    setInvalid,
 }

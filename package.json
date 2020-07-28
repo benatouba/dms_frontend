@@ -14,13 +14,15 @@
   "dependencies": {
     "@mdi/font": "^5.3.45",
     "core-js": "^3.6.4",
+    "js-cookie": "^2.2.1",
     "vee-validate": "^3.3.6",
     "vue": "^2.6.11",
     "vue-flag-icon": "^1.0.6",
     "vue-i18n": "^8.18.2",
     "vue-router": "^3.3.4",
     "vuetify": "^2.3.2",
-    "vuex": "^3.5.1"
+    "vuex": "^3.5.1",
+    "vuex-persistedstate": "^3.0.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.13.1",

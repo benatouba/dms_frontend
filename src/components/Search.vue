@@ -1,16 +1,16 @@
 <template>
     <div>
-        <input
-                v-model="searchInput.search"
-                @keypress.enter="handleSubmit"
-                :placeholder="$t('search.placeholder')"
-                class="input text--secondary my-2" />
-        <br />
-        <v-btn @click="handleSubmit" icon x-large target="_blank">
-            <v-icon left color="primary">mdi-cloud-search</v-icon>
-        </v-btn>
         <v-container class="text--primary">
             <v-card>
+                <v-card-title>
+                    {{ $t('buttons.input') }}
+                </v-card-title>
+                <input
+                        v-model="searchInput.search"
+                        @keypress.enter="handleSubmit"
+                        :placeholder="$t('search.placeholder')"
+                        class="input text--secondary my-2" />
+                <br />
                 <v-card-title>
                     {{ $t('search.filter_options')}}
                 </v-card-title>
@@ -74,8 +74,8 @@
                         >mdi-close-circle</v-icon>
                         </v-row>
                         <v-row justify="center">
-                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_invalid" :label="$t('buttons.show_invalid')" value="1" input-value="false"></v-switch>
-                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_old" :label="$t('buttons.show_old')" value="1" input-value="false"></v-switch>
+                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_invalid" :label="$t('buttons.show_invalid')" false-value="false" true-value="null"></v-switch>
+                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_old" :label="$t('buttons.show_old')" false-value="false" true-value="null"></v-switch>
                             <v-switch
                                     v-if="isLoggedIn"
                                     @change="handleSubmit"
@@ -84,6 +84,12 @@
                                     :label="$t('buttons.uploaded_by_me')"
                                     :value="account.id"
                             ></v-switch>
+                        </v-row>
+                        <v-row>
+                            <v-btn @click="handleSubmit" depressed x-large>
+                                <v-icon left color="primary">mdi-cloud-search</v-icon>
+                                {{ $t('buttons.search')}}
+                            </v-btn>
                         </v-row>
                         <!--<v-row justify="center">
                             <v-col cols="4">
@@ -157,21 +163,34 @@
                 outlined
             >
                 <v-expansion-panel dense>
-                    <v-row cols="12" class="d-flex" justify="center">
-                        <v-col md="10">
-                            <v-expansion-panel-header>
+                    <v-row cols="12" class="d-flex" justify="center" align="center">
+                        <v-col md="7">
+                            <v-expansion-panel-header :class="colorStyle(data)">
                                 {{ data.file_standard_name }}
                             </v-expansion-panel-header>
                         </v-col>
-                        <v-col class="d-flex my-3 justify-center" md="1">
-                            <v-btn @click="handleDownload(data)" depressed small absolute icon>
+                        <v-col justify="center" align="center">
+                            <span v-if="!!data.is_old" color="brown"  style="font-size: 85%;">
+                                {{ $t('search.is_old') }}
+                            </span>
+                            <span v-if="!!data.has_warnings" color="warning"  style="font-size: 85%;">
+                                {{ $t('search.has_warnings') }}
+                            </span>
+                            <span color="error" v-if="!!data.is_invalid"  style="font-size: 85%;">
+                                {{ $t('search.is_invalid') }}
+                            </span>
+                            <span color="error" v-if="!!data.has_errors"  style="font-size: 85%;">
+                                {{ $t('search.has_errors') }}
+                            </span>
+                        </v-col>
+                        <v-col md="1">
+                            <v-btn @click="handleDownload(data)" depressed small icon>
                                 <v-icon color="primary">mdi-download</v-icon>
                             </v-btn>
                         </v-col>
                         <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
-                                <v-col class="d-flex my-3 justify-center"
-                                       md="1"
+                                <v-col md="1"
                                        v-bind="attrs"
                                        v-on="on">
                                     <v-btn
@@ -181,7 +200,6 @@
                                             icon
                                             depressed
                                             small
-                                            absolute
                                     >
                                         <v-icon color="primary">mdi-delete</v-icon>
                                     </v-btn>
@@ -191,6 +209,13 @@
                         </v-tooltip>
                         <v-col md="12">
                             <v-expansion-panel-content>
+                                <v-btn
+                                        color="warning"
+                                        v-if="data.uploader === account.user && !data.is_invalid"
+                                        @click="setInvalid(data)"
+                                >
+                                    {{ $t('buttons.mark_invalid')}}
+                                </v-btn>
                                 <v-list v-for="(item, key) in getListObjects(data)" :key="key" dense>
                                     <v-list-item>
                                         <v-list-item-title v-text="key"></v-list-item-title>
@@ -253,6 +278,7 @@ export default {
             search: 'queries/search',
             download: 'queries/download',
             delete: 'queries/delete',
+            setInvalid: 'queries/setInvalid',
             resetQueryState: 'queries/resetQueryState',
         }),
         handleSubmit: function () {
@@ -293,10 +319,16 @@ export default {
                     this.choices[input] = data
                 })
         },
-        getChoices(input, name, choice) { // extract choices for filtering from respective objects
-            let output = []
-            input.forEach(key => output.push(key[choice]))
-            this.choices[name] = output
+        colorStyle(item) {
+            let color = item.has_warnings ? 'warning': 'secondary'
+            if (item.is_old) {
+                color = 'brown'
+            } else if (item.has_errors) {
+                color = 'error'
+            } else if (item.is_invalid) {
+                color = 'error'
+            }
+            return color + '--text'
         },
     },
     created() {

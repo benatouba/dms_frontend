@@ -3,9 +3,10 @@
         <v-expansion-panels v-for="data in files" :key="data.file.name" elevation="5" outlined>
             <v-expansion-panel v-if="Object.keys(data.resp).length">
                 <v-row no-gutters>
-                <v-expansion-panel-header :class="`filename${data.resp.status}`">
-                    <strong>{{ data.file.name }}</strong>
-                    <span color="#000000">{{ data.uploaded? 'uploaded': 'not uploaded'}}</span>
+                <v-expansion-panel-header :style="colorStyle(data.resp)">
+                    <strong v-if="!!data.file.name">{{ data.file.name }}</strong>
+                    <strong v-else>{{ $t('upload.no_title')}}</strong>
+                    <span color="#000000">{{ data.uploaded? $t('upload.uploaded'): $t('upload.not_uploaded') }}</span>
                     <v-btn
                             v-if="data.resp.status === 2"
                             v-on:click.stop="uploadAnyway(data.file,true, false)"
@@ -65,7 +66,7 @@ export default {
     computed: {
         ...mapState({
             files: state => state.upload.files,
-            is_superuser: state => state.accounts.is_superuser
+            is_superuser: state => state.account.is_superuser
         }),
     },
     methods: {
@@ -86,12 +87,23 @@ export default {
             delete data.result
             delete data.status
             return data
-        }
+        },
+        colorStyle(item) {
+            let color = "success"
+            if (item.status === 2) {
+                color = 'warning'
+            } else if (item.status === 3) {
+                color = 'error'
+            } else if (item.status === 4) {
+                color = 'accent'
+            }
+            return "border-left: 4px solid" + color + ";";
+        },
     }
 }
 </script>
 
-<style lang="scss">
+<!--<style lang="scss">
 .filename1 {
     border-left: 4px solid #3cd1c2;
 }
@@ -121,4 +133,4 @@ export default {
     text-align: left;
     justify-self: left;
 }
-</style>
+</style>-->

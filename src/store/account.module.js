@@ -3,14 +3,42 @@ import router from '../router'
 import i18n from '../plugins/i18n'
 
 const loggedIn = localStorage.getItem('loggedIn') || false
+const user = localStorage.getItem('user')
+const token = localStorage.getItem('token')
+const is_superuser = localStorage.getItem('is_superuser')
+const email = localStorage.getItem('email')
+const id = localStorage.getItem('id')
+const first_name = localStorage.getItem('token')
+
 function getDefaultState() {
     return {
-        is_superuser: false,
+        is_superuser: is_superuser ? is_superuser : null,
         isLoggedIn: !!loggedIn,
-        user: false,
+        user: user ? user : null,
+        token: token ? token : null,
+        email: email ? email : null,
+        id: id ? id : null,
+        first_name: first_name ? first_name : null,
     }
 }
-
+// function getDefaultState(user) {
+//     if (user) {
+//         return {
+//             is_superuser: user.is_superuser,
+//             token: user.token,
+//             email: user.email,
+//             id: user.id,
+//             first_name: user.first_name,
+//             last_name: user.last_name,
+//             groups: user.groups,
+//             user: user.user,
+//             isLoggedIn: true,
+//             phone_number: user.phone_number,
+//         }
+//     } else {
+//         return null
+//     }
+// }
 const state = getDefaultState()
 
 const getters = {

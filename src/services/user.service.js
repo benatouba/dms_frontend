@@ -16,9 +16,18 @@ function login({ username, password }) {
             let answer = new Promise(function(resolve, reject) {
                 if (json.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    // localStorage.setItem('user', json)
                     localStorage.setItem('user', json.username)
                     localStorage.setItem('token', json.token)
+                    localStorage.setItem('is_superuser', json.is_superuser)
                     localStorage.setItem('loggedIn', 'true')
+                    localStorage.setItem('email', json.email)
+                    localStorage.setItem('first_name', json.first_name)
+                    localStorage.setItem('id', json.id)
+                    localStorage.setItem('last_name', json.last_name)
+                    localStorage.setItem('phone_number', json.phone_number)
+                    json.groups.forEach((group, id) => localStorage.setItem(`group${id}`, group.name))
+                    console.log(json)
                     resolve(json)
                 } else {
                     reject(json)
@@ -50,12 +59,11 @@ async function patch(toChange) {
     const requestOptions = authHeader('PATCH')
     alert(toChange)
     const urlencoded = new URLSearchParams()
-    Object.keys(toChange)
-        .forEach(function eachKey(key) {
-            alert(key); // alerts key
-            alert(toChange[key]); // alerts value
-            urlencoded.append(key, toChange[key])
-        });
+    Object.keys(toChange).forEach(function eachKey(key) {
+        alert(key) // alerts key
+        alert(toChange[key]) // alerts value
+        urlencoded.append(key, toChange[key])
+    })
 
     requestOptions.headers.append('Content-Type', 'application/x-www-form-urlencoded')
     requestOptions.body = urlencoded
@@ -70,7 +78,10 @@ async function list(searchParam) {
     requestOptions.headers.append('Content-Type', 'application/json')
     requestOptions.redirect = 'follow'
 
-    let response = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/?username=${searchParam}`, requestOptions)
+    let response = await fetch(
+        `${process.env['VUE_APP_API_ENDPOINT']}/auth/user/?username=${searchParam}`,
+        requestOptions
+    )
     let user = await response.json()
     return user
 }
