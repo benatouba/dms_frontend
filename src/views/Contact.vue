@@ -71,7 +71,7 @@ export default {
                 {
                     id: 3,
                     name: 'Ute Fehrenbach   ',
-                    role: { de: 'Koordinationsbüro Berlin', en: 'Communications Office' },
+                    role: { de: 'Koordinationsbüro Berlin', en: 'Coordination Office Berlin' },
                     website: 'http://www.klima.tu-berlin.de/index.php?show=team_fehrenbach',
                     email: 'ute.fehrenbach@tu-berlin.de',
                     tel: '+49-(0)30-314-71309',
@@ -79,7 +79,7 @@ export default {
                 {
                     id: 4,
                     name: 'Dieter Scherer',
-                    role: { de: 'Programmkoordinator', en: 'Program Coordinator' },
+                    role: { de: 'Programmkoordinator', en: 'Programme Coordinator' },
                     website: 'http://www.klima.tu-berlin.de/index.php?show=team_scherer',
                     email: 'dieter.scherer@tu-berlin.de',
                     tel: '+49-(0)30-314-71356',
