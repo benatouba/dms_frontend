@@ -84,20 +84,20 @@ export default {
             }
         },
         getDataForTreeview(data) {
-            delete data.result
-            delete data.status
-            return data
+            let newData = {...data}
+            delete newData.result
+            delete newData.status
+            return newData
         },
-        colorStyle(item) {
-            let color = "success"
-            if (item.status === 2) {
-                color = 'warning'
-            } else if (item.status === 3) {
-                color = 'error'
-            } else if (item.status === 4) {
-                color = 'accent'
-            }
-            return "border-left: 4px solid" + color + ";";
+        colorStyle(resp) {
+            let colors = [
+                this.$vuetify.theme.themes.light.success,
+                this.$vuetify.theme.themes.light.warning,
+                this.$vuetify.theme.themes.light.error,
+                this.$vuetify.theme.themes.light.accent,
+            ]
+            let string = `border-left: 4px solid ${colors[resp.status - 1]};`
+            return string
         },
     }
 }

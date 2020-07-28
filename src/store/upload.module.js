@@ -47,11 +47,11 @@ const actions = {
      *
      * @param {Object} data An object containing all info to pass to backend
      */
-    async uploadFiles({ dispatch, commit }, data) {
-        commit('uploadRequest', data)
+    async uploadFiles({ dispatch, commit }, obj) {
+        commit('uploadRequest', obj)
         try {
-            let resp = await uploadService.upload(data)
-            commit('uploadResult', { ...data, resp })
+            let resp = await uploadService.upload(obj)
+            commit('uploadResult', { obj, resp })
         } catch (error) {
             dispatch('alerts/error', error, { root: true })
         }
@@ -110,20 +110,25 @@ const mutations = {
             state.meta.push({ name: obj.file.name, type: obj.type, uploaded: false, uploading: true })
         }
     },
-    uploadResult: (state, payload) => {
-        const item = state.files.find(data => data.file.name === payload.file.name)
-        item.resp = payload.resp
-        item.ignore_warnings = payload.ignore_warnings
-        item.ignore_errors = payload.ignore_errors
-        item.uploaded = payload.resp.status === 1
+    uploadResult: (state, { obj, resp }) => {
+        let item = state.files.find(data => data.file.name === obj.file.name)
+        item.resp = resp
+        item.ignore_warnings = obj.ignore_warnings
+        item.ignore_errors = obj.ignore_errors
+        item.uploaded = resp.status === 1
+        if (obj.ignore_warnings) {
+            item.uploaded = resp.status <= 2
+        }
+        if (obj.ignore_errors) {
+            item.uploaded = resp.status <= 3
+        }
         item.uploading = false
     },
     updateMessage(state, id, message) {
         state.files[id].message = message
     },
     uploadMetaResult: (state, payload) => {
-        const item = state.meta.find(item => item.name === payload.obj.file.name)
-        console.log(item)
+        const item = state.meta.find(item => item.name === payload.file.name)
         item.uploaded = payload.resp.status === 1
         item.uploading = false
         item.result = payload.resp

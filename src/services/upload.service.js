@@ -1,6 +1,6 @@
 import authHeader from '../helpers/authentication'
 
-async function upload({file, ignore_warnings, ignore_errors}) {
+async function upload({ file, ignore_warnings, ignore_errors }) {
     const requestOptions = authHeader('POST')
 
     const formdata = new FormData()
@@ -16,21 +16,8 @@ async function upload({file, ignore_warnings, ignore_errors}) {
     requestOptions.body = formdata
     requestOptions.redirect = 'follow'
 
-    let promise = fetch(process.env.VUE_APP_API_ENDPOINT + `/data/file/`, requestOptions)
-        .then(resp => resp.json())
-        // .then(resp => {
-        //     let answer = new Promise(function(resolve, reject) {
-        //         if (resp.status !== 1) {
-        //             reject(resp)
-        //         } else {
-        //             resolve(resp)
-        //         }
-        //     })
-        //     return answer
-        // })
-    let answer = await promise
-    // await new Promise(resolve => setTimeout(resolve, 3000))
-    return answer
+    let promise = fetch(process.env.VUE_APP_API_ENDPOINT + `/data/file/`, requestOptions).then(resp => resp.json())
+    return await promise
 }
 
 function uploadMetadataList(obj) {
@@ -43,8 +30,7 @@ function uploadMetadataList(obj) {
     requestOptions.redirect = 'follow'
     requestOptions.headers.append('Content-Type', 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW')
 
-    return fetch(process.env.VUE_APP_API_ENDPOINT + `/data/${obj.type}/`, requestOptions)
-        .then(resp => resp.json())
+    return fetch(process.env.VUE_APP_API_ENDPOINT + `/data/${obj.type}/`, requestOptions).then(resp => resp.json())
 }
 
 export const uploadService = {

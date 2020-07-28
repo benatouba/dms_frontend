@@ -6,7 +6,7 @@
                     <div class="container">
                         <form enctype="multipart/form-data" novalidate>
                             <v-card
-                                class="dropbox primary secondary--text text-center"
+                                class="dropbox primary accent--text text-center"
                                 outline
                                 block
                                 flat
