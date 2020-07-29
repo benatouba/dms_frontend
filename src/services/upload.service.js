@@ -1,6 +1,6 @@
 import authHeader from '../helpers/authentication'
 
-async function upload({ file, ignore_warnings, ignore_errors }) {
+function upload({ file, ignore_warnings, ignore_errors }) {
     const requestOptions = authHeader('POST')
 
     const formdata = new FormData()
@@ -16,8 +16,7 @@ async function upload({ file, ignore_warnings, ignore_errors }) {
     requestOptions.body = formdata
     requestOptions.redirect = 'follow'
 
-    let promise = fetch(process.env.VUE_APP_API_ENDPOINT + `/data/file/`, requestOptions).then(resp => resp.json())
-    return await promise
+    return fetch(process.env.VUE_APP_API_ENDPOINT + `/data/file/`, requestOptions)
 }
 
 function uploadMetadataList(obj) {

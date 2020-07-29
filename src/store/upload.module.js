@@ -51,6 +51,12 @@ const actions = {
         commit('uploadRequest', obj)
         try {
             let resp = await uploadService.upload(obj)
+            if (!resp.ok && resp.status !== 406) {
+                // throw error if response is not ok and not data not acceptable
+                console.log(resp)
+                throw await resp.json()
+            }
+            resp = await resp.json()
             commit('uploadResult', { obj, resp })
         } catch (error) {
             dispatch('alerts/error', error, { root: true })
@@ -60,8 +66,7 @@ const actions = {
         commit('uploadMetaRequest', obj)
         try {
             let resp = await uploadService.uploadMetadataList(obj)
-            let payload = { resp, obj }
-            commit('uploadMetaResult', payload)
+            commit('uploadMetaResult', { resp, obj })
             return resp
         } catch (error) {
             // commit('uploadMetaFailure', error, file, 'metaData')

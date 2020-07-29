@@ -8,29 +8,25 @@
                     <strong v-else>{{ $t('upload.no_title')}}</strong>
                     <span color="#000000">{{ data.uploaded? $t('upload.uploaded'): $t('upload.not_uploaded') }}</span>
                     <v-btn
-                            v-if="data.resp.status === 2"
+                            v-if="data.resp.status === 2 && !data.uploaded"
                             v-on:click.stop="uploadAnyway(data.file,true, false)"
                             text
-                            left
+                            small
                             ripple
                             class="ma-2 primary--text"
                             outlined
-                            tile
                             target="_blank"
                     >
                         {{ $t('buttons.upload_with_warnings') }}
                     </v-btn>
                     <v-btn
-                            v-if="data.resp.status === 3 && is_superuser"
+                            v-if="data.resp.status === 3 && is_superuser && !data.uploaded"
                             v-on:click.stop="uploadAnyway(data.file, true, true)"
                             text
-                            x-small
-                            left
+                            small
                             ripple
                             class="ma-2 primary--text"
                             outlined
-                            tile
-                            dense
                             target="_blank"
                     >
                         {{ $t('buttons.upload_with_errors') }}
@@ -102,35 +98,3 @@ export default {
     }
 }
 </script>
-
-<!--<style lang="scss">
-.filename1 {
-    border-left: 4px solid #3cd1c2;
-}
-.filename2 {
-    border-left: 4px solid #ffaa2c;
-    color: #ffaa2c;
-}
-.filename3 {
-    border-left: 4px solid #f83e70;
-    color: #f83e70;
-}
-.filename4 {
-    border-left: 4px solid #f83e70;
-    color: #f83e70;
-}
-.warnings {
-    border-left: 4px solid #ffaa2c;
-    color: #ffaa2c;
-}
-.errors {
-    border-left: 4px solid #f83e70;
-    text-align: left;
-    justify-self: left;
-}
-.fatal {
-    border-left: 4px solid #000000;
-    text-align: left;
-    justify-self: left;
-}
-</style>-->
