@@ -1,6 +1,6 @@
 import { userService } from '../services/user.service'
 
-const state = { items: [], status: { loading: false, loaded: false }}
+const state = { items: [], status: { loading: false, loaded: false } }
 
 const actions = {
     async list({ commit, dispatch }, searchParam) {
@@ -31,11 +31,9 @@ const actions = {
     Depending on the response, mutations will be triggered to alter the store state. */
         commit('deleteRequest', id)
         try {
-            let resp = await userService.delete(id, action)
-            console.log(resp)
+            await userService.delete(id, action)
             commit('deleteSuccess', id)
         } catch (error) {
-            console.log(error)
             commit('deleteFailure', { id, error })
             dispatch('alerts/error', error, { root: true })
         }
@@ -44,14 +42,14 @@ const actions = {
 
 const mutations = {
     listRequest(state) {
-        state.status = {loading: true, loaded: false }
+        state.status = { loading: true, loaded: false }
     },
     listSuccess(state, users) {
         state.items = users
-        state.status = {loading: true, loaded: false }
+        state.status = { loading: true, loaded: false }
     },
     listFailure(state) {
-        state.status = {loading: false, loaded: false }
+        state.status = { loading: false, loaded: false }
     },
     deleteRequest(state, id) {
         // add property, to mark deletion request is sent
@@ -63,19 +61,18 @@ const mutations = {
     },
     deleteFailure(state, data) {
         // remove 'deleting:true' property and add 'deleteError:[error]' property to user
-        console.log(data)
         state.items = state.items.map(user => {
             if (user.id === data.id) {
                 // make copy of user without 'deleting:true' property
                 // eslint-disable-next-line no-unused-vars
                 let { deleting, ...userCopy } = user
                 // return copy of user with 'deleteError:[error]' property
-                return { ...userCopy, deleteError: data.error}
+                return { ...userCopy, deleteError: data.error }
             }
             return user
         })
     },
-    manageResult(state, {id, resp}) {
+    manageResult(state, { id, resp }) {
         let item = state.items.find(user => user.id === id)
         item.is_active = !!resp.is_active
     },

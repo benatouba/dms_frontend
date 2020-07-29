@@ -56,7 +56,7 @@ async function setInvalid(file) {
         let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}/set_invalid/`, requestOptions)
         return resp
     } catch (error) {
-        console.log(error)
+        return error
     }
 }
 

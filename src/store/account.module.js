@@ -2,56 +2,42 @@ import { userService } from '../services'
 import router from '../router'
 import i18n from '../plugins/i18n'
 
-const loggedIn = localStorage.getItem('loggedIn') || false
-const user = localStorage.getItem('user')
-const token = localStorage.getItem('token')
-const is_superuser = localStorage.getItem('is_superuser')
-const email = localStorage.getItem('email')
-const id = localStorage.getItem('id')
-const first_name = localStorage.getItem('token')
+// const loggedIn = localStorage.getItem('loggedIn') || false
+let user = null
+if (localStorage.getItem('user')) {
+    user = JSON.parse(localStorage.getItem('user'))
+}
 
 function getDefaultState() {
-    return {
-        is_superuser: is_superuser ? is_superuser : null,
-        isLoggedIn: !!loggedIn,
-        user: user ? user : null,
-        token: token ? token : null,
-        email: email ? email : null,
-        id: id ? id : null,
-        first_name: first_name ? first_name : null,
+    if (user) {
+        return user
+    } else {
+        return {
+            is_superuser: false,
+            token: null,
+            email: null,
+            id: null,
+            first_name: null,
+            last_name: null,
+            groups: null,
+            username: null,
+            phone_number: null,
+        }
     }
 }
-// function getDefaultState(user) {
-//     if (user) {
-//         return {
-//             is_superuser: user.is_superuser,
-//             token: user.token,
-//             email: user.email,
-//             id: user.id,
-//             first_name: user.first_name,
-//             last_name: user.last_name,
-//             groups: user.groups,
-//             user: user.user,
-//             isLoggedIn: true,
-//             phone_number: user.phone_number,
-//         }
-//     } else {
-//         return null
-//     }
-// }
 const state = getDefaultState()
 
 const getters = {
     user: state => {
         return state.user
     },
-    isLoggedIn: state => {
+    token: state => {
         return !!state.token
     },
 }
 const actions = {
     login({ dispatch, commit }, { username, password }) {
-        commit('loginRequest', { username })
+        commit('loginRequest', username)
         commit('showErrorBanner', false, { root: true })
 
         userService.login({ username, password }).then(
@@ -105,26 +91,22 @@ const actions = {
 }
 
 const mutations = {
-    loginRequest(state, user) {
-        state.isLoggedIn = false
-        state.user = user
+    loginRequest(state, username) {
+        state.token = null
+        state.username = username
     },
     loginSuccess(state, data) {
-        state.isLoggedIn = true
         Object.entries(data).forEach(item => {
             state[item[0]] = item[1]
         })
-        state.user = data.username
         state.is_superuser = !!data.is_superuser
     },
     loginFailure(state) {
-        state.isLoggedIn = false
         state.user = null
         state.token = null
     },
     logout(state) {
         state.token = null
-        state.isLoggedIn = false
         Object.assign(state, getDefaultState())
     },
     registerRequest(state) {

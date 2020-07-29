@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store'
 import Home from '../views/Home'
 import Search from '../views/Search'
 import Upload from '../views/Upload'
@@ -65,9 +66,9 @@ router.beforeEach((to, from, next) => {
     // redirect to login page if not logged in and trying to access a restricted page
     const publicPages = ['/login', '/register', '/home', '/contact', '/', '/search']
     const authRequired = !publicPages.includes(to.path)
-    const loggedIn = localStorage.getItem('user')
+    const username = !!store.state.account.username
 
-    if (authRequired && !loggedIn) {
+    if (authRequired && !username) {
         return next('/login')
     }
 

@@ -2,7 +2,7 @@
     <v-app class="primary">
         <Navbar />
         <v-main style="margin: auto; width: 80%;">
-            <LoginInfo v-if="!isLoggedIn && alerts.loginInfo" />
+            <LoginInfo v-if="!account.token && alerts.loginInfo" />
             <Notification :banner="showErrorBanner"></Notification>
             <router-view></router-view>
         </v-main>
@@ -22,7 +22,7 @@ export default {
     computed: {
         ...mapState({
             alerts: state => state.alerts,
-            isLoggedIn: state => state.account.isLoggedIn,
+            account: state => state.account,
             showErrorBanner: state => state.errorBanner
         })
     },

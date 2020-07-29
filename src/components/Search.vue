@@ -77,7 +77,7 @@
                             <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_invalid" :label="$t('buttons.show_invalid')" false-value="false" true-value="null"></v-switch>
                             <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_old" :label="$t('buttons.show_old')" false-value="false" true-value="null"></v-switch>
                             <v-switch
-                                    v-if="isLoggedIn"
+                                    v-if="account.token"
                                     @change="handleSubmit"
                                     color="primary"
                                     v-model="searchInput.uploader"
@@ -194,7 +194,7 @@
                                        v-bind="attrs"
                                        v-on="on">
                                     <v-btn
-                                            v-if="isLoggedIn"
+                                            v-if="account.token"
                                             :disabled="!!data.download_count && data.uploader !== account.user"
                                             @click="handleDelete(data)"
                                             icon
@@ -265,7 +265,6 @@ export default {
     computed: {
         ...mapState({
             account: state => state.account,
-            isLoggedIn: state => state.account.isLoggedIn,
             queriedFiles: state => state.queries.result,
             itemCount: state => state.queries.count,
         }),
@@ -356,8 +355,6 @@ export default {
             page: 1,
             pageLength: 10,
             pageLengthChoices: [5, 10, 20, 50],
-            // FIXME: get from data store for production
-            // user: localStorage.getItem('user'),
             searchInput: {
                 search: '',
                 acronym: '',

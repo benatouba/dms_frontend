@@ -1,14 +1,17 @@
+import store from '../store'
 export default function authHeader(method) {
-    // return authorization header with jwt token
-    let user = localStorage.getItem('user')
-    let token = localStorage.getItem('token')
+    // let user = localStorage.getItem('user')
+    // let token = localStorage.getItem('token')
+
+    let user = store.state.account.user
+    let token = store.state.account.token
 
     const myHeaders = new Headers()
     const requestOptions = { method: method }
 
     if (user && token) {
         // prepare request authorization
-        myHeaders.append('Authorization', ' Token ' + localStorage.getItem('token'))
+        myHeaders.append('Authorization', ' Token ' + token)
     }
     requestOptions.headers = myHeaders
     return requestOptions

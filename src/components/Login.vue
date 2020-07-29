@@ -95,7 +95,7 @@ export default {
         }
     },
     beforeRouteLeave(to, from, next) {
-        if (this.isLoggedIn) {
+        if (this.account.token) {
             // this.clearAlert()
             next()
         } else {
@@ -107,11 +107,11 @@ export default {
     computed: {
         ...mapState({
             alerts: state => state.alerts,
-            isLoggedIn: state => state.account.isLoggedIn
+            account: state => state.account
         }),
     },
     created() {
-        if (this.isLoggedIn) {
+        if (this.account.token) {
             this.logout()
         }
         this.showLoginInfo(false)

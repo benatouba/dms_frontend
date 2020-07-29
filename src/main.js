@@ -9,7 +9,7 @@ import i18n from './plugins/i18n'
 import './components/_globals'
 
 Vue.use(FlagIcon)
-console.log()
+
 Vue.config.productionTip = false
 
 new Vue({

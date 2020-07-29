@@ -64,7 +64,6 @@ const actions = {
         try {
             let resp = await queryService.setInvalid(file)
             let payload = { resp, file }
-            console.log(payload)
             commit('setInvalidResult', payload)
             commit('alerts/success', ['Marked as invalid'], { root: true })
         } catch (error) {

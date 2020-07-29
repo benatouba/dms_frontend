@@ -56,8 +56,7 @@ export default {
             let groups = []
             data.groups.forEach(x => groups.push(x.name))
             newObj.groups = groups.join()
-            delete newObj.user
-            delete newObj.isLoggedIn
+            delete newObj.username
             delete newObj.is_superuser
             delete newObj.id
             delete newObj.token

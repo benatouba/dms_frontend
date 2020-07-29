@@ -15,19 +15,7 @@ function login({ username, password }) {
         .then(json => {
             let answer = new Promise(function(resolve, reject) {
                 if (json.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    // localStorage.setItem('user', json)
-                    localStorage.setItem('user', json.username)
-                    localStorage.setItem('token', json.token)
-                    localStorage.setItem('is_superuser', json.is_superuser)
-                    localStorage.setItem('loggedIn', 'true')
-                    localStorage.setItem('email', json.email)
-                    localStorage.setItem('first_name', json.first_name)
-                    localStorage.setItem('id', json.id)
-                    localStorage.setItem('last_name', json.last_name)
-                    localStorage.setItem('phone_number', json.phone_number)
-                    json.groups.forEach((group, id) => localStorage.setItem(`group${id}`, group.name))
-                    console.log(json)
+                    localStorage.setItem('user', JSON.stringify(json))
                     resolve(json)
                 } else {
                     reject(json)
@@ -39,11 +27,7 @@ function login({ username, password }) {
 }
 
 function logout() {
-    // remove user from local storage to log user out
     localStorage.removeItem('user')
-    localStorage.removeItem('token')
-    localStorage.removeItem('is_superuser')
-    localStorage.setItem('loggedIn', '') // set to empty string, since f.e. firefox can only store 'strings'. JS will coerce this to bool false.
 }
 
 function register(user) {

@@ -101,12 +101,12 @@ export default {
         links: function() {return {
             home:  { icon: 'mdi-home', route: '/', show: true, },
             search: { icon: 'mdi-cloud-search', route: '/search', show: true, },
-            upload: { icon: 'mdi-cloud-upload', route: '/upload', show: !!this.account.isLoggedIn, },
+            upload: { icon: 'mdi-cloud-upload', route: '/upload', show: !!this.account.token, },
             contact: { icon: 'mdi-help', route: '/contact', show: true},
-            account: { icon: 'mdi-account-circle', route: '/account', show: !!this.account.isLoggedIn, },
-            admin: { icon: 'mdi-account-tie-outline', route: '/administration', show: !!this.account.isLoggedIn && !!this.account.is_superuser, },
-            login: { icon: 'mdi-login', route: '/login', show: !this.account.isLoggedIn, },
-            logout: { icon: 'mdi-logout', route: '/login', show: !!this.account.isLoggedIn, },
+            account: { icon: 'mdi-account-circle', route: '/account', show: !!this.account.token, },
+            admin: { icon: 'mdi-account-tie-outline', route: '/administration', show: !!this.account.token && !!this.account.is_superuser, },
+            login: { icon: 'mdi-login', route: '/login', show: !this.account.token, },
+            logout: { icon: 'mdi-logout', route: '/login', show: !!this.account.token, },
         }},
     },
     data() {
