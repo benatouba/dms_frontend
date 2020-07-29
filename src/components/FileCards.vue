@@ -2,38 +2,43 @@
     <v-container>
         <v-expansion-panels v-for="data in files" :key="data.file.name" elevation="5" outlined>
             <v-expansion-panel v-if="Object.keys(data.resp).length">
-                <v-row no-gutters>
                 <v-expansion-panel-header :style="colorStyle(data.resp)">
-                    <strong v-if="!!data.file.name">{{ data.file.name }}</strong>
-                    <strong v-else>{{ $t('upload.no_title')}}</strong>
-                    <span color="#000000">{{ data.uploaded? $t('upload.uploaded'): $t('upload.not_uploaded') }}</span>
-                    <v-btn
-                            v-if="data.resp.status === 2 && !data.uploaded"
-                            v-on:click.stop="uploadAnyway(data.file,true, false)"
-                            text
-                            small
-                            ripple
-                            class="ma-2 primary--text"
-                            outlined
-                            target="_blank"
-                    >
-                        {{ $t('buttons.upload_with_warnings') }}
-                    </v-btn>
-                    <v-btn
-                            v-if="data.resp.status === 3 && is_superuser && !data.uploaded"
-                            v-on:click.stop="uploadAnyway(data.file, true, true)"
-                            text
-                            small
-                            ripple
-                            class="ma-2 primary--text"
-                            outlined
-                            target="_blank"
-                    >
-                        {{ $t('buttons.upload_with_errors') }}
-                    </v-btn>
-
+                    <v-row align="center">
+                        <v-col cols="5">
+                            <strong v-if="!!data.file.name">{{ data.file.name }}</strong>
+                            <strong v-else>{{ $t('upload.no_title')}}</strong>
+                        </v-col>
+                        <v-col cols="2">
+                            <span color="#000000">{{ data.uploaded? $t('upload.uploaded'): $t('upload.not_uploaded') }}</span>
+                        </v-col>
+                        <v-col cols="1" justify="end">
+                            <v-btn
+                                    v-if="data.resp.status === 2 && !data.uploaded"
+                                    v-on:click.stop="uploadAnyway(data.file,true, false)"
+                                    text
+                                    small
+                                    ripple
+                                    class="ma-2 primary--text"
+                                    outlined
+                                    target="_blank"
+                            >
+                                {{ $t('buttons.upload_with_warnings') }}
+                            </v-btn>
+                            <v-btn
+                                    v-if="data.resp.status === 3 && is_superuser && !data.uploaded"
+                                    v-on:click.stop="uploadAnyway(data.file, true, true)"
+                                    text
+                                    small
+                                    ripple
+                                    class="ma-2 primary--text"
+                                    outlined
+                                    target="_blank"
+                            >
+                                {{ $t('buttons.upload_with_errors') }}
+                            </v-btn>
+                        </v-col>
+                    </v-row>
                 </v-expansion-panel-header>
-                </v-row>
                 <v-expansion-panel-content>
                     <v-treeview
                             :items="buildTree(value, key)"
