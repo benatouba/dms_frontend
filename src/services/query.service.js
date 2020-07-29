@@ -39,10 +39,10 @@ function deleteFile(file) {
 
     let response = fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}`, requestOptions).then(resp => {
         let response = new Promise(function(resolve, reject) {
-            if (resp.status === 403) {
-                reject('Unauthorized')
+            if (!resp.ok) {
+                reject(resp.json())
             } else {
-                resolve(resp.json())
+                resolve(resp) // resp 301 has no json content
             }
         })
         return response

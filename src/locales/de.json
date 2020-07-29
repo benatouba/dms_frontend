@@ -112,5 +112,8 @@
     "user_title": "Nutzerbereich",
     "upload_placeholder": "Metadatenliste hochladen",
     "upload_label": "CSV-Datei"
+  },
+  "alerts": {
+    "file_deleted": "Datei %{name} gelöscht"
   }
 }

@@ -287,7 +287,7 @@ export default {
             if (this.queriedFiles) {
                 this.resetQueryState()
             }
-            this.search(this.searchInput) // this needs to be parsed as dict. else it defaults to 'undefined'
+            this.search(this.searchInput)
         },
         handleDownload(file) {
             this.download({ file })

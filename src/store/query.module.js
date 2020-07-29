@@ -1,5 +1,5 @@
 import queryService from '../services/query.service'
-import i18n from 'vue-i18n'
+import i18n from '../plugins/i18n'
 
 const getDefaultState = () => {
     return {
@@ -54,7 +54,7 @@ const actions = {
         try {
             await queryService.deleteFile(file)
             commit('deleteSuccess', file.id)
-            dispatch('alerts/success', i18n.t('alerts.file_deleted'))
+            dispatch('alerts/success', i18n.t('alerts.file_deleted', { name: file.file_standard_name }), { root: true })
         } catch (error) {
             commit('deleteFailure')
             dispatch('alerts/error', error, { root: true })

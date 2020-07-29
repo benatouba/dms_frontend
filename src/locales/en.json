@@ -112,5 +112,8 @@
     "user_title": "Nutzerbereich",
     "upload_placeholder": "Upload Metadata list",
     "upload_label": "CSV-File"
+  },
+  "alerts": {
+    "file_deleted": "File %{name} deleted!"
   }
 }
