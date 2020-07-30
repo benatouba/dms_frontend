@@ -157,7 +157,7 @@
                                         class="primary white--text v-btn v-size--large"
                                         @click="overlay = false"
                                     >
-                                        {{ $t('buttons.confirm') }}
+                                        {{ $t('buttons.ok') }}
                                     </router-link>
                                 </v-overlay>
                             </v-card>

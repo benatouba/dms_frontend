@@ -68,7 +68,7 @@
                                     class="primary white--text v-btn v-size--large"
                                     @click="submitted = false; clearAlert"
                                 >
-                                    {{ $t('buttons.confirm') }}
+                                    {{ $t('buttons.ok') }}
                                 </v-btn>
                             </v-overlay>
                         </v-card>

@@ -26,7 +26,7 @@
                                         color="primary white--text v-size--large"
                                         @click="overlay = false"
                                 >
-                                    {{ $t('buttons.confirm') }}
+                                    {{ $t('buttons.ok') }}
                                 </v-btn>
                             </v-overlay>
                         </v-col>
