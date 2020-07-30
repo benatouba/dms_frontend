@@ -27,14 +27,11 @@ function getDefaultState() {
 }
 const state = getDefaultState()
 
-// const getters = {
-//     user: state => {
-//         return state.username
-//     },
-//     token: state => {
-//         return !!state.token
-//     },
-// }
+const getters = {
+    group: state => groups => {
+        return state.groups.find(item => item.name === groups)
+    },
+}
 const actions = {
     login({ dispatch, commit }, { username, password }) {
         commit('loginRequest', username)
@@ -128,7 +125,7 @@ const mutations = {
 export default {
     namespaced: true,
     state,
-    // getters,
+    getters,
     actions,
     mutations,
 }
