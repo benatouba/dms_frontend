@@ -5,17 +5,19 @@
     "register": "Registrieren",
     "clear": "Löschen",
     "cancel": "Zurück",
-    "confirm": "OK",
+    "confirm": "Bestätigen",
+    "ok": "OK",
     "send": "Senden",
     "upload": "Hochladen",
     "upload_with_warnings": "Trotz Warnung(en) Hochladen",
     "upload_with_errors": "Trotz Fehler Hochladen",
     "not_required": "Kein Pflichtfeld",
     "option_select": "Bitte auswählen",
-    "show_invalid": "Ungültige Dateien einschalten",
-    "show_old": "Alte Dateien einschalten",
+    "show_invalid": "Ungültige Dateien einblenden",
+    "show_old": "Alte Daten einblenden",
     "mark_invalid": "als ungültig markieren",
-    "uploaded_by_me": "Meine Dateien",
+    "uploaded_by_me": "Nur meine Daten anzeigen",
+    "uploaded_by_institution": "Nur Daten meiner Institution anzeigen",
     "search": "Suchen",
     "input": "Sucheingabe"
   },
@@ -71,7 +73,8 @@
     "is_old": "- alte Datei",
     "is_invalid": "- als ungültig markiert",
     "has_errors": "- nicht Standardkonform",
-    "has_warnings": "- enthält Warnung(en)"
+    "has_warnings": "- enthält Warnung(en)",
+    "mark_invalid_warning": "Diese Operation kann nicht rückgangig gemacht werden. Die Datei wird dabei nicht aus der Datenbank gelöscht. Im Falle eine falsch gesetzten Markierung, kann eine Datei mit einer höheren Versionsnummer hochgeladen werden."
   },
   "register": {
     "title": "Registrieren",
