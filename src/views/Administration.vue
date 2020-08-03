@@ -13,14 +13,14 @@
 <script>
 import MetadataUpload from '../components/MetadataUpload'
 import UserCards from '../components/UserCards'
-import FileCard from "../components/FileCard";
-import { mapState } from "vuex";
+import FileCard from '../components/FileCard'
+import { mapState } from 'vuex'
 export default {
     name: 'AdministrationView',
     components: {
         MetadataUpload,
         FileCard,
-        UserCards
+        UserCards,
     },
     computed: mapState('upload', ['meta']),
 }

@@ -6,25 +6,25 @@
                 <v-expansion-panel-content>
                     <v-form>
                         <v-autocomplete
-                                @keyup.enter="handleSubmit"
-                                v-model="searchInput.institution"
-                                :items="choices.institution"
-                                item-text="ge_title"
-                                item-value="acronym"
-                                label="Institution"
-                                color="primary"
-                                @change="handleSubmit; getChoices(choices.site, 'site', searchInput.institution)"
+                            @keyup.enter="handleSubmit"
+                            v-model="searchInput.institution"
+                            :items="choices.institution"
+                            item-text="ge_title"
+                            item-value="acronym"
+                            label="Institution"
+                            color="primary"
+                            @change="
+                                handleSubmit
+                                getChoices(choices.site, 'site', searchInput.institution)
+                            "
                         ></v-autocomplete>
-                        </v-form>
-                        <v-card-actions>
-                            <v-btn
-                                color="primary"
-                                @click="handleSubmit"
-                            >
-                                {{ $t('buttons.send') }}
-                            </v-btn>
-                        </v-card-actions>
-                    </v-expansion-panel-content>
+                    </v-form>
+                    <v-card-actions>
+                        <v-btn color="primary" @click="handleSubmit">
+                            {{ $t('buttons.send') }}
+                        </v-btn>
+                    </v-card-actions>
+                </v-expansion-panel-content>
             </v-expansion-panel>
         </v-expansion-panels>
     </v-container>
@@ -37,14 +37,11 @@ export default {
     name: 'ChangeGroups',
     methods: {
         ...mapActions({ patch: 'account/patch' }),
-        handleSubmit() {
-        },
-        getGroups() {
-
-        },
+        handleSubmit() {},
+        getGroups() {},
     },
     created() {
         this.getGroups()
-    }
+    },
 }
 </script>

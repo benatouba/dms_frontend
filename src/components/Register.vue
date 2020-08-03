@@ -85,15 +85,16 @@
                                                 required
                                             />
                                         </ValidationProvider>
-                                        <ValidationProvider
-                                            name="Phone"
-                                            rules="numeric|min:8"
-                                            v-slot="{ errors }"
-                                        >
+                                        <ValidationProvider name="Phone" rules="numeric|min:8" v-slot="{ errors }">
                                             <v-text-field
                                                 v-model="phone_number"
                                                 :error-messages="errors"
-                                                :label="$t('register.phone_number') + ' (' + $t('buttons.not_required') + ')'"
+                                                :label="
+                                                    $t('register.phone_number') +
+                                                        ' (' +
+                                                        $t('buttons.not_required') +
+                                                        ')'
+                                                "
                                                 name="phone"
                                                 prepend-icon="phone"
                                             />
@@ -150,7 +151,7 @@
                                         {{ $t('buttons.register') }}
                                     </v-btn>
                                 </v-card-actions>
-                                <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity=".8">
+                                <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="0.8">
                                     <Notification banner="false"></Notification>
                                     <router-link
                                         to="/"
@@ -195,7 +196,8 @@ export default {
             showLoginInfo: 'alerts/showLoginInfo',
         }),
         async clear() {
-            this.name = this.email = this.first_name = this.last_name = this.institution = this.password = this.password2 = ''
+            this.name = this.email = this.first_name = this.last_name = this.institution = this.password = this.password2 =
+                ''
             requestAnimationFrame(() => {
                 this.$refs.obs.reset()
             })
@@ -235,6 +237,6 @@ export default {
     },
     created() {
         this.showLoginInfo(false)
-    }
+    },
 }
 </script>

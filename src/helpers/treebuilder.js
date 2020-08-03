@@ -40,33 +40,33 @@ export const er = {
         },
         {
             data_content: [
-                'Only one data variable found. \'mcpm\'. Expected global attribute \'data_content\' to be \'mcpm\'.',
+                "Only one data variable found. 'mcpm'. Expected global attribute 'data_content' to be 'mcpm'.",
             ],
         },
         {
             version: [
-                'Global attribute \'version\' has wrong type. Should be one of the following: int, int8, int16, int32, int64. Found type: str',
+                "Global attribute 'version' has wrong type. Should be one of the following: int, int8, int16, int32, int64. Found type: str",
             ],
         },
         {
             rotation_angle: [
-                'Global attribute \'rotation_angle\' has wrong type. Should be one of the following: float, float16, float32, float64. Found type: str',
+                "Global attribute 'rotation_angle' has wrong type. Should be one of the following: float, float16, float32, float64. Found type: str",
             ],
         },
         {
-            institution: ['Global attribute \'institution\' has wrong value. Found value: test'],
+            institution: ["Global attribute 'institution' has wrong value. Found value: test"],
         },
         {
-            acronym: ['Global attribute \'acronym\' has wrong value. Found value: test'],
+            acronym: ["Global attribute 'acronym' has wrong value. Found value: test"],
         },
         {
-            author: ['Global attribute \'author\': Persons must be given as last_name, first_name[, email]'],
+            author: ["Global attribute 'author': Persons must be given as last_name, first_name[, email]"],
         },
         {
             time: [
                 {
                     calendar: [
-                        'Variable \'time\': Required variable attribute \'calendar\'  has wrong value. Should be proleptic_gregorian. Found value: proleptic gregorian',
+                        "Variable 'time': Required variable attribute 'calendar'  has wrong value. Should be proleptic_gregorian. Found value: proleptic gregorian",
                     ],
                 },
             ],
@@ -75,8 +75,8 @@ export const er = {
             z: [
                 {
                     variable: [
-                        'Variable \'z\' has wrong dimensions. Expected: [(\'traj\', \'ntime\')]. Found: (\'traj\',)',
-                        'The _FillValue attribute of variable \'z\' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.',
+                        "Variable 'z' has wrong dimensions. Expected: [('traj', 'ntime')]. Found: ('traj',)",
+                        "The _FillValue attribute of variable 'z' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.",
                     ],
                 },
             ],
@@ -85,7 +85,7 @@ export const er = {
             x: [
                 {
                     variable: [
-                        'The _FillValue attribute of variable \'x\' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.',
+                        "The _FillValue attribute of variable 'x' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.",
                     ],
                 },
             ],
@@ -94,7 +94,7 @@ export const er = {
             y: [
                 {
                     variable: [
-                        'The _FillValue attribute of variable \'y\' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.',
+                        "The _FillValue attribute of variable 'y' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.",
                     ],
                 },
             ],
@@ -103,8 +103,8 @@ export const er = {
             lon: [
                 {
                     variable: [
-                        'Variable \'lon\' is outside allowed range[-180.1, 180.1]. Found range: [-9999.0,13.5585246]',
-                        'The _FillValue attribute of variable \'lon\' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.',
+                        "Variable 'lon' is outside allowed range[-180.1, 180.1]. Found range: [-9999.0,13.5585246]",
+                        "The _FillValue attribute of variable 'lon' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.",
                     ],
                 },
             ],
@@ -113,8 +113,8 @@ export const er = {
             lat: [
                 {
                     variable: [
-                        'Variable \'lat\' is outside allowed range[-90.1, 90.1]. Found range: [-9999.0,52.4396492]',
-                        'The _FillValue attribute of variable \'lat\' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.',
+                        "Variable 'lat' is outside allowed range[-90.1, 90.1]. Found range: [-9999.0,52.4396492]",
+                        "The _FillValue attribute of variable 'lat' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.",
                     ],
                 },
             ],
@@ -123,8 +123,8 @@ export const er = {
             E_UTM: [
                 {
                     variable: [
-                        'Variable \'E_UTM\' has wrong dimensions. Expected: [(\'traj\', \'ntime\')]. Found: (\'traj\',)',
-                        'The _FillValue attribute of variable \'E_UTM\' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.',
+                        "Variable 'E_UTM' has wrong dimensions. Expected: [('traj', 'ntime')]. Found: ('traj',)",
+                        "The _FillValue attribute of variable 'E_UTM' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.",
                     ],
                 },
             ],
@@ -133,8 +133,8 @@ export const er = {
             N_UTM: [
                 {
                     variable: [
-                        'Variable \'N_UTM\' has wrong dimensions. Expected: [(\'traj\', \'ntime\')]. Found: (\'traj\',)',
-                        'The _FillValue attribute of variable \'N_UTM\' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.',
+                        "Variable 'N_UTM' has wrong dimensions. Expected: [('traj', 'ntime')]. Found: ('traj',)",
+                        "The _FillValue attribute of variable 'N_UTM' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.",
                     ],
                 },
             ],
@@ -143,42 +143,42 @@ export const er = {
             crs: [
                 {
                     semi_major_axis: [
-                        'Variable \'crs\': Required variable attribute \'semi_major_axis\' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str',
+                        "Variable 'crs': Required variable attribute 'semi_major_axis' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str",
                     ],
                 },
                 {
                     inverse_flattening: [
-                        'Variable \'crs\': Required variable attribute \'inverse_flattening\' has wrong type. Should be one of the following: float, float16, float32, float64. Found type: str',
+                        "Variable 'crs': Required variable attribute 'inverse_flattening' has wrong type. Should be one of the following: float, float16, float32, float64. Found type: str",
                     ],
                 },
                 {
                     longitude_of_prime_meridian: [
-                        'Variable \'crs\': Required variable attribute \'longitude_of_prime_meridian\' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str',
+                        "Variable 'crs': Required variable attribute 'longitude_of_prime_meridian' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str",
                     ],
                 },
                 {
                     longitude_of_central_meridian: [
-                        'Variable \'crs\': Required variable attribute \'longitude_of_central_meridian\' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str',
+                        "Variable 'crs': Required variable attribute 'longitude_of_central_meridian' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str",
                     ],
                 },
                 {
                     scale_factor_at_central_meridian: [
-                        'Variable \'crs\': Required variable attribute \'scale_factor_at_central_meridian\' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str',
+                        "Variable 'crs': Required variable attribute 'scale_factor_at_central_meridian' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str",
                     ],
                 },
                 {
                     latitude_of_projection_origin: [
-                        'Variable \'crs\': Required variable attribute \'latitude_of_projection_origin\' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str',
+                        "Variable 'crs': Required variable attribute 'latitude_of_projection_origin' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str",
                     ],
                 },
                 {
                     false_easting: [
-                        'Variable \'crs\': Required variable attribute \'false_easting\' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str',
+                        "Variable 'crs': Required variable attribute 'false_easting' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str",
                     ],
                 },
                 {
                     false_northing: [
-                        'Variable \'crs\': Required variable attribute \'false_northing\' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str',
+                        "Variable 'crs': Required variable attribute 'false_northing' has wrong type. Should be one of the following: int, float, float16, float32, float64, int8, int16, int32, int64. Found type: str",
                     ],
                 },
             ],
@@ -187,7 +187,7 @@ export const er = {
             traj_name: [
                 {
                     cf_role: [
-                        'Variable \'traj_name\': Required variable attribute \'cf_role\'  has wrong value. Should be trajectory_id. Found value: timeseries_id',
+                        "Variable 'traj_name': Required variable attribute 'cf_role'  has wrong value. Should be trajectory_id. Found value: timeseries_id",
                     ],
                 },
             ],
@@ -196,21 +196,21 @@ export const er = {
             height: [
                 {
                     variable: [
-                        'Variable \'height\' has wrong dimensions. Expected: [(), (\'traj\', \'ntime\')]. Found: (\'traj\',)',
-                        'The _FillValue attribute of variable \'height\' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.',
+                        "Variable 'height' has wrong dimensions. Expected: [(), ('traj', 'ntime')]. Found: ('traj',)",
+                        "The _FillValue attribute of variable 'height' is set to nan. Must be -9999 (fixed fill value in the UC2 data standard.",
                     ],
                 },
             ],
         },
         {
             time_bounds: [
-                'Variable \'time_bounds\' has wrong dimensions. Expected: [(\'traj\', \'ntime\', \'nv\')]. Found: (\'nv\', \'ntime\', \'traj\')',
+                "Variable 'time_bounds' has wrong dimensions. Expected: [('traj', 'ntime', 'nv')]. Found: ('nv', 'ntime', 'traj')",
                 {
-                    attributes: ['Variable \'time_bounds\' must not have any attributes.'],
+                    attributes: ["Variable 'time_bounds' must not have any attributes."],
                 },
                 {
                     variable: [
-                        'Could not check values of variable \'time_bounds\' because of previous error with this variable.',
+                        "Could not check values of variable 'time_bounds' because of previous error with this variable.",
                     ],
                 },
             ],
@@ -219,29 +219,29 @@ export const er = {
             mcpm: [
                 {
                     coordinates: [
-                        'variable attribute \'coordinates\' contains a reference to a coordinate that is not found in file: {\'height\'}',
+                        "variable attribute 'coordinates' contains a reference to a coordinate that is not found in file: {'height'}",
                     ],
                 },
             ],
         },
         {
-            coordinate_transform: ['Cannot check geographic coordinates because of error in \'crs\' variable.'],
+            coordinate_transform: ["Cannot check geographic coordinates because of error in 'crs' variable."],
         },
     ],
     warnings: [
         {
             cfchecks: [
-                'Invalid Type for attribute: _FillValue <class \'numpy.float32\'>',
-                'Invalid Type for attribute: _FillValue <class \'numpy.float32\'>',
-                'Invalid Type for attribute: missing_value <class \'numpy.float32\'>',
-                'Invalid Type for attribute: _FillValue <class \'numpy.float32\'>',
-                'Invalid Type for attribute: _FillValue <class \'numpy.float32\'>',
-                'Invalid Type for attribute: missing_value <class \'numpy.float32\'>',
-                'Invalid Type for attribute: _FillValue <class \'numpy.float32\'>',
-                'Invalid Type for attribute: missing_value <class \'numpy.float32\'>',
-                'Invalid Type for attribute: _FillValue <class \'numpy.float32\'>',
-                'Invalid Type for attribute: _FillValue <class \'numpy.float32\'>',
-                'Invalid Type for attribute: _FillValue <class \'numpy.float32\'>',
+                "Invalid Type for attribute: _FillValue <class 'numpy.float32'>",
+                "Invalid Type for attribute: _FillValue <class 'numpy.float32'>",
+                "Invalid Type for attribute: missing_value <class 'numpy.float32'>",
+                "Invalid Type for attribute: _FillValue <class 'numpy.float32'>",
+                "Invalid Type for attribute: _FillValue <class 'numpy.float32'>",
+                "Invalid Type for attribute: missing_value <class 'numpy.float32'>",
+                "Invalid Type for attribute: _FillValue <class 'numpy.float32'>",
+                "Invalid Type for attribute: missing_value <class 'numpy.float32'>",
+                "Invalid Type for attribute: _FillValue <class 'numpy.float32'>",
+                "Invalid Type for attribute: _FillValue <class 'numpy.float32'>",
+                "Invalid Type for attribute: _FillValue <class 'numpy.float32'>",
                 {
                     height: [
                         'attribute missing_value attached to wrong kind of variable',
@@ -331,4 +331,3 @@ export function mapper(input, start_idx) {
     }
     return [result, id - start_idx]
 }
-

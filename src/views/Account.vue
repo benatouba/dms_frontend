@@ -3,9 +3,9 @@
         <v-container class="mx-4 primary--text">
             <Account></Account>
             <v-divider></v-divider>
-<!--            <ChangePassword />-->
-<!--            <v-divider></v-divider>-->
-<!--            <ChangeGroups />-->
+            <!--            <ChangePassword />-->
+            <!--            <v-divider></v-divider>-->
+            <!--            <ChangeGroups />-->
         </v-container>
     </div>
 </template>
@@ -14,7 +14,7 @@
 import Account from '../components/Account'
 // import ChangePassword from '../components/ChangePassword'
 // import ChangeGroups from '../components/ChangeGroups'
-import { mapState} from "vuex"
+import { mapState } from 'vuex'
 
 export default {
     name: 'AccountView',
@@ -25,8 +25,8 @@ export default {
     },
     computed: {
         ...mapState({
-            account: state => state.accounts
-        })
+            account: state => state.accounts,
+        }),
     },
 }
 </script>

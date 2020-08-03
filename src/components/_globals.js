@@ -15,7 +15,7 @@ const requireComponent = require.context(
 )
 
 // For each matching file name...
-requireComponent.keys().forEach((fileName) => {
+requireComponent.keys().forEach(fileName => {
     // Get the component config
     const componentConfig = requireComponent(fileName)
     // Get the PascalCase version of the component name
@@ -25,9 +25,9 @@ requireComponent.keys().forEach((fileName) => {
         // Remove the file extension from the end
         .replace(/\.\w+$/, '')
         // Split up kebabs
-        .split("-")
+        .split('-')
         // Upper case
-        .map((kebab) => kebab.charAt(0).toUpperCase() + kebab.slice(1))
+        .map(kebab => kebab.charAt(0).toUpperCase() + kebab.slice(1))
         // Concatenated
         .join('')
     // Globally register the component

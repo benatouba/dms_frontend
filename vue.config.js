@@ -15,5 +15,5 @@ module.exports = {
     },
 
     //publicPath: '',
-    assetsDir: 'assets/'
+    assetsDir: 'assets/',
 }

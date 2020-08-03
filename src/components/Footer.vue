@@ -11,13 +11,13 @@
                     <v-row>
                         <v-col cols="2">
                             <v-img
-                                    v-if="id === 0"
-                                    alt="Climatology Logo"
-                                    class="shrink primary--text"
-                                    contain
-                                    src="@/assets/group_logo.jpg"
-                                    transition="scale-transition"
-                                    width="40"
+                                v-if="id === 0"
+                                alt="Climatology Logo"
+                                class="shrink primary--text"
+                                contain
+                                src="@/assets/group_logo.jpg"
+                                transition="scale-transition"
+                                width="40"
                             ></v-img>
                         </v-col>
                         <v-col cols="8">

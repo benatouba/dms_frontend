@@ -15,7 +15,7 @@ import Navbar from './components/Navbar'
 import LoginInfo from './components/LoginInfo'
 import Footer from './components/Footer'
 import { mapActions, mapState } from 'vuex'
-import Notification from './components/Notification';
+import Notification from './components/Notification'
 export default {
     name: 'App',
     components: { Notification, Navbar, LoginInfo, Footer },
@@ -23,8 +23,8 @@ export default {
         ...mapState({
             alerts: state => state.alerts,
             account: state => state.account,
-            showErrorBanner: state => state.errorBanner
-        })
+            showErrorBanner: state => state.errorBanner,
+        }),
     },
     methods: {
         ...mapActions({

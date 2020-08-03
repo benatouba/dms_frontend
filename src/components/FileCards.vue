@@ -6,33 +6,35 @@
                     <v-row align="center">
                         <v-col cols="5">
                             <strong v-if="!!data.file.name">{{ data.file.name }}</strong>
-                            <strong v-else>{{ $t('upload.no_title')}}</strong>
+                            <strong v-else>{{ $t('upload.no_title') }}</strong>
                         </v-col>
                         <v-col cols="2">
-                            <span color="#000000">{{ data.uploaded? $t('upload.uploaded'): $t('upload.not_uploaded') }}</span>
+                            <span color="#000000">{{
+                                data.uploaded ? $t('upload.uploaded') : $t('upload.not_uploaded')
+                            }}</span>
                         </v-col>
                         <v-col cols="1" justify="end">
                             <v-btn
-                                    v-if="data.resp.status === 2 && !data.uploaded"
-                                    v-on:click.stop="uploadAnyway(data.file,true, false)"
-                                    text
-                                    small
-                                    ripple
-                                    class="ma-2 primary--text"
-                                    outlined
-                                    target="_blank"
+                                v-if="data.resp.status === 2 && !data.uploaded"
+                                v-on:click.stop="uploadAnyway(data.file, true, false)"
+                                text
+                                small
+                                ripple
+                                class="ma-2 primary--text"
+                                outlined
+                                target="_blank"
                             >
                                 {{ $t('buttons.upload_with_warnings') }}
                             </v-btn>
                             <v-btn
-                                    v-if="data.resp.status === 3 && is_superuser && !data.uploaded"
-                                    v-on:click.stop="uploadAnyway(data.file, true, true)"
-                                    text
-                                    small
-                                    ripple
-                                    class="ma-2 primary--text"
-                                    outlined
-                                    target="_blank"
+                                v-if="data.resp.status === 3 && is_superuser && !data.uploaded"
+                                v-on:click.stop="uploadAnyway(data.file, true, true)"
+                                text
+                                small
+                                ripple
+                                class="ma-2 primary--text"
+                                outlined
+                                target="_blank"
                             >
                                 {{ $t('buttons.upload_with_errors') }}
                             </v-btn>
@@ -41,15 +43,15 @@
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                     <v-treeview
-                            :items="buildTree(value, key)"
-                            :key="key"
-                            v-for="(value, key) in getDataForTreeview(data.resp)"
-                            :class="`${key}`"
-                            rounded
-                            hoverable
-                            activatable
-                            open-all
-                            open-on-click
+                        :items="buildTree(value, key)"
+                        :key="key"
+                        v-for="(value, key) in getDataForTreeview(data.resp)"
+                        :class="`${key}`"
+                        rounded
+                        hoverable
+                        activatable
+                        open-all
+                        open-on-click
                     >
                     </v-treeview>
                 </v-expansion-panel-content>
@@ -67,7 +69,7 @@ export default {
     computed: {
         ...mapState({
             files: state => state.upload.files,
-            is_superuser: state => state.account.is_superuser
+            is_superuser: state => state.account.is_superuser,
         }),
     },
     methods: {
@@ -76,8 +78,7 @@ export default {
                 file,
                 ignore_warnings,
                 ignore_errors,
-                }
-            )
+            })
         },
         buildTree(data, name) {
             if (Object.keys(data).length) {
@@ -85,7 +86,7 @@ export default {
             }
         },
         getDataForTreeview(data) {
-            let newData = {...data}
+            let newData = { ...data }
             delete newData.result
             delete newData.status
             return newData
@@ -100,6 +101,6 @@ export default {
             let string = `border-left: 4px solid ${colors[resp.status - 1]};`
             return string
         },
-    }
+    },
 }
 </script>

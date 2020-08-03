@@ -4,7 +4,7 @@
             <v-container class="fill-height">
                 <v-row align="center" justify="center">
                     <v-col cols="12" sm="12" md="8">
-                        <v-card class="elevation-5">
+                        <v-card id="login-card" class="elevation-5">
                             <v-toolbar id="header" color="primary" flat>
                                 <v-toolbar-title>{{ $t('login.title') }}</v-toolbar-title>
                             </v-toolbar>
@@ -50,23 +50,24 @@
                                 </v-card-actions>
                             </v-form>
                             <v-overlay
-                                    v-if="submitted & alerts.info.status !== 1"
-                                    class="text-center"
-                                    :absolute="absolute"
-                                    :opacity=".9">
+                                v-if="submitted & (alerts.info.status !== 1)"
+                                class="text-center"
+                                :absolute="absolute"
+                                :opacity="0.9"
+                            >
                                 <v-row>
                                     <v-col>
-                                    <strong
-                                            v-for="(alert, key) in alerts.info.message"
-                                            :key="key"
-                                    >
-                                        {{ alert[0] }}
+                                        <strong v-for="(alert, key) in alerts.info.message" :key="key">
+                                            {{ alert[0] }}
                                         </strong>
                                     </v-col>
                                 </v-row>
                                 <v-btn
                                     class="primary white--text v-btn v-size--large"
-                                    @click="submitted = false; clearAlert"
+                                    @click="
+                                        submitted = false
+                                        clearAlert
+                                    "
                                 >
                                     {{ $t('buttons.ok') }}
                                 </v-btn>
@@ -107,7 +108,7 @@ export default {
     computed: {
         ...mapState({
             alerts: state => state.alerts,
-            account: state => state.account
+            account: state => state.account,
         }),
     },
     created() {

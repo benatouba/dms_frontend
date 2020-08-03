@@ -5,15 +5,7 @@
                 <v-row align="center">
                     <div class="container">
                         <form enctype="multipart/form-data" novalidate>
-                            <v-card
-                                class="dropbox primary accent--text text-center"
-                                outline
-                                block
-                                flat
-                                hover
-                                xs12
-                                md6
-                            >
+                            <v-card class="dropbox primary accent--text text-center" outline block flat hover xs12 md6>
                                 <input
                                     type="file"
                                     multiple
@@ -24,7 +16,7 @@
                                     accept="binary/*"
                                     class="input-file"
                                 />
-                                <p v-if="!isSaving" v-html="$t('upload.droparea')"/>
+                                <p v-if="!isSaving" v-html="$t('upload.droparea')" />
                                 <p v-show="isSaving">
                                     {{ $tc('upload.uploading1', fileCount, { count: fileCount }) }}
                                     {{ $tc('upload.uploading2', fileCount) }}
@@ -50,7 +42,7 @@ export default {
             allFiles: 'upload/allFiles',
             uploadedFiles: 'upload/uploadedFiles',
         }),
-        ...mapState('upload', ['files'])
+        ...mapState('upload', ['files']),
     },
     methods: {
         ...mapActions({
@@ -66,14 +58,14 @@ export default {
 
             if (!files.length) return
 
-            files.forEach((file) => {
+            files.forEach(file => {
                 this.$store.dispatch('upload/uploadFiles', {
                     file,
                     ignore_warnings: false,
                     ignore_errors: false,
                 })
             })
-            await new Promise(r => setTimeout(r, 2000));
+            await new Promise(r => setTimeout(r, 2000))
             this.isSaving = false
         },
     },

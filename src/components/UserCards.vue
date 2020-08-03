@@ -17,15 +17,20 @@
                     <v-divider></v-divider>
                     <v-row>
                         <v-col>
-                            <v-btn v-if="user.is_active" class="mx-1" @click="manageUser(user.id, 0); overlay=true">Admit</v-btn>
+                            <v-btn
+                                v-if="user.is_active"
+                                class="mx-1"
+                                @click="
+                                    manageUser(user.id, 0)
+                                    overlay = true
+                                "
+                                >Admit</v-btn
+                            >
                             <v-btn v-if="user.is_active" class="mx-1" @click="manageUser(user.id, 1)">Decline</v-btn>
                             <v-btn color="error" class="mx-1" @click="deleteUser(user.id)">Delete User</v-btn>
-                            <v-overlay class="text-center" absolute :value="overlay" :opacity=".8">
+                            <v-overlay class="text-center" absolute :value="overlay" :opacity="0.8">
                                 <Notification />
-                                <v-btn
-                                        color="primary white--text v-size--large"
-                                        @click="overlay = false"
-                                >
+                                <v-btn color="primary white--text v-size--large" @click="overlay = false">
                                     {{ $t('buttons.ok') }}
                                 </v-btn>
                             </v-overlay>
@@ -38,33 +43,33 @@
 </template>
 
 <script>
-    // TODO: approve/decline group change button
-    // TODO: delete user button
-    // TODO: add user search
+// TODO: approve/decline group change button
+// TODO: delete user button
+// TODO: add user search
 import { mapState, mapActions } from 'vuex'
-import Notification from "./Notification"
+import Notification from './Notification'
 export default {
     name: 'UserCards',
     components: { Notification },
     computed: {
         ...mapState({
             users: state => state.users,
-        })
+        }),
     },
-    created () {
-        this.list('');
+    created() {
+        this.list('')
     },
     methods: {
         ...mapActions('users', {
             list: 'list',
             deleteUser: 'delete',
-            manageUser: 'manage'
-        })
+            manageUser: 'manage',
+        }),
     },
     data() {
         return {
-            overlay: false
+            overlay: false,
         }
-    }
+    },
 }
 </script>
