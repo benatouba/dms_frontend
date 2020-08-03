@@ -5,57 +5,66 @@
                 <v-card-title>
                     {{ $t('buttons.input') }}
                 </v-card-title>
-                <input
-                        v-model="searchInput.search"
-                        @keypress.enter="handleSubmit"
-                        :placeholder="$t('search.placeholder')"
-                        class="input text--secondary my-2" />
+                <v-input
+                    v-model="searchInput.search"
+                    @keypress.enter="handleSubmit"
+                    :placeholder="$t('search.placeholder')"
+                    class="input text--secondary my-2"
+                />
                 <br />
                 <v-card-title>
-                    {{ $t('search.filter_options')}}
+                    {{ $t('search.filter_options') }}
                 </v-card-title>
                 <v-card-actions>
                     <v-col cols="12">
                         <v-row>
-                        <v-autocomplete
-                            v-model="searchInput.acronym"
-                            :items="choices.institution"
-                            item-text="ge_title"
-                            item-value="acronym"
-                            label="Institution"
-                            color="primary"
-                            @change="handleSubmit"
-                        ></v-autocomplete>
-                        <v-icon
-                            v-show="searchInput.acronym"
-                            @click="searchInput.acronym = ''; handleSubmit()"
-                            small
-                            flat
-                            icon
-                            depressed
-                        >mdi-close-circle</v-icon>
-                        </v-row>
-                        <v-row>
-                        <v-autocomplete
-                            v-model="searchInput.site__id"
-                            :items="choices.site"
-                            item-text="site"
-                            item-value="id"
-                            label="Site"
-                            color="primary"
-                            @change="handleSubmit"
-                        ></v-autocomplete>
-                        <v-icon
-                                v-show="searchInput.site__id"
-                                @click="searchInput.site__id = ''; handleSubmit()"
+                            <v-autocomplete
+                                v-model="searchInput.acronym"
+                                :items="choices.institution"
+                                item-text="ge_title"
+                                item-value="acronym"
+                                label="Institution"
+                                color="primary"
+                                @change="handleSubmit"
+                            ></v-autocomplete>
+                            <v-icon
+                                v-show="searchInput.acronym"
+                                @click="
+                                    searchInput.acronym = ''
+                                    handleSubmit()
+                                "
                                 small
                                 flat
                                 icon
                                 depressed
-                        >mdi-close-circle</v-icon>
+                                >mdi-close-circle</v-icon
+                            >
                         </v-row>
                         <v-row>
-                        <v-autocomplete
+                            <v-autocomplete
+                                v-model="searchInput.site__id"
+                                :items="choices.site"
+                                item-text="site"
+                                item-value="id"
+                                label="Site"
+                                color="primary"
+                                @change="handleSubmit"
+                            ></v-autocomplete>
+                            <v-icon
+                                v-show="searchInput.site__id"
+                                @click="
+                                    searchInput.site__id = ''
+                                    handleSubmit()
+                                "
+                                small
+                                flat
+                                icon
+                                depressed
+                                >mdi-close-circle</v-icon
+                            >
+                        </v-row>
+                        <v-row>
+                            <v-autocomplete
                                 v-model="searchInput.variables__id"
                                 :items="choices.variable"
                                 item-text="long_name"
@@ -63,32 +72,59 @@
                                 label="Variable"
                                 color="primary"
                                 @change="handleSubmit"
-                        ></v-autocomplete>
-                        <v-icon
+                            ></v-autocomplete>
+                            <v-icon
                                 v-show="searchInput.variables__id"
-                                @click="searchInput.variables__id = ''; handleSubmit()"
+                                @click="
+                                    searchInput.variables__id = ''
+                                    handleSubmit()
+                                "
                                 small
                                 flat
                                 icon
                                 depressed
-                        >mdi-close-circle</v-icon>
+                                >mdi-close-circle</v-icon
+                            >
                         </v-row>
                         <v-row justify="center">
-                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_invalid" :label="$t('buttons.show_invalid')" false-value="false" true-value="null"></v-switch>
-                            <v-switch @change="handleSubmit" color="primary" v-model="searchInput.is_old" :label="$t('buttons.show_old')" false-value="false" true-value="null"></v-switch>
                             <v-switch
-                                    v-if="account.token"
-                                    @change="handleSubmit"
-                                    color="primary"
-                                    v-model="searchInput.uploader"
-                                    :label="$t('buttons.uploaded_by_me')"
-                                    :value="account.id"
+                                @change="handleSubmit"
+                                color="primary"
+                                v-model="searchInput.is_invalid"
+                                :label="$t('buttons.show_invalid')"
+                                false-value="false"
+                                true-value="null"
+                            ></v-switch>
+                            <v-switch
+                                @change="handleSubmit"
+                                color="primary"
+                                v-model="searchInput.is_old"
+                                :label="$t('buttons.show_old')"
+                                false-value="false"
+                                true-value="null"
+                            ></v-switch>
+                            <v-switch
+                                v-if="account.token"
+                                @change="handleSubmit"
+                                color="primary"
+                                v-model="searchInput.uploader"
+                                :label="$t('buttons.uploaded_by_me')"
+                                :value="account.id"
+                            ></v-switch>
+                            <v-switch
+                                v-if="account.token"
+                                @change="handleSubmit"
+                                color="primary"
+                                v-model="searchInput.acronym"
+                                :label="$t('buttons.uploaded_by_institution')"
+                                :true-value="account.institutions[0]"
+                                false-value=""
                             ></v-switch>
                         </v-row>
                         <v-row>
                             <v-btn @click="handleSubmit" depressed x-large>
                                 <v-icon left color="primary">mdi-cloud-search</v-icon>
-                                {{ $t('buttons.search')}}
+                                {{ $t('buttons.search') }}
                             </v-btn>
                         </v-row>
                         <!--<v-row justify="center">
@@ -133,24 +169,23 @@
             <v-row>
                 <v-col>
                     <v-pagination
-                            @input="handleSubmit"
-                            v-model="page"
-                            v-if="getPageCount > 1"
-                            :length=getPageCount
-                            :total-visible="7"
-                            prev-icon="mdi-menu-left"
-                            next-icon="mdi-menu-right"
+                        @input="handleSubmit"
+                        v-model="page"
+                        v-if="getPageCount > 1"
+                        :length="getPageCount"
+                        :total-visible="7"
+                        prev-icon="mdi-menu-left"
+                        next-icon="mdi-menu-right"
                     ></v-pagination>
                 </v-col>
                 <v-col cols="12" sm="4" md="3" lg="2">
                     <v-select
-                            v-if="getPageCount > 1"
-                            v-model="pageLength"
-                            :items="pageLengthChoices"
-                            :label="$t('search.items_per_page')"
-                            dense
-                            flat
-                        ></v-select>
+                        v-model="pageLength"
+                        :items="pageLengthChoices"
+                        :label="$t('search.items_per_page')"
+                        dense
+                        flat
+                    ></v-select>
                 </v-col>
             </v-row>
             <v-expansion-panels
@@ -169,17 +204,17 @@
                                 {{ data.file_standard_name }}
                             </v-expansion-panel-header>
                         </v-col>
-                        <v-col justify="center" align="center">
-                            <span v-if="!!data.is_old" color="brown"  style="font-size: 85%;">
+                        <v-col justify="center">
+                            <span v-if="!!data.is_old" style="font-size: 85%;">
                                 {{ $t('search.is_old') }}
                             </span>
-                            <span v-if="!!data.has_warnings" color="warning"  style="font-size: 85%;">
+                            <span v-if="!!data.has_warnings" style="font-size: 85%;">
                                 {{ $t('search.has_warnings') }}
                             </span>
-                            <span color="error" v-if="!!data.is_invalid"  style="font-size: 85%;">
+                            <span v-if="!!data.is_invalid" style="font-size: 85%;">
                                 {{ $t('search.is_invalid') }}
                             </span>
-                            <span color="error" v-if="!!data.has_errors"  style="font-size: 85%;">
+                            <span v-if="!!data.has_errors" style="font-size: 85%;">
                                 {{ $t('search.has_errors') }}
                             </span>
                         </v-col>
@@ -190,16 +225,14 @@
                         </v-col>
                         <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
-                                <v-col md="1"
-                                       v-bind="attrs"
-                                       v-on="on">
+                                <v-col md="1" v-bind="attrs" v-on="on">
                                     <v-btn
-                                            v-if="account.token"
-                                            :disabled="!!data.download_count && data.uploader !== account.user"
-                                            @click="handleDelete(data)"
-                                            icon
-                                            depressed
-                                            small
+                                        v-if="account.token"
+                                        :disabled="!!data.download_count || (!group(data.institution) || account.is_superuser)"
+                                        @click="handleDelete(data)"
+                                        icon
+                                        depressed
+                                        small
                                     >
                                         <v-icon color="primary">mdi-delete</v-icon>
                                     </v-btn>
@@ -209,13 +242,39 @@
                         </v-tooltip>
                         <v-col md="12">
                             <v-expansion-panel-content>
-                                <v-btn
-                                        color="warning"
-                                        v-if="data.uploader === account.user && !data.is_invalid"
-                                        @click="setInvalid(data)"
+                                <v-dialog
+                                    v-if="!data.is_invalid && (!!group(data.institution) || account.is_superuser)"
+                                    v-model="dialog"
+                                    persistent
+                                    max-width="290"
                                 >
-                                    {{ $t('buttons.mark_invalid')}}
-                                </v-btn>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn color="warning" v-bind="attrs" v-on="on">
+                                            {{ $t('buttons.mark_invalid') }}
+                                        </v-btn>
+                                    </template>
+                                    <v-card>
+                                        <v-card-title class="headline">{{ $t('buttons.mark_invalid') }}</v-card-title>
+                                        <v-card-text>{{ $t('search.mark_invalid_warning') }}</v-card-text>
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn color="primary" text @click="dialog = false">
+                                                {{ $t('buttons.cancel') }}
+                                            </v-btn>
+                                            <v-btn
+                                                color="warning"
+                                                text
+                                                @click="
+                                                    setInvalid(data)
+                                                    dialog = false
+                                                    handleSubmit
+                                                "
+                                            >
+                                                {{ $t('buttons.confirm') }}
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
                                 <v-list v-for="(item, key) in getListObjects(data)" :key="key" dense>
                                     <v-list-item>
                                         <v-list-item-title v-text="key"></v-list-item-title>
@@ -228,34 +287,34 @@
                 </v-expansion-panel>
             </v-expansion-panels>
             <v-row>
-            <v-col>
-                <v-pagination
+                <v-col>
+                    <v-pagination
                         @input="handleSubmit"
                         v-model="page"
                         v-if="getPageCount > 1"
-                        :length=getPageCount
+                        :length="getPageCount"
                         :total-visible="7"
                         prev-icon="mdi-menu-left"
                         next-icon="mdi-menu-right"
-                ></v-pagination>
-            </v-col>
-            <v-col class="self-center" cols="12" sm="4" md="3" lg="2">
-                <v-select
+                    ></v-pagination>
+                </v-col>
+                <v-col class="self-center" cols="12" sm="4" md="3" lg="2">
+                    <v-select
                         v-if="getPageCount > 1"
                         v-model="pageLength"
                         :items="pageLengthChoices"
                         :label="$t('search.items_per_page')"
                         dense
                         flat
-                ></v-select>
-            </v-col>
+                    ></v-select>
+                </v-col>
             </v-row>
         </v-container>
     </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import {mapActions, mapGetters, mapState} from 'vuex'
 // import DatePicker from "./DatePicker";
 export default {
     name: 'search',
@@ -266,10 +325,11 @@ export default {
         ...mapState({
             account: state => state.account,
             queriedFiles: state => state.queries.result,
-            itemCount: state => state.queries.count,
+            itemCount: state => state.queries.count
         }),
+        ...mapGetters('account', ['group']),
         getPageCount() {
-            return Math.ceil((this.itemCount/this.pageLength))
+            return Math.ceil(this.itemCount / this.pageLength)
         },
     },
     methods: {
@@ -280,9 +340,9 @@ export default {
             setInvalid: 'queries/setInvalid',
             resetQueryState: 'queries/resetQueryState',
         }),
-        handleSubmit: function () {
+        handleSubmit: function() {
             this.show = false
-            this.searchInput.offset = (this.page-1)*this.pageLength
+            this.searchInput.offset = (this.page - 1) * this.pageLength
             this.searchInput.limit = this.pageLength
             if (this.queriedFiles) {
                 this.resetQueryState()
@@ -315,11 +375,11 @@ export default {
             fetch(`${process.env['VUE_APP_API_ENDPOINT']}/data/${input}`)
                 .then(resp => resp.json())
                 .then(data => {
-                    this.choices[input] = data
+                    data.forEach(obj => this.choices[input].push(obj))
                 })
         },
         colorStyle(item) {
-            let color = item.has_warnings ? 'warning': 'secondary'
+            let color = item.has_warnings ? 'warning' : 'secondary'
             if (item.is_old) {
                 color = 'brown'
             } else if (item.has_errors) {
@@ -349,8 +409,9 @@ export default {
             choices: {
                 institution: [],
                 site: [],
-                variable:[],
+                variable: [],
             },
+            dialog: false,
             show: false,
             page: 1,
             pageLength: 10,
@@ -366,7 +427,7 @@ export default {
                 // origin_time: new Date('2020-07-01').toISOString().substr(0, 10)
             },
         }
-    }
+    },
 }
 </script>
 
