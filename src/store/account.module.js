@@ -5,7 +5,11 @@ import i18n from '../plugins/i18n'
 // const loggedIn = localStorage.getItem('loggedIn') || false
 let user = null
 if (localStorage.getItem('user')) {
-    user = JSON.parse(localStorage.getItem('user'))
+    try {
+        user = JSON.parse(localStorage.getItem('user'))
+    } catch (error) {
+        localStorage.removeItem('user')
+    }
 }
 
 function getDefaultState() {
