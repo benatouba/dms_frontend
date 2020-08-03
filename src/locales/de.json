@@ -19,7 +19,8 @@
     "uploaded_by_me": "Nur meine Daten anzeigen",
     "uploaded_by_institution": "Nur Daten meiner Institution anzeigen",
     "search": "Suchen",
-    "input": "Sucheingabe"
+    "input": "Sucheingabe",
+    "delete_tooltip": "Kann nur von Mitgliedern der zugehörigen Institution gelöscht werden, falls die noch heruntergeladen wurde."
   },
   "nav": {
     "data_standard": "Datenstandard",
@@ -88,7 +89,8 @@
     "groups": "Gruppen",
     "password1": "Passwort",
     "password2": "Passwort wiederholen",
-    "success_message": "Re. The application will be processed and you will receive Email on status change."
+    "success_message": "Anmeldeformular wurde gesendet. Der Antrag wird bearbeitet und Sie erhalten eine E-Mail bei Statusänderung.",
+    "institutions": "Institutionen"
   },
   "login": {
     "title": "Einloggen",

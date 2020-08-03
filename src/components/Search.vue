@@ -238,7 +238,7 @@
                                     </v-btn>
                                 </v-col>
                             </template>
-                            <span>Can only be deleted if you are the uploader and file has not been downloaded.</span>
+                            <span>{{ $t('buttons.delete_tooltip')}}</span>
                         </v-tooltip>
                         <v-col md="12">
                             <v-expansion-panel-content>

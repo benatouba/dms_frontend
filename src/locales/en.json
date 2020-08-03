@@ -19,7 +19,8 @@
     "uploaded_by_me": "Show only my files",
     "uploaded_by_institution": "Show only files of my Institution",
     "search": "Search",
-    "input": "Search input"
+    "input": "Search input",
+    "delete_tooltip": "Can only be deleted by members of the file's institution, if not yet downloaded"
   },
   "nav": {
     "data_standard": "data standard",
@@ -88,7 +89,8 @@
     "groups": "Groups",
     "password1": "Password",
     "password2": "Repeat Password",
-    "success_message": "Anmeldeformular wurde gesendet. Der Antrag wird bearbeitet und Sie erhalten eine E-Mail bei Statusänderung."
+    "success_message": "Registration form was sent. The application will be processed and you will receive Email on status change.",
+    "institutions": "Institutions"
   },
   "login": {
     "title": "Login",
