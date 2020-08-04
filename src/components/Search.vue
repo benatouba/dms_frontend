@@ -109,7 +109,8 @@
                                 color="primary"
                                 v-model="searchInput.uploader"
                                 :label="$t('buttons.uploaded_by_me')"
-                                :value="account.id"
+                                :true-value="account.id"
+                                false-value=""
                             ></v-switch>
                             <v-switch
                                 v-if="account.token"
@@ -117,7 +118,7 @@
                                 color="primary"
                                 v-model="searchInput.acronym"
                                 :label="$t('buttons.uploaded_by_institution')"
-                                :true-value="account.institutions[0]"
+                                :true-value="account.institutions.join()"
                                 false-value=""
                             ></v-switch>
                         </v-row>
@@ -421,7 +422,7 @@ export default {
                 acronym: '',
                 site__id: '',
                 variables__id: '',
-                uploader: null,
+                uploader: '',
                 is_invalid: false,
                 is_old: false,
                 // origin_time: new Date('2020-07-01').toISOString().substr(0, 10)
