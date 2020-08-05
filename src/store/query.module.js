@@ -11,6 +11,12 @@ const getDefaultState = () => {
         downloaded: true,
         download_file: null,
         count: 0,
+        meta: [
+            { name: 'institution', data: [] },
+            { name: 'variable', data: [] },
+            { name: 'site', data: [] },
+            { name: 'licence', data: [] },
+        ],
     }
 }
 const state = getDefaultState()
@@ -18,6 +24,9 @@ const state = getDefaultState()
 const getters = {
     queriedFiles: state => {
         return state.result
+    },
+    meta: state => name => {
+        return state.meta.find(item => item.name === name).data
     },
 }
 
@@ -32,6 +41,14 @@ const actions = {
             commit('querySuccess', resp)
         } catch (error) {
             commit('queryFailure', error)
+            dispatch('alerts/error', error, { root: true })
+        }
+    },
+    async fetchMeta({ commit, dispatch }, name) {
+        try {
+            let data = await queryService.meta(name)
+            commit('addMeta', { name, data })
+        } catch (error) {
             dispatch('alerts/error', error, { root: true })
         }
     },
@@ -97,6 +114,10 @@ const mutations = {
     queryFailure(state) {
         state.queried = false
         state.querying = false
+    },
+    addMeta(state, input) {
+        let item = state.meta.find(obj => obj.name === input.name)
+        item.data.push(...input.data)
     },
     downloadRequest(state, file) {
         state.downloading = true

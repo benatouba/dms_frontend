@@ -14,7 +14,14 @@ function search(query) {
     )
     return answer
 }
-
+async function meta(name) {
+    try {
+        let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/data/${name}`)
+        return await resp.json()
+    } catch (error) {
+        return error
+    }
+}
 function download(file) {
     // cut filename from file path
     const requestOptions = authHeader('GET')
@@ -62,6 +69,7 @@ async function setInvalid(file) {
 
 export default {
     search,
+    meta,
     download,
     deleteFile,
     setInvalid,

@@ -1,6 +1,7 @@
 <template>
     <div>
         <v-container class="text--primary">
+          <strong>{{ meta.institution }}</strong>
             <v-card>
                 <v-card-title>
                     {{ $t('buttons.input') }}
@@ -20,7 +21,7 @@
                         <v-row>
                             <v-autocomplete
                                 v-model="searchInput.acronym"
-                                :items="choices.institution"
+                                :items="meta('institution')"
                                 item-text="ge_title"
                                 item-value="acronym"
                                 label="Institution"
@@ -43,7 +44,7 @@
                         <v-row>
                             <v-autocomplete
                                 v-model="searchInput.site__id"
-                                :items="choices.site"
+                                :items="meta('site')"
                                 item-text="site"
                                 item-value="id"
                                 label="Site"
@@ -66,7 +67,7 @@
                         <v-row>
                             <v-autocomplete
                                 v-model="searchInput.variables__id"
-                                :items="choices.variable"
+                                :items="meta('variable')"
                                 item-text="long_name"
                                 item-value="id"
                                 label="Variable"
@@ -326,9 +327,12 @@ export default {
         ...mapState({
             account: state => state.account,
             queriedFiles: state => state.queries.result,
-            itemCount: state => state.queries.count
+            itemCount: state => state.queries.count,
         }),
-        ...mapGetters('account', ['group']),
+        ...mapGetters({
+          group: 'account/group',
+          meta: 'queries/meta'
+        }),
         getPageCount() {
             return Math.ceil(this.itemCount / this.pageLength)
         },
@@ -340,6 +344,7 @@ export default {
             delete: 'queries/delete',
             setInvalid: 'queries/setInvalid',
             resetQueryState: 'queries/resetQueryState',
+            fetchMeta: 'queries/fetchMeta',
         }),
         handleSubmit: function() {
             this.show = false
@@ -371,13 +376,6 @@ export default {
             delete newDict.has_errors
 
             return newDict
-        },
-        fetchMeta(input) {
-            fetch(`${process.env['VUE_APP_API_ENDPOINT']}/data/${input}`)
-                .then(resp => resp.json())
-                .then(data => {
-                    data.forEach(obj => this.choices[input].push(obj))
-                })
         },
         colorStyle(item) {
             let color = item.has_warnings ? 'warning' : 'secondary'

@@ -32,10 +32,13 @@ function logout() {
 
 function register(user) {
     const requestOptions = authHeader('POST')
-
+    console.log(user)
     requestOptions.body = JSON.stringify(user)
     requestOptions.redirect = 'follow'
+    requestOptions.headers.append('Content-Type', 'application/json')
+    console.log(process.env.VUE_APP_API_ENDPOINT + '/auth/user/')
     let answer = fetch(process.env.VUE_APP_API_ENDPOINT + '/auth/user/', requestOptions)
+    console.log(answer)
     return answer
 }
 
