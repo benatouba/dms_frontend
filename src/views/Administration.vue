@@ -4,7 +4,7 @@
             <h2>{{ $t('admin.title') }}</h2>
             <MetadataUpload />
             <v-divider></v-divider>
-            <FileCard v-for="file in meta" :key="file.name" :file="file"></FileCard>
+            <FileCards :files="meta"></FileCards>
             <v-divider></v-divider>
             <UserCards />
         </v-container>
@@ -14,15 +14,19 @@
 <script>
 import MetadataUpload from '../components/MetadataUpload'
 import UserCards from '../components/UserCards'
-import FileCard from '../components/FileCard'
+import FileCards from '../components/FileCards'
 import { mapState } from 'vuex'
 export default {
     name: 'AdministrationView',
     components: {
         MetadataUpload,
-        FileCard,
+        FileCards,
         UserCards,
     },
-    computed: mapState('upload', ['meta']),
+    computed: {
+      ...mapState({
+        meta: state => state.upload.meta
+      }),
+    },
 }
 </script>

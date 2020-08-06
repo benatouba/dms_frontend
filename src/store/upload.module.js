@@ -124,19 +124,25 @@ const mutations = {
         state.files[id].message = message
     },
     uploadMetaRequest(state, obj) {
-        const item = state.meta.find(data => data.name === obj.file.name)
+        const item = state.meta.find(data => data.file.name === obj.file.name)
         if (item) {
             item.uploading = true
             item.uploaded = false
         } else {
-            state.meta.push({ name: obj.file.name, type: obj.type, uploaded: false, uploading: true })
+            state.meta.push({
+                file: obj.file,
+                resp: {},
+                // type: obj.type,
+                uploaded: false,
+                uploading: true,
+            })
         }
     },
     uploadMetaResult: (state, payload) => {
-        const item = state.meta.find(i => i.name === payload.file.name)
+        const item = state.meta.find(i => i.file.name === payload.file.name)
         item.uploaded = payload.resp.status === 1
         item.uploading = false
-        item.result = payload.resp
+        item.resp = payload.resp
     },
 }
 
