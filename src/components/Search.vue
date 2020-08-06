@@ -24,7 +24,7 @@
                                 :items="meta('institution')"
                                 item-text="ge_title"
                                 item-value="acronym"
-                                label="Institution"
+                                :label="$t('buttons.institution')"
                                 color="primary"
                                 @change="handleSubmit"
                             ></v-autocomplete>
@@ -47,7 +47,7 @@
                                 :items="meta('site')"
                                 item-text="site"
                                 item-value="id"
-                                label="Site"
+                                :label="$t('buttons.site')"
                                 color="primary"
                                 @change="handleSubmit"
                             ></v-autocomplete>
@@ -70,7 +70,7 @@
                                 :items="meta('variable')"
                                 item-text="long_name"
                                 item-value="id"
-                                label="Variable"
+                                :label="$t('buttons.variable')"
                                 color="primary"
                                 @change="handleSubmit"
                             ></v-autocomplete>
