@@ -230,7 +230,7 @@
                                 <v-col md="1" v-bind="attrs" v-on="on">
                                     <v-btn
                                         v-if="account.token"
-                                        :disabled="!!data.download_count && (!group(data.institution) || !account.is_superuser)"
+                                        :disabled="!!data.download_count && !!data.is_old && (!group(data.institution) || !account.is_superuser)"
                                         @click="handleDelete(data)"
                                         icon
                                         depressed
