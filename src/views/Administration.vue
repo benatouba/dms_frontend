@@ -3,6 +3,7 @@
         <v-container class="mx-4 primary--text">
             <h2>{{ $t('admin.title') }}</h2>
             <MetadataUpload />
+            <v-divider></v-divider>
             <FileCard v-for="file in meta" :key="file.name" :file="file"></FileCard>
             <v-divider></v-divider>
             <UserCards />

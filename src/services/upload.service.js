@@ -27,7 +27,6 @@ function uploadMetadataList(obj) {
 
     requestOptions.body = formdata
     requestOptions.redirect = 'follow'
-    requestOptions.headers.append('Content-Type', 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW')
 
     return fetch(process.env.VUE_APP_API_ENDPOINT + `/data/${obj.type}/`, requestOptions).then(resp => resp.json())
 }

@@ -66,7 +66,7 @@ const actions = {
         commit('uploadMetaRequest', obj)
         try {
             let resp = await uploadService.uploadMetadataList(obj)
-            commit('uploadMetaResult', { resp, obj })
+            commit('uploadMetaResult', { resp, file: obj.file })
             return resp
         } catch (error) {
             // commit('uploadMetaFailure', error, file, 'metaData')
@@ -106,15 +106,6 @@ const mutations = {
             })
         }
     },
-    uploadMetaRequest(state, obj) {
-        const item = state.meta.find(data => data.name === obj.file.name)
-        if (item) {
-            item.uploading = true
-            item.uploaded = false
-        } else {
-            state.meta.push({ name: obj.file.name, type: obj.type, uploaded: false, uploading: true })
-        }
-    },
     uploadResult: (state, { obj, resp }) => {
         let item = state.files.find(data => data.file.name === obj.file.name)
         item.resp = resp
@@ -132,8 +123,17 @@ const mutations = {
     updateMessage(state, id, message) {
         state.files[id].message = message
     },
+    uploadMetaRequest(state, obj) {
+        const item = state.meta.find(data => data.name === obj.file.name)
+        if (item) {
+            item.uploading = true
+            item.uploaded = false
+        } else {
+            state.meta.push({ name: obj.file.name, type: obj.type, uploaded: false, uploading: true })
+        }
+    },
     uploadMetaResult: (state, payload) => {
-        const item = state.meta.find(item => item.name === payload.file.name)
+        const item = state.meta.find(i => i.name === payload.file.name)
         item.uploaded = payload.resp.status === 1
         item.uploading = false
         item.result = payload.resp
