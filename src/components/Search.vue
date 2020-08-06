@@ -6,7 +6,7 @@
                 <v-card-title>
                     {{ $t('buttons.input') }}
                 </v-card-title>
-                <v-input
+                <input
                     v-model="searchInput.search"
                     @keypress.enter="handleSubmit"
                     :placeholder="$t('search.placeholder')"
