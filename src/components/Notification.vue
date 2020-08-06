@@ -23,6 +23,7 @@
                     {{ reformatAlert(info[1]) }}
                 </span>
             </v-col>
+            <v-slot></v-slot>
         </v-row>
     </v-banner>
 </template>

@@ -17,7 +17,7 @@
                                             v-slot="{ errors, valid }"
                                         >
                                             <v-text-field
-                                                v-model="name"
+                                                v-model="username"
                                                 :counter="10"
                                                 :error-messages="errors"
                                                 :success="valid"
@@ -56,20 +56,24 @@
                                                 required
                                             />
                                         </ValidationProvider>
-                                        <ValidationProvider
-                                            name="institution"
-                                            rules="required"
-                                            v-slot="{ errors, valid }"
-                                        >
-                                            <v-text-field
-                                                v-model="institution"
-                                                :error-messages="errors"
-                                                :success="valid"
-                                                :label="$t('register.institution')"
-                                                name="institution"
-                                                required
-                                            />
-                                        </ValidationProvider>
+                                        <v-autocomplete
+                                            v-model="institutions"
+                                            :items="meta('institution')"
+                                            item-text="acronym"
+                                            item-value="acronym"
+                                            label="Institutions"
+                                            color="primary"
+                                            multiple
+                                        ></v-autocomplete>
+                                        <v-autocomplete
+                                            v-model="licenses"
+                                            :items="meta('license')"
+                                            item-text="short_name"
+                                            item-value="short_name"
+                                            label="Licenses"
+                                            color="primary"
+                                            multiple
+                                        ></v-autocomplete>
                                         <ValidationProvider
                                             name="Email"
                                             rules="required|email"
@@ -152,14 +156,15 @@
                                     </v-btn>
                                 </v-card-actions>
                                 <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="0.8">
-                                    <Notification banner="false"></Notification>
-                                    <router-link
-                                        to="/"
-                                        class="primary white--text v-btn v-size--large"
-                                        @click="overlay = false"
-                                    >
-                                        {{ $t('buttons.ok') }}
-                                    </router-link>
+                                    <Notification>
+                                        <router-link
+                                            to="/"
+                                            :class="`${alerts.info.type} white--text v-btn v-size--large`"
+                                            @click="overlay = false"
+                                        >
+                                          {{ $t('buttons.ok') }}
+                                        </router-link>
+                                    </Notification>
                                 </v-overlay>
                             </v-card>
                         </ValidationObserver>
@@ -171,7 +176,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import {mapActions, mapGetters, mapState} from 'vuex'
 import { extend, ValidationObserver, ValidationProvider } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
 import Notification from './Notification'
@@ -188,32 +193,43 @@ export default {
         Notification,
     },
     computed: {
-        ...mapState('account', ['status']),
+        ...mapState({
+          status: state => state.account.status,
+          alerts: state => state.alerts,
+        }),
+        ...mapGetters('queries', ['meta']),
     },
     methods: {
         ...mapActions({
             register: 'account/register',
             showLoginInfo: 'alerts/showLoginInfo',
+            fetchMeta: 'queries/fetchMeta',
         }),
         async clear() {
-            this.name = this.email = this.first_name = this.last_name = this.institution = this.password = this.password2 =
-                ''
+            this.username = this.email = this.first_name = this.last_name = this.institutions = this.password = this.password2 = this.licenses = this.institutions = ''
             requestAnimationFrame(() => {
                 this.$refs.obs.reset()
             })
         },
-        async handleSubmit() {
+        handleSubmit() {
             this.submitted = true
             const user = {
-                name: this.name,
+                username: this.username,
                 password: this.password,
-                password2: this.password2,
                 email: this.email,
-                phone_number: this.phone_number,
                 first_name: this.first_name,
                 last_name: this.last_name,
-                institution: this.institution,
+                groups: []
             }
+            if (this.phone_number) {
+              user.phone_number = this.phone_number
+            }
+            this.institutions.forEach(item => {
+              user.groups.push({name: item})
+            })
+            this.licenses.forEach(item => {
+              user.groups.push({name: item})
+            })
             this.register(user)
             this.overlay = true
         },
@@ -221,22 +237,26 @@ export default {
     data() {
         return {
             errors: [],
-            name: null,
+            username: null,
             password: null,
             password2: null,
             email: null,
             phone_number: null,
             first_name: null,
             last_name: null,
-            institution: null,
             submitted: false,
+            institutions: [],
+            licenses: [],
+
             // notification after submission
             absolute: true,
-            overlay: false,
+            overlay: true,
         }
     },
     created() {
         this.showLoginInfo(false)
+        this.fetchMeta('institution')
+        this.fetchMeta('license')
     },
 }
 </script>
