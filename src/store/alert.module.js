@@ -39,11 +39,6 @@ const mutations = {
             state.info[item[0]] = item[1]
         })
         state.info.type = types[result.status]
-        // state.message = result.message
-        // state.type = types[result.status]
-        // state.warnings = result.warnings
-        // state.fatal = result.fatal
-        // state.errors = result.errors
     },
     showLoginInfo(state, isTrue) {
         state.loginInfo = isTrue
