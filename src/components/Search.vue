@@ -93,7 +93,7 @@
                                 color="primary"
                                 v-model="searchInput.is_invalid"
                                 :label="$t('buttons.show_invalid')"
-                                false-value="false"
+                                :false-value="false"
                                 true-value="null"
                             ></v-switch>
                             <v-switch
@@ -101,7 +101,7 @@
                                 color="primary"
                                 v-model="searchInput.is_old"
                                 :label="$t('buttons.show_old')"
-                                false-value="false"
+                                :false-value="false"
                                 true-value="null"
                             ></v-switch>
                             <v-switch
@@ -111,7 +111,7 @@
                                 v-model="searchInput.uploader"
                                 :label="$t('buttons.uploaded_by_me')"
                                 :true-value="account.id"
-                                false-value=""
+                                :false-value="null"
                             ></v-switch>
                             <v-switch
                                 v-if="account.token"
@@ -120,7 +120,7 @@
                                 v-model="searchInput.acronym"
                                 :label="$t('buttons.uploaded_by_institution')"
                                 :true-value="account.institutions.join()"
-                                false-value=""
+                                :false-value="null"
                             ></v-switch>
                         </v-row>
                         <v-row>
@@ -353,7 +353,9 @@ export default {
             if (this.queriedFiles) {
                 this.resetQueryState()
             }
-            this.search(this.searchInput)
+            let searchParams = Object.assign({}, this.searchInput)
+            Object.keys(searchParams).forEach(key => (searchParams[key] == null) && delete searchParams[key])
+            this.search(searchParams)
         },
         handleDownload(file) {
             this.download({ file })
@@ -416,11 +418,11 @@ export default {
             pageLength: 10,
             pageLengthChoices: [5, 10, 20, 50],
             searchInput: {
-                search: '',
-                acronym: '',
-                site__id: '',
-                variables__id: '',
-                uploader: '',
+                search: null,
+                acronym: null,
+                site__id: null,
+                variables__id: null,
+                uploader: null,
                 is_invalid: false,
                 is_old: false,
                 // origin_time: new Date('2020-07-01').toISOString().substr(0, 10)
