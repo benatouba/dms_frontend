@@ -12,7 +12,7 @@
             </i18n>
             <DropArea />
             <v-divider></v-divider>
-            <FileCards />
+          <FileCards :files="files"></FileCards>
         </v-container>
     </div>
 </template>
@@ -20,12 +20,18 @@
 <script>
 import DropArea from '@/components/DropArea'
 import FileCards from '@/components/FileCards'
+import {mapState} from "vuex";
 
 export default {
     name: 'Upload',
     components: {
         DropArea,
         FileCards,
+    },
+    computed: {
+        ...mapState({
+          files: state => state.upload.files,
+        }),
     },
 }
 </script>
