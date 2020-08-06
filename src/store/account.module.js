@@ -21,9 +21,10 @@ function getDefaultState() {
             token: null,
             email: null,
             id: null,
+            institutions: [],
             first_name: null,
             last_name: null,
-            groups: null,
+            groups: [],
             username: null,
             phone_number: null,
         }
@@ -58,19 +59,19 @@ const actions = {
         commit('logout')
         router.push('/')
     },
-    register({ dispatch, commit }, user) {
+    async register({ dispatch, commit }, user) {
         commit('registerRequest', user)
-        userService.register(user).then(
-            user => {
-                commit('registerSuccess', user.json())
-                dispatch('alerts/success', { message: i18n.t('register.success_message') }, { root: true })
-            },
-            error => {
-                error = error.json()
-                commit('registerFailure', error)
-                dispatch('alerts/error', error, { root: true })
+        try {
+            let resp = await userService.register(user)
+            if (resp.status !== 201) {
+                throw await resp.json()
             }
-        )
+            commit('registerSuccess', resp.json())
+            dispatch('alerts/success', { message: i18n.t('register.success_message') }, { root: true })
+        } catch (error) {
+            commit('registerFailure', error)
+            dispatch('alerts/error', error, { root: true })
+        }
     },
     async info({ commit, dispatch }, id) {
         try {
