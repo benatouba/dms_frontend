@@ -66,9 +66,13 @@ import { mapState } from 'vuex'
 
 export default {
     name: 'FileCards',
+    props: {
+        files: {
+            required: true,
+        },
+    },
     computed: {
         ...mapState({
-            files: state => state.upload.files,
             is_superuser: state => state.account.is_superuser,
         }),
     },
