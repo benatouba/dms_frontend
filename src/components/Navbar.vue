@@ -16,11 +16,11 @@
                 <span class="primary--text">{{ $t('nav.kb') }}</span>
                 <v-icon small dense size="1">mdi-open-in-new</v-icon>
             </v-btn>
-            <v-btn href="http://www.uc2-program.org/" target="_blank" text>
+            <v-btn :href="$t('nav.uc2_link')" target="_blank" text>
                 <span class="primary--text">{{ $t('nav.uc2website') }}</span>
                 <v-icon small dense size="1">mdi-open-in-new</v-icon>
             </v-btn>
-            <b-link-button large href="http://www.uc2-mosaik.org/">
+            <b-link-button large :href="$t('nav.module_a_link')">
                 <v-img
                     src="../assets/uc2_a_logo.png"
                     contain
@@ -29,7 +29,7 @@
                     position="bottom left"
                 ></v-img>
             </b-link-button>
-            <b-link-button large href="http://www.uc2-3do.org/">
+            <b-link-button large :href="$t('nav.module_b_link')">
                 <v-img
                     src="../assets/uc2_b_logo.jpg"
                     contain
@@ -38,7 +38,7 @@
                     position="bottom left"
                 ></v-img>
             </b-link-button>
-            <b-link-button large href="http://uc2-klimoprax-useuclim.org/">
+            <b-link-button large :href="$t('nav.module_c_link')">
                 <v-img
                     src="../assets/uc2_c_logo.png"
                     contain

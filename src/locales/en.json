@@ -28,7 +28,11 @@
   "nav": {
     "data_standard": "data standard",
     "data_policy": "Data Policy",
-    "data_standard_link": "http://www.uc2-program.org/en/datenmanagement",
+    "data_standard_link": "http://www.uc2-program.org/en/datamanagement",
+    "module_a_link": "http://www.uc2-mosaik.org/",
+    "module_b_link": "http://www.uc2-3do.org/en/",
+    "module_c_link": "https://www.uc2-propolis.de/index.php.en",
+    "uc2_link": "http://www.uc2-program.org/en/",
     "drawer_elements": "{text}",
     "kb": "KB",
     "kb_link": "https://www.klima.tu-berlin.de/KB/index.php?KB=KB-UC2",
@@ -45,7 +49,7 @@
     "contact": "Contact"
   },
   "home": {
-    "text1": "Within the framework of the BMBF programme [UC²], we process available data and collect new or missing data utilizing long-term measurements, intensive measurement campaigns and physical modelling. To support the exchange of observation and model data between the project partners beyond the module boundaries, e.g. for the validation of the newly developed urban climate model PALM-4U or urban climatological and scientific studies, this data management system (DMS) was developed within the research programme.\n If you have an account, you can upload data that meets the requirements via the respective page. If not logged in, you can see and download data that is published under open licences. Please refer to the data standard and data policy, linked above, for more information.",
+    "text1": "Within the framework of the BMBF programme [UC²], we process available data and collect new or missing data utilizing long-term measurements, intensive measurement campaigns and physical modelling. To support the exchange of observation and model data between the project partners beyond the module boundaries, e.g. for the validation of the newly developed urban climate model PALM-4U or urban climatological and scientific studies, this data management system (DMS) was developed within the research programme.\n If you have an account, you can upload data that meets the requirements via the upload page. If not logged in, you can see and download data that is published under open licences. Please refer to the data standard and data policy, linked above, for more information.",
     "text2": "The use of a uniform data format, as well as binding conventions for the use of data and metadata, is an essential prerequisite for their effective and efficient administration in the DMS. Also, a uniform data standard enables the development and provision of innovative tools for the analysis and visualization of complex and very heterogeneous data. After completion of the programme, data published under open licences will remain publicly available.",
     "caption": "Data management system outline of the BMBF programme Urban climate under Change [UC²]. Data flow depends on the assigned data policy. Reprinted from Scherer et al., 2019",
     "img_source_link": "https://dx.doi.org/10.1127/metz/2019/0913",
@@ -53,7 +57,7 @@
   },
   "upload": {
     "info_text": "Below, you are able to upload one or more files to the [UC²] Data Management System.\nOn upload, a data conformity check will be run to verify files meet the requirements.\nThe results of the conformity check and the upload status will be displayed below.",
-    "format_note": "Please note: At the moment, we do only accept netCDF files meeting the [UC²] %{link} requirements.\nIn the future, we will support other data formats as well.",
+    "format_note": "Please note: At the moment, we do only accept netCDF files meeting the [UC²] %{link} requirements.\nIn future, we will support other data formats as well.",
     "title": "Upload",
     "droparea": "Drag one or more files here</br>or click to browse",
     "uploading1": "Uploading {count}",
@@ -67,7 +71,7 @@
     "text": "You are not logged in. You are only shown data released under public licences. To see additional data, please log in. Don't have an account yet? Register."
   },
   "search": {
-    "info_text": "Type in your search keywords below. The data base will search for it in most of the meta information available.\nYou can also filter by a specific institution, site or variable.\nUse toggle options to include files marked as old (not the most recent version of the file) or invalid.\nColored results mark erroneous files or files that contain warnings.\nIf logged in, you can also filter for the files you uploaded using the respective toggle option.",
+    "info_text": "Type in your search keywords below. We support querying files for most of the meta data. Currently, we do not yet support queries for coordinates or time periods.\nYou can also filter by a specific institution, site or variable.\nUse toggle options to include files marked as old (not the most recent version of the file) or invalid.\nColored results mark erroneous files or files that contain warnings.\nIf logged in, you can also filter for the files you uploaded using the respective toggle option.",
     "title": "Search",
     "placeholder": "Search in all fields",
     "file_title": "Files",
