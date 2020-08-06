@@ -15,7 +15,7 @@ const getDefaultState = () => {
             { name: 'institution', data: [] },
             { name: 'variable', data: [] },
             { name: 'site', data: [] },
-            { name: 'licence', data: [] },
+            { name: 'license', data: [] },
         ],
     }
 }
