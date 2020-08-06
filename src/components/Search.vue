@@ -66,18 +66,18 @@
                         </v-row>
                         <v-row>
                             <v-autocomplete
-                                v-model="searchInput.variables__id"
+                                v-model="searchInput.variables__variable"
                                 :items="meta('variable')"
                                 item-text="long_name"
-                                item-value="id"
+                                item-value="variable"
                                 :label="$t('buttons.variable')"
                                 color="primary"
                                 @change="handleSubmit"
                             ></v-autocomplete>
                             <v-icon
-                                v-show="searchInput.variables__id"
+                                v-show="searchInput.variables__variable"
                                 @click="
-                                    searchInput.variables__id = ''
+                                    searchInput.variables__variable = null
                                     handleSubmit()
                                 "
                                 small
@@ -421,7 +421,7 @@ export default {
                 search: null,
                 acronym: null,
                 site__id: null,
-                variables__id: null,
+                variables__variable: null,
                 uploader: null,
                 is_invalid: false,
                 is_old: false,
