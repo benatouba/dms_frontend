@@ -32,6 +32,9 @@ const getters = {
 
 const actions = {
     resetQueryState({ commit }) {
+        commit('resetQueryState')
+    },
+    resetState({ commit }) {
         commit('resetState')
     },
     async search({ dispatch, commit }, input) {
@@ -95,6 +98,16 @@ const mutations = {
         // Merge rather than replace so we don't lose observers
         // https://github.com/vuejs/vuex/issues/1118
         Object.assign(state, getDefaultState())
+    },
+    resetQueryState(state) {
+        state.queried = false
+        state.querying = false
+        state.error = null
+        state.result = []
+        state.downloading = false
+        state.downloaded = true
+        state.download_file = null
+        state.count = 0
     },
     queryRequest(state, input) {
         state.querying = true

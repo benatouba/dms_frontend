@@ -31,7 +31,7 @@
                             <v-icon
                                 v-show="searchInput.acronym"
                                 @click="
-                                    searchInput.acronym = ''
+                                    searchInput.acronym = null
                                     handleSubmit()
                                 "
                                 small
@@ -54,7 +54,7 @@
                             <v-icon
                                 v-show="searchInput.site__id"
                                 @click="
-                                    searchInput.site__id = ''
+                                    searchInput.site__id = null
                                     handleSubmit()
                                 "
                                 small
