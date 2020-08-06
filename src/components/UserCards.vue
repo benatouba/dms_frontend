@@ -29,10 +29,11 @@
                             <v-btn v-if="user.is_active" class="mx-1" @click="manageUser(user.id, 1)">Decline</v-btn>
                             <v-btn color="error" class="mx-1" @click="deleteUser(user.id)">Delete User</v-btn>
                             <v-overlay class="text-center" absolute :value="overlay" :opacity="0.8">
-                                <Notification />
+                              <Notification>
                                 <v-btn color="primary white--text v-size--large" @click="overlay = false">
                                     {{ $t('buttons.ok') }}
                                 </v-btn>
+                              </Notification>
                             </v-overlay>
                         </v-col>
                     </v-row>

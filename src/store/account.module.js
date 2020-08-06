@@ -61,6 +61,7 @@ const actions = {
     },
     async register({ dispatch, commit }, user) {
         commit('registerRequest', user)
+        commit('showErrorBanner', false, { root: true })
         try {
             let resp = await userService.register(user)
             if (resp.status !== 201) {

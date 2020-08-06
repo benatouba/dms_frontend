@@ -250,7 +250,7 @@ export default {
 
             // notification after submission
             absolute: true,
-            overlay: true,
+            overlay: false,
         }
     },
     created() {

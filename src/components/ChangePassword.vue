@@ -71,10 +71,11 @@
                             </v-btn>
                         </v-card-actions>
                         <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="1">
-                            <Notification />
-                            <v-btn class="primary white--text v-btn v-size--large" @click="overlay = false">
+                          <Notification>
+                            <v-btn :class="`${alerts.info.type} white--text v-btn v-size--large`" @click="overlay = false">
                                 {{ $t('buttons.ok') }}
                             </v-btn>
+                          </Notification>
                         </v-overlay>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -99,6 +100,9 @@ export default {
         ValidationObserver,
         ValidationProvider,
         Notification,
+    },
+    computed: {
+      alerts: state => state.alerts
     },
     methods: {
         ...mapActions({ patch: 'account/patch' }),

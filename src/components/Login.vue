@@ -55,22 +55,21 @@
                                 :absolute="absolute"
                                 :opacity="0.9"
                             >
-                                <v-row>
+                               <!-- <v-row>
                                     <v-col>
                                         <strong v-for="(alert, key) in alerts.info.message" :key="key">
                                             {{ alert[0] }}
                                         </strong>
                                     </v-col>
-                                </v-row>
+                                </v-row>-->
+                              <Notification>
                                 <v-btn
-                                    class="primary white--text v-btn v-size--large"
-                                    @click="
-                                        submitted = false
-                                        clearAlert
-                                    "
+                                    :class="`${alerts.info.type} white--text v-btn v-size--large`"
+                                    @click="submitted = false; clearAlert"
                                 >
                                     {{ $t('buttons.ok') }}
                                 </v-btn>
+                              </Notification>
                             </v-overlay>
                         </v-card>
                     </v-col>
@@ -82,10 +81,12 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import Notification from "@/components/Notification";
 
 export default {
     name: 'Login',
-    data() {
+  components: {Notification},
+  data() {
         return {
             username: null,
             password: null,

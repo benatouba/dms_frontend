@@ -1,7 +1,7 @@
 <template>
     <v-banner
         app
-        v-if="alerts.info.type && banner"
+        v-if="alerts.info.type"
         :color="alerts.info.type"
         rounded
         sticky
@@ -23,8 +23,8 @@
                     {{ reformatAlert(info[1]) }}
                 </span>
             </v-col>
-            <v-slot></v-slot>
         </v-row>
+      <slot></slot>
     </v-banner>
 </template>
 
@@ -38,12 +38,6 @@ export default {
         ...mapState({
             alerts: state => state.alerts,
         }),
-    },
-    props: {
-        banner: {
-            type: Boolean,
-            required: true,
-        },
     },
     methods: {
         ...mapActions({

@@ -3,7 +3,7 @@
         <Navbar />
         <v-main style="margin: auto; width: 80%;">
             <LoginInfo v-if="!account.token && alerts.loginInfo" />
-            <Notification :banner="showErrorBanner"></Notification>
+            <Notification v-if="showErrorBanner"></Notification>
             <router-view></router-view>
         </v-main>
         <Footer />
