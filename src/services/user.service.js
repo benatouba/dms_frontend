@@ -1,4 +1,5 @@
 import authHeader from '../helpers/authentication'
+import i18n from '../plugins/i18n'
 
 function login({ username, password }) {
     const requestOptions = authHeader('POST')
@@ -40,22 +41,44 @@ async function register(user) {
     return await fetch(process.env.VUE_APP_API_ENDPOINT + '/auth/user/', requestOptions)
 }
 
-async function patch(toChange) {
+async function patch(input) {
+    let url = `${process.env['VUE_APP_API_ENDPOINT']}/auth/user/`
     const requestOptions = authHeader('PATCH')
-    alert(toChange)
-    const urlencoded = new URLSearchParams()
-    Object.keys(toChange).forEach(function eachKey(key) {
-        alert(key) // alerts key
-        alert(toChange[key]) // alerts value
-        urlencoded.append(key, toChange[key])
+
+    // used for password reset (forgot password)
+    Object.keys(input).forEach(key => {
+        if (key === 'token') {
+            url = url + 'reset_pw/' + input[key] + '/'
+            delete input[key]
+        }
     })
+
+    requestOptions.headers.append('Content-Type', 'application/json')
+    requestOptions.body = JSON.stringify(input)
+    requestOptions.redirect = 'follow'
+
+    let resp = await fetch(url, requestOptions)
+    if (resp.status !== 200) {
+        return await resp.json()
+    } else {
+        return i18n.t('reset_password.reset_ok')
+    }
+}
+async function requestPassword(input) {
+    const requestOptions = authHeader('POST')
+    const urlencoded = new URLSearchParams()
+    urlencoded.append('userid', input.userid)
 
     requestOptions.headers.append('Content-Type', 'application/x-www-form-urlencoded')
     requestOptions.body = urlencoded
     requestOptions.redirect = 'follow'
 
-    let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/`, requestOptions)
-    return resp
+    let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/request_pw_reset/`, requestOptions)
+    if (resp.status !== 200) {
+        return await resp.json()
+    } else {
+        return i18n.t('reset_password.requested')
+    }
 }
 
 async function list(searchParam) {
@@ -125,4 +148,5 @@ export const userService = {
     list,
     info,
     manage,
+    requestPassword,
 }

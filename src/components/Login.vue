@@ -36,12 +36,15 @@
                                     </div>
                                 </v-card-text>
                                 <v-card-actions>
-                                    <router-link to="/register" class="btn btn-link">{{
+                                    <router-link to="/register" class="btn btn-link mx-2">{{
                                         $t('buttons.register')
                                     }}</router-link>
+                                    <router-link to="/requestpassword" class="btn btn-link mx-2" id="request_pw_link">
+                                      {{ $t('buttons.request_password') }}
+                                    </router-link>
                                     <v-spacer />
                                     <v-btn
-                                        class="login_button"
+                                        id="login_button"
                                         color="primary"
                                         @click="handleSubmit"
                                         :disabled="!username || !password"

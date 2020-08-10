@@ -83,9 +83,19 @@ const actions = {
             dispatch('alerts/error', error, { root: true })
         }
     },
-    async patch({ dispatch }, toChange) {
+    async patch({ commit, dispatch }, input) {
+        commit('showErrorBanner', false, { root: true })
         try {
-            let resp = await userService.patch(toChange)
+            let resp = await userService.patch(input)
+            dispatch('alerts/success', resp, { root: true })
+        } catch (error) {
+            dispatch('alerts/error', error, { root: true })
+        }
+    },
+    async requestPassword({ commit, dispatch }, userid) {
+        commit('showErrorBanner', false, { root: true })
+        try {
+            let resp = await userService.requestPassword(userid)
             dispatch('alerts/success', resp, { root: true })
         } catch (error) {
             dispatch('alerts/error', error, { root: true })
