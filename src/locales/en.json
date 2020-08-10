@@ -50,6 +50,7 @@
     "contact": "Contact"
   },
   "home": {
+    "title": "Home",
     "text1": "Within the framework of the BMBF programme [UC²], we process available data and collect new or missing data utilizing long-term measurements, intensive measurement campaigns and physical modelling. To support the exchange of observation and model data between the project partners beyond the module boundaries, e.g. for the validation of the newly developed urban climate model PALM-4U or urban climatological and scientific studies, this data management system (DMS) was developed within the research programme.\n If you have an account, you can upload data that meets the requirements via the upload page. If not logged in, you can see and download data that is published under open licences. Please refer to the data standard and data policy, linked above, for more information.",
     "text2": "The use of a uniform data format, as well as binding conventions for the use of data and metadata, is an essential prerequisite for their effective and efficient administration in the DMS. Also, a uniform data standard enables the development and provision of innovative tools for the analysis and visualization of complex and very heterogeneous data. After completion of the programme, data published under open licences will remain publicly available.",
     "caption": "Data management system outline of the BMBF programme Urban climate under Change [UC²]. Data flow depends on the assigned data policy. Reprinted from Scherer et al., 2019",

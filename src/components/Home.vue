@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <v-container class="mx-4 primary--text">
-            <h1>Home</h1>
+            <h1>{{ $t('home.title') }}</h1>
             <p class="secondary--text">{{ $t('home.text1') }}</p>
             <v-row align="center" justify="center">
                 <v-img
