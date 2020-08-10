@@ -22,7 +22,7 @@
                                     </v-btn>
                                 </v-col>
                                 <v-col class="px-0">
-                                    <v-btn text :href="`${contact.website}`" target="_blank">
+                                    <v-btn text :href="`${contact.website[$i18n.locale]}`" target="_blank">
                                         website
                                     </v-btn>
                                 </v-col>
@@ -47,7 +47,10 @@ export default {
                     id: 0,
                     name: 'Benjamin Schmidt',
                     role: { de: 'DMS Support', en: 'DMS Support' },
-                    website: 'https://www.klima.tu-berlin.de/index.php?show=team_schmidt',
+                    website: {
+                      de: 'https://www.klima.tu-berlin.de/index.php?show=team_schmidt',
+                      en: 'https://www.klima.tu-berlin.de/index.php?show=team_schmidt&lang=en',
+                    },
                     email: 'benjamin.schmidt@tu-berlin.de',
                     tel: '+49-(0)30-314-73195',
                 },
@@ -55,23 +58,32 @@ export default {
                     id: 1,
                     name: 'Tom Grassmann',
                     role: { de: 'DMS Support', en: 'DMS Support' },
-                    website: 'http://www.klima.tu-berlin.de/index.php?show=team_grassmann',
+                    website: {
+                      de: 'http://www.klima.tu-berlin.de/index.php?show=team_grassmann',
+                      en: 'http://www.klima.tu-berlin.de/index.php?show=team_grassmann&lang=en',
+                    },
                     email: 'grassmann@tu-berlin.de',
                     tel: '+49-(0)30-314-71192',
                 },
                 // {
                 //     id: 2,
-                //     name: 'Katharina Scherber ',
-                //     role: 'Koordinationsbüro',
-                //     website: 'http://www.klima.tu-berlin.de/index.php?show=team_scherber',
+                //     name: 'Katharina Scherber',
+                //     role: { de: 'Koordinationsbüro Berlin', en: 'Coordination Office Berlin' },
+                //     website: {
+                //     de: 'http://www.klima.tu-berlin.de/index.php?show=team_scherber',
+                //     en: 'http://www.klima.tu-berlin.de/index.php?show=team_scherber&lang=en',
+                //     },
                 //     email: 'katharina.scherber@tu-berlin.de',
                 //     tel: '+49-(0)30-314-71330',
                 // },
                 {
                     id: 3,
-                    name: 'Ute Fehrenbach   ',
+                    name: 'Ute Fehrenbach',
                     role: { de: 'Koordinationsbüro Berlin', en: 'Coordination Office Berlin' },
-                    website: 'http://www.klima.tu-berlin.de/index.php?show=team_fehrenbach',
+                    website: {
+                      de: 'http://www.klima.tu-berlin.de/index.php?show=team_fehrenbach',
+                      en: 'https://www.klima.tu-berlin.de/index.php?show=team_fehrenbach&lan=en'
+                    },
                     email: 'ute.fehrenbach@tu-berlin.de',
                     tel: '+49-(0)30-314-71309',
                 },
@@ -79,7 +91,10 @@ export default {
                     id: 4,
                     name: 'Dieter Scherer',
                     role: { de: 'Programmkoordinator', en: 'Programme Coordinator' },
-                    website: 'http://www.klima.tu-berlin.de/index.php?show=team_scherer',
+                    website: {
+                      de: 'http://www.klima.tu-berlin.de/index.php?show=team_scherer',
+                      en: 'http://www.klima.tu-berlin.de/index.php?show=team_scherer&lang=en'
+                    },
                     email: 'dieter.scherer@tu-berlin.de',
                     tel: '+49-(0)30-314-71356',
                 },

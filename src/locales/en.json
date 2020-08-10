@@ -23,6 +23,7 @@
     "uploaded_by_institution": "Show only files of my Institution",
     "search": "Search",
     "input": "Search input",
+    "request_password": "Forgot Password?",
     "delete_tooltip": "Can only be deleted by members of the file's institution, if not yet downloaded"
   },
   "nav": {
@@ -127,5 +128,16 @@
   },
   "alerts": {
     "file_deleted": "File %{name} deleted!"
+  },
+  "reset_password": {
+    "title": "Set new password",
+    "reset_ok": "Password changed. Please click ok and log in using the new password.",
+    "requested": "Request sent. You will receive E-Mail, containing a link to set a new password."
+  },
+  "request_password": {
+    "title": "Forgot Password",
+    "info": "Please fill in your account name or E-Mail to request a password change. In case, this information is not avvailable, please contact the support.",
+    "userid": "Account name or E-Mail",
+    "userid_missing": "Account name or E-Mail missing."
   }
 }

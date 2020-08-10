@@ -15,7 +15,7 @@
     "upload_with_warnings": "Trotz Warnung(en) Hochladen",
     "upload_with_errors": "Trotz Fehler Hochladen",
     "not_required": "Kein Pflichtfeld",
-    "option_select": "Bitte wählen Sie einen Listentyp zum hochladen aus",
+    "option_select": "Bitte wählen Sie einen Listentyp zum Hochladen aus",
     "show_invalid": "Ungültige Dateien einblenden",
     "show_old": "Alte Daten einblenden",
     "mark_invalid": "als ungültig markieren",
@@ -23,6 +23,7 @@
     "uploaded_by_institution": "Nur Daten meiner Institution anzeigen",
     "search": "Suchen",
     "input": "Sucheingabe",
+    "request_password": "Passwort vergessen?",
     "delete_tooltip": "Kann nur von Mitgliedern der zugehörigen Institution gelöscht werden, falls die noch heruntergeladen wurde."
   },
   "nav": {
@@ -56,7 +57,7 @@
     "img_link": "@/assets/dms_graphic_de.png"
   },
   "upload": {
-    "info_text": "In diesem Bereich können Sie eine oder mehrere Datei(en) in das [UC²] Datenmanagementsystem laden.\nBeim Hochladen wird eine Konformitätscheck durchgeführt um zu prüfen ob die Daten Standardkonform sind.\nDie Ergebnisse und der Status Ihres Uploads werden unten angezeigt.\n",
+    "info_text": "In diesem Bereich können Sie eine oder mehrere Datei(en) in das [UC²] Datenmanagementsystem laden.\nBeim Hochladen wird ein Konformitätscheck durchgeführt um zu prüfen ob die Daten Standardkonform sind.\nDie Ergebnisse und der Status Ihres Uploads werden unten angezeigt.\n",
     "format_note": "Achtung: Zu diesem Zeitpunkt werden nur netCDF-Dateien, welche den [UC²] %{link} erfüllen akzeptiert.\nIn Zukunft wird auch das Ablegen anderer Daten ermöglicht werden.",
     "title": "Dateien Hochladen",
     "droparea": "Eine oder mehrere Datei(en) hier hineinziehen</br>oder zum Auswählen klicken",
@@ -71,7 +72,7 @@
     "text": "Du bist nicht eingeloggt. Es werden nur Daten unter öffentlicher Lizenz angezeigt. Um weitere Daten angezeigt zu bekommen, bitte melde dich an. Du hast noch keinen Account? Bitte registriere dich."
   },
   "search": {
-    "info_text": "Bitte geben Sie gewünschte Schlagwörter in das Suchfeld ein. Ein großer Teil der Metainformationen in der Datenbank wird durchsucht. Suche nach geographischen Koordinaten oder Zeitfenstern werden zurzeit nicht unterstützt.\nSie können auch nach einer spezifischen Institution, Site oder Variable filtern.\nBenutzen Sie die Schalter um als alt (nicht die neueste Version der Datei) oder ungültig markierte Dateien in die Suche aufzunehmen.\nFarbige Ergebnisse weisen auf nicht-standardkonforme oder mit Warnungen versehene Dateien hin.\nEingeloggte Nutzer können sich auch nur die selbst hochgeladenen Dateien anzeigen lassen.",
+    "info_text": "Bitte geben Sie die gewünschten Schlagwörter in das Suchfeld ein. Ein großer Teil der Metainformationen in der Datenbank wird durchsucht. Die Suche nach geographischen Koordinaten oder Zeitfenstern wird zurzeit nicht unterstützt.\nSie können auch nach einer spezifischen Institution, Site oder Variable filtern.\nBenutzen Sie die Schalter um als alt (nicht die neueste Version der Datei) oder ungültig markierte Dateien in die Suche aufzunehmen.\nFarbige Ergebnisse weisen auf nicht-standardkonforme oder mit Warnungen versehene Dateien hin.\nEingeloggte Nutzer können sich auch nur die selbst hochgeladenen Dateien anzeigen lassen.",
     "title": "Suche",
     "placeholder": "Suche in allen Feldern",
     "file_title": "Dateien",
@@ -127,5 +128,16 @@
   },
   "alerts": {
     "file_deleted": "Datei %{name} gelöscht"
+  },
+  "reset_password": {
+    "title": "Neues Passwort setzen",
+    "reset_ok": "Ihr Passwort wurde geändert. Bitte klicken Sie ok und nutzen Sie ihr neues Passwort zum einloggen.",
+    "requested": "Anfrage wurde verschickt. Sie erhalten in kürze E-Mail mit einem Link zum setzen eines neuen Passworts."
+  },
+  "request_password": {
+    "title": "Passwort vergessen",
+    "info": "Bitte geben Sie ihren Nutzernamen oder Ihre E-Mail-Adresse eine Passwortänderung anzufragen. Sollten Sie diese Informationen nicht haben, bitte wenden Sie sich an den Support.",
+    "userid": "Nutzername oder E-Mail-Adresse",
+    "userid_missing": "Nutzername oder E-Mail-Adresse fehlt."
   }
 }
