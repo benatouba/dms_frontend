@@ -50,6 +50,8 @@ async function patch(input) {
         if (key === 'token') {
             url = url + 'reset_pw/' + input[key] + '/'
             delete input[key]
+        } else if (key === 'pk') {
+            url = url + input[key] + '/'
         }
     })
 
@@ -60,8 +62,10 @@ async function patch(input) {
     let resp = await fetch(url, requestOptions)
     if (resp.status !== 200) {
         return await resp.json()
-    } else {
+    } else if (input.password) {
         return i18n.t('reset_password.reset_ok')
+    } else {
+        return i18n.t('account.patch_ok')
     }
 }
 async function requestPassword(input) {

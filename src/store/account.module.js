@@ -84,9 +84,15 @@ const actions = {
         }
     },
     async patch({ commit, dispatch }, input) {
-        commit('showErrorBanner', false, { root: true })
+        if (input.password) {
+            commit('showErrorBanner', false, { root: true })
+        }
         try {
             let resp = await userService.patch(input)
+            if (input.pk) {
+                delete input.pk
+                commit('userInfoSuccess', input)
+            }
             dispatch('alerts/success', resp, { root: true })
         } catch (error) {
             dispatch('alerts/error', error, { root: true })
