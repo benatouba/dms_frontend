@@ -114,8 +114,9 @@
     "title": "Account",
     "change_password": "Change Password",
     "old_password": "Old password",
-    "new_password1": "New password",
-    "new_password2": "Repeat new password"
+    "password": "New password",
+    "password2": "Repeat new password",
+    "patch_ok": "User information was changed."
   },
   "footer": {
     "system": "Data Management System [UC²] - BMBF Programme Urban Climate Under Change"

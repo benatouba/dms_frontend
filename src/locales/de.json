@@ -114,8 +114,9 @@
     "title": "Nutzerkonto",
     "change_password": "Passwort ändern",
     "old_password": "Altes Passwort",
-    "new_password1": "Neues Passwort",
-    "new_password2": "Neues Passwort wiederholen"
+    "password": "Neues Passwort",
+    "password2": "Neues Passwort wiederholen",
+    "patch_ok": "Nutzerinformation wurde geändert."
   },
   "footer": {
     "system": "Datenmanagementsystem [UC²] - BMBF-Fördermaßnahme Stadtklima im Wandel"

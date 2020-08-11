@@ -6,6 +6,24 @@
                     <v-expansion-panel-header>{{ $t('account.change_password') }}</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-form>
+<!--                            <ValidationProvider-->
+<!--                                name="password"-->
+<!--                                rules="required|min:8"-->
+<!--                                ref="password"-->
+<!--                                v-slot="{ errors, valid }"-->
+<!--                            >-->
+<!--                                <v-text-field-->
+<!--                                    v-model="old_password"-->
+<!--                                    :error-messages="errors"-->
+<!--                                    :success="valid"-->
+<!--                                    id="password"-->
+<!--                                    :label="$t('account.old_password')"-->
+<!--                                    name="password"-->
+<!--                                    prepend-icon="lock"-->
+<!--                                    type="password"-->
+<!--                                    required-->
+<!--                                />-->
+<!--                            </ValidationProvider>-->
                             <ValidationProvider
                                 name="password"
                                 rules="required|min:8"
@@ -13,29 +31,11 @@
                                 v-slot="{ errors, valid }"
                             >
                                 <v-text-field
-                                    v-model="old_password"
+                                    v-model="password"
                                     :error-messages="errors"
                                     :success="valid"
                                     id="password"
-                                    :label="$t('account.old_password')"
-                                    name="password"
-                                    prepend-icon="lock"
-                                    type="password"
-                                    required
-                                />
-                            </ValidationProvider>
-                            <ValidationProvider
-                                name="password"
-                                rules="required|min:8"
-                                ref="password"
-                                v-slot="{ errors, valid }"
-                            >
-                                <v-text-field
-                                    v-model="new_password"
-                                    :error-messages="errors"
-                                    :success="valid"
-                                    id="password"
-                                    :label="$t('account.new_password1')"
+                                    :label="$t('account.password')"
                                     name="password"
                                     prepend-icon="lock"
                                     type="password"
@@ -49,11 +49,11 @@
                                 v-slot="{ errors, valid }"
                             >
                                 <v-text-field
-                                    v-model="new_password2"
+                                    v-model="password2"
                                     :error-messages="errors"
                                     :success="valid"
                                     id="password2"
-                                    :label="$t('account.new_password2')"
+                                    :label="$t('account.password2')"
                                     name="password2"
                                     prepend-icon="lock"
                                     type="password"
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import {mapActions, mapState} from 'vuex'
 import { extend, ValidationObserver, ValidationProvider } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
 import Notification from './Notification'
@@ -102,26 +102,29 @@ export default {
         Notification,
     },
     computed: {
-      alerts: state => state.alerts
+      ...mapState({
+        alerts: state => state.alerts,
+        userId: state=> state.account.id
+      })
     },
     methods: {
         ...mapActions({ patch: 'account/patch' }),
         handleSubmit() {
             this.submitted = true
-            const password = this.new_password
-            this.patch({ password })
+            const password = this.password
+            this.patch({ pk: this.userId, password })
             this.overlay = true
-            this.old_password = null
-            this.new_password = null
-            this.new_password2 = null
+            // this.old_password = null
+            this.password = null
+            this.password2 = null
         },
     },
     data() {
         return {
             errors: [],
-            old_password: null,
-            new_password: null,
-            new_password2: null,
+            // old_password: null,
+            password: null,
+            password2: null,
             submitted: false,
             // notification after submission
             absolute: true,
