@@ -41,20 +41,15 @@ function download(file) {
     return answer
 }
 
-function deleteFile(file) {
+async function deleteFile(file) {
     const requestOptions = authHeader('DELETE')
 
-    let response = fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}`, requestOptions).then(resp => {
-        let response = new Promise(function(resolve, reject) {
-            if (!resp.ok) {
-                reject(resp.json())
-            } else {
-                resolve(resp) // resp 301 has no json content
-            }
-        })
-        return response
-    })
-    return response
+    let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}`, requestOptions)
+    if (resp.status === 200) {
+        return resp.json()
+    } else {
+        throw await resp.json()
+    }
 }
 
 async function setInvalid(file) {

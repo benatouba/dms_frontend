@@ -1,5 +1,5 @@
 import queryService from '../services/query.service'
-import i18n from '../plugins/i18n'
+// import i18n from '../plugins/i18n'
 
 const getDefaultState = () => {
     return {
@@ -72,12 +72,19 @@ const actions = {
     async delete({ dispatch, commit }, { file }) {
         commit('deleteRequest', file)
         try {
-            await queryService.deleteFile(file)
+            let resp = await queryService.deleteFile(file)
+            console.log(resp)
             commit('deleteSuccess', file.id)
-            dispatch('alerts/success', i18n.t('alerts.file_deleted', { name: file.file_standard_name }), { root: true })
+            dispatch('alerts/success', resp, { root: true })
         } catch (error) {
             commit('deleteFailure')
             dispatch('alerts/error', error, { root: true })
+            // dispatch(
+            //     'alerts/error',
+            //     i18n.t('alerts.file_not_deleted', { name: file.file_standard_name }),
+            //     { root: true },
+            //     { root: true }
+            // )
         }
     },
     async setInvalid({ dispatch, commit }, file) {
