@@ -15,7 +15,6 @@ function upload({ file, ignore_warnings, ignore_errors }) {
 
     requestOptions.body = formdata
     requestOptions.redirect = 'follow'
-
     return fetch(process.env.VUE_APP_API_ENDPOINT + `/data/file/`, requestOptions)
 }
 
