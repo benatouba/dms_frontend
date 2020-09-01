@@ -108,39 +108,31 @@ async function info(id) {
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function manage(id, action) {
+async function manage(id, action) {
     const requestOptions = authHeader('POST')
     requestOptions.headers.append('Content-Type', 'application/json')
     requestOptions.redirect = 'follow'
     requestOptions.body = JSON.stringify(id, action)
 
-    return fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/${id}/`, requestOptions).then(handleResponse)
+    let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/manage_account/${id}/`, requestOptions)
+    if (resp.status !== 200) {
+        return await resp.json()
+    } else {
+        return i18n.t('admin.user_managed')
+    }
 }
 
-function _delete(id) {
+async function _delete(id) {
     const requestOptions = authHeader('DELETE')
     requestOptions.headers.append('Content-Type', 'application/json')
     requestOptions.redirect = 'follow'
 
-    return fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/${id}/`, requestOptions).then(handleResponse)
-}
-
-function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text)
-        if (!response.ok) {
-            if (response.status === 401) {
-                // auto logout if 401 response returned from api
-                logout()
-                location.reload()
-            }
-
-            const error = (data && data.message) || response.statusText
-            return Promise.reject(error)
-        }
-
-        return data
-    })
+    let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/${id}/`, requestOptions)
+    if ([200, 202, 204].includes(resp.status)) {
+        return i18n.t('admin.user_deleted')
+    } else {
+        return await resp.json()
+    }
 }
 
 export const userService = {
