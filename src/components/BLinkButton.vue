@@ -1,5 +1,5 @@
 <template>
-    <v-btn ripple depressed :href="href" target="_blank">
+    <v-btn ripple depressed icon class="mx-5" :href="href" target="_blank">
         <slot></slot>
         <v-icon x-small>mdi-open-in-new</v-icon>
     </v-btn>
