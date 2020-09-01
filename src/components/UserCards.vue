@@ -24,13 +24,28 @@
                                     manageUser(user.id, 0)
                                     overlay = true
                                 "
-                                >Admit</v-btn
+                                >
+                              {{ $t('admin.admit') }}
+                            </v-btn>
+                            <v-btn
+                                v-if="user.is_active" class="mx-1"
+                                @click="manageUser(user.id, 1)"
                             >
-                            <v-btn v-if="user.is_active" class="mx-1" @click="manageUser(user.id, 1)">Decline</v-btn>
-                            <v-btn color="error" class="mx-1" @click="deleteUser(user.id)">Delete User</v-btn>
+                              {{ $t('admin.decline') }}
+                            </v-btn>
+                            <v-btn
+                                color="error"
+                                class="mx-1"
+                                @click="deleteUser(user.id)"
+                            >
+                              {{ $t('admin.delete_user') }}
+                            </v-btn>
                             <v-overlay class="text-center" absolute :value="overlay" :opacity="0.8">
                               <Notification>
-                                <v-btn color="primary white--text v-size--large" @click="overlay = false">
+                                <v-btn
+                                    color="primary white--text v-size--large"
+                                    @click="overlay = false"
+                                >
                                     {{ $t('buttons.ok') }}
                                 </v-btn>
                               </Notification>
