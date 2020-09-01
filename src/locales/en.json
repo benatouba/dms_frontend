@@ -34,6 +34,8 @@
     "module_b_link": "http://www.uc2-3do.org/en/",
     "module_c_link": "https://www.uc2-propolis.de/index.php.en",
     "uc2_link": "http://www.uc2-program.org/en/",
+    "bmbf_link": "https://www.bmbf.de/en/",
+    "bmbf_logo": "@/assets/bmbf_logo_en.jpg",
     "drawer_elements": "{text}",
     "kb": "KB",
     "kb_link": "https://www.klima.tu-berlin.de/KB/index.php?KB=KB-UC2",
@@ -119,17 +121,23 @@
     "patch_ok": "User information was changed."
   },
   "footer": {
-    "system": "Data Management System [UC²] - BMBF Programme Urban Climate Under Change"
+    "system": "Research programme funded by the Federal Ministry of Education and Research (BMBF) provided by the German Aerospace Center (DLR)"
   },
   "admin": {
+    "admit": "Admit user",
+    "decline": "Decline user",
+    "delete_user": "Delete user",
     "title": "Administration",
     "meta_title": "Upload metadata list",
     "user_title": "User management area",
     "upload_placeholder": "Upload Metadata list",
-    "upload_label": "CSV-File"
+    "upload_label": "CSV-File",
+    "user_deleted": "User deleted",
+    "user_managed": "User application answered"
   },
   "alerts": {
-    "file_deleted": "File %{name} deleted!"
+    "file_deleted": "File %{name} deleted!",
+    "file_not_deleted": "File %{name} could not be deleted. Either it has already been downloaded or you do not have permission to delete it."
   },
   "reset_password": {
     "title": "Set new password",
@@ -141,5 +149,8 @@
     "info": "Please fill in your account name or E-Mail to request a password change. In case, this information is not avvailable, please contact the support.",
     "userid": "Account name or E-Mail",
     "userid_missing": "Account name or E-Mail missing."
+  },
+  "text": {
+    "maintenance": "This page is currently under maintenance. We will be back soon."
   }
 }

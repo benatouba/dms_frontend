@@ -33,6 +33,8 @@
     "module_a_link": "http://www.uc2-mosaik.org/",
     "module_b_link": "http://www.uc2-3do.org/",
     "module_c_link": "https://www.uc2-propolis.de/",
+    "bmbf_link": "https://www.bmbf.de/",
+    "bmbf_logo": "assets/bmbf_logo_de.png",
     "uc2_link": "http://www.uc2-program.org/",
     "drawer_elements": "{text}",
     "kb": "KB",
@@ -51,9 +53,9 @@
   },
   "home": {
     "title": "Start",
-    "text1": "Umfassende Daten zu Wetter, Klima und Luftqualität in Großstädten sind bis heute leider nur begrenzt verfügbar. Im Rahmen der Fördermaßnahme sollen daher durch Modul B bereits verfügbare Daten aufbereitet, und neue bzw. fehlende Daten mittels Langzeitmessungen, Intensivmesskampagnen und physikalischer Modellierung erhoben werden. Um den Austausch von Beobachtungs- sowie Modelldaten zwischen den Projektpartnern auch über die Modulgrenzen hinweg zu Modul A und C z.B. für die Validierung des neu entwickelten Stadtklimamodells PALM-4U oder für stadtklimatologische und wissenschaftliche Studien zu unterstützen, wurde im Rahmen der Fördermaßnahme dieses Datenmanagementsystem (DMS) entwickelt. Eingeloggte Nutzer können in diesem DMS Daten hoch- und herunterladen, die den Anforderungen des Datenstandards entsprechen. Ohne Login sind nur Daten einsehbar, deren Lizenz einen öffentlichen Zugang erlaubt. Für mehr Informationen zu Datenstandard und Datenrichtlinie klicken Sie bitte die oben eingefügten Links an.",
+    "text1": "Umfassende Daten zu Wetter, Klima und Luftqualität in Großstädten sind bis heute leider nur begrenzt verfügbar. Im Rahmen der Fördermaßnahme sollen daher durch Modul B bereits verfügbare Daten aufbereitet, und neue bzw. fehlende Daten mittels Langzeitmessungen, Intensivmesskampagnen und physikalischer Modellierung erhoben werden. Um den Austausch von Beobachtungs- sowie Modelldaten zwischen den Projektpartnern auch über die Modulgrenzen hinweg zu Modul A und C z.B. für die Validierung des neu entwickelten Stadtklimamodells PALM-4U oder für stadtklimatologische und wissenschaftliche Studien zu unterstützen, wurde im Rahmen der Fördermaßnahme dieses Datenmanagementsystem (DMS) entwickelt. Eingeloggte NutzerInnen können in diesem DMS Daten hoch- und herunterladen, sofern diese den Anforderungen des [UC]² Datenstandards entsprechen. Ohne Login sind nur Daten einsehbar, deren Lizenz einen öffentlichen Zugang erlaubt. Für mehr Informationen zum Datenstandard und den Datenrichtlinien klicken Sie bitte die oben auf der Seite eingefügten Links an.",
     "text2": "Die Verwendung eines einheitlichen Datenformates sowie verbindlicher Konventionen für die Nutzung der Daten und Metadaten ist eine wesentliche Voraussetzung für ihre effektive und effiziente Verwaltung im DMS. Zusätzlich ermöglicht ein einheitlicher Datenstandard auch die Entwicklung und Bereitstellung innovativer Werkzeuge zur Analyse und Visualisierung der komplexen und sehr heterogenen Daten. Nach Abschluss der Fördermaßnahme werden Daten mit der [UC]² Research Licence sowie der [UC]² Open Licence der Öffentlichkeit zur Verfügung gestellt werden.",
-    "caption": "Schema des Datenmanagementsystems des BMBF-Förderprogramms Stadtklima im Wandel [UC]2. Der Datenfluss erfolgt in Abhängigkeit von der vergebenen Datennutzungsrichtlinie. Quelle: Scherer et al., 2019.",
+    "caption": "Schema des Datenmanagementsystems der BMBF-Fördermaßnahme Stadtklima im Wandel [UC]2. Der Datenfluss erfolgt in Abhängigkeit von der vergebenen Datennutzungsrichtlinie. Quelle: Scherer et al., 2019.",
     "img_source_link": "https://dx.doi.org/10.1127/metz/2019/0913",
     "img_link": "@/assets/dms_graphic_de.png"
   },
@@ -119,17 +121,23 @@
     "patch_ok": "Nutzerinformation wurde geändert."
   },
   "footer": {
-    "system": "Datenmanagementsystem [UC²] - BMBF-Fördermaßnahme Stadtklima im Wandel"
+    "system": "Fördermaßnahme des Bundesministeriums für Bildung und Forschung (BMBF) betreut vom Projektträger des Deutschen Zentrum für Luft- und Raumfahrt (DLR)"
   },
   "admin": {
+    "admit": "Nutzer bestätigen",
+    "decline": "Nutzer ablehnen",
+    "delete_user": "Nutzer löschen",
     "title": "Administration",
     "meta_title": "Metadaten hochladen",
     "user_title": "Nutzerverwaltung",
     "upload_placeholder": "Metadatenliste hochladen",
-    "upload_label": "CSV-Datei"
+    "upload_label": "CSV-Datei",
+    "user_deleted": "Nutzer gelöscht",
+    "user_managed": "Nutzerantrag bearbeitet"
   },
   "alerts": {
-    "file_deleted": "Datei %{name} gelöscht"
+    "file_deleted": "Datei %{name} gelöscht",
+    "file_not_deleted": "Datei %{name} konnte nicht gelöscht werden. Entweder wurde sie schon einmal heruntergeladen oder Sie haben keine Berechtigung"
   },
   "reset_password": {
     "title": "Neues Passwort setzen",
@@ -141,5 +149,8 @@
     "info": "Bitte geben Sie ihren Nutzernamen oder Ihre E-Mail-Adresse eine Passwortänderung anzufragen. Sollten Sie diese Informationen nicht haben, bitte wenden Sie sich an den Support.",
     "userid": "Nutzername oder E-Mail-Adresse",
     "userid_missing": "Nutzername oder E-Mail-Adresse fehlt."
+  },
+  "text": {
+    "maintenance": "Diese Seite wird gerade gewartet. Wir sind bald wieder für Sie da."
   }
 }
