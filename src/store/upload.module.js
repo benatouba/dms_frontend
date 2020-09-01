@@ -53,7 +53,6 @@ const actions = {
             let resp = await uploadService.upload(obj)
             if (!resp.ok && resp.status !== 406) {
                 // throw error if response is not ok and not data not acceptable
-                console.log(resp)
                 throw await resp.json()
             }
             resp = await resp.json()
