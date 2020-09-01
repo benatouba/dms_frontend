@@ -38,6 +38,17 @@
             <p class="secondary--text">
                 {{ $t('home.text2') }}
             </p>
+          <v-row class="ma-16" align="center" justify="center">
+            <b-link-button x-large :href="$t('nav.bmbf_link')">
+              <v-img
+                  :src="bmbf_logo[$i18n.locale]"
+                  class="ml-auto"
+                  contain
+                  aspect-ratio="1"
+                  width="200px"
+              ></v-img>
+            </b-link-button>
+          </v-row>
         </v-container>
     </div>
 </template>
@@ -46,5 +57,10 @@
 // import i18n from 'vue-i18n'
 export default {
     name: 'Home',
+  data () {
+      return {
+        bmbf_logo: {de: require("@/assets/bmbf_logo_de.jpg"), en: require("@/assets/bmbf_logo_en.jpg")}
+      }
+  }
 }
 </script>
