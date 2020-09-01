@@ -59,7 +59,7 @@ export default {
             if (!files.length) return
 
             files.forEach(file => {
-                this.$store.dispatch('upload/uploadFiles', {
+                this.uploadFiles({
                     file,
                     ignore_warnings: false,
                     ignore_errors: false,
