@@ -21,6 +21,7 @@
     "vee-validate": "^3.3.6",
     "vue": "^2.6.11",
     "vue-flag-icon": "^1.0.6",
+    "vue-headful": "^2.1.0",
     "vue-i18n": "^8.20.0",
     "vue-router": "^3.3.4",
     "vuetify": "^2.3.8",

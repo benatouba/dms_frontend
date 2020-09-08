@@ -3,6 +3,7 @@ import App from './App.vue'
 import Maintenance from './Maintenance.vue'
 import router from './router'
 import vuetify from './plugins/vuetify'
+import vueHeadful from 'vue-headful';
 import store from './store'
 import FlagIcon from 'vue-flag-icon'
 import './plugins/vee-validate'
@@ -12,7 +13,9 @@ import './components/_globals'
 Vue.use(FlagIcon)
 
 Vue.config.productionTip = false
-let maintenance = true
+let maintenance = false
+
+Vue.component('vue-headful', vueHeadful)
 
 if (maintenance) {
     new Vue({
