@@ -12,7 +12,7 @@ import './components/_globals'
 Vue.use(FlagIcon)
 
 Vue.config.productionTip = false
-let maintenance = true
+let maintenance = false
 
 if (maintenance) {
     new Vue({
