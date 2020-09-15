@@ -341,6 +341,7 @@ export default {
         ...mapActions({
             search: 'queries/search',
             download: 'queries/download',
+            downloadAll: 'queries/downloadAll',
             delete: 'queries/delete',
             setInvalid: 'queries/setInvalid',
             resetQueryState: 'queries/resetQueryState',
@@ -361,8 +362,11 @@ export default {
             this.download({ file })
         },
         handleBatchDownload() {
-            let files = this.queriedFiles
-            files.forEach(file => this.download({ file }))
+            let ids = []
+            this.queriedFiles.forEach(
+                obj => ids.push(obj.id)
+            )
+            this.downloadAll({ ids })
         },
         handleDelete(file) {
             this.delete({ file })

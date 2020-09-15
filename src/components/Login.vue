@@ -8,9 +8,10 @@
                             <v-toolbar id="header" color="primary" flat>
                                 <v-toolbar-title>{{ $t('login.title') }}</v-toolbar-title>
                             </v-toolbar>
-                            <v-form ref="form" @submit.prevent="handleSubmit">
+                            <v-form id="login-form" ref="form" @submit.prevent="handleSubmit">
                                 <v-card-text @keyup.enter="handleSubmit">
                                     <v-text-field
+                                        id="username-input-field"
                                         v-model="username"
                                         :label="$t('login.username')"
                                         name="username"
@@ -23,6 +24,7 @@
                                         {{ $t('login.user_missing') }}
                                     </div>
                                     <v-text-field
+                                        id="password-input-field"
                                         v-model="password"
                                         :label="$t('login.password')"
                                         name="password"
@@ -36,27 +38,38 @@
                                     </div>
                                 </v-card-text>
                                 <v-card-actions>
-                                    <router-link to="/register" class="btn btn-link mx-2">{{
-                                        $t('buttons.register')
-                                    }}</router-link>
-                                    <router-link to="/requestpassword" class="btn btn-link mx-2" id="request_pw_link">
+                                    <router-link
+                                        id="login-register-router"
+                                        to="/register"
+                                        class="btn btn-link mx-2"
+                                    >
+                                      {{$t('buttons.register')}}
+                                    </router-link>
+                                    <router-link
+                                        id="login-requestpassword-router"
+                                        to="/requestpassword"
+                                        class="btn btn-link mx-2"
+                                    >
                                       {{ $t('buttons.request_password') }}
                                     </router-link>
                                     <v-spacer />
                                     <v-btn
-                                        id="login_button"
+                                        id="submit-login-button"
                                         color="primary"
                                         @click="handleSubmit"
                                         :disabled="!username || !password"
-                                        >{{ $t('buttons.login') }}</v-btn
                                     >
+                                      {{ $t('buttons.login') }}
+                                    </v-btn>
                                 </v-card-actions>
                             </v-form>
                             <v-overlay
+                                id="login-overlay"
                                 v-if="submitted & (alerts.info.status !== 1)"
                                 class="text-center"
                                 :absolute="absolute"
                                 :opacity="0.9"
+                                @keyup.enter="submitted = false; clearAlert"
                             >
                                <!-- <v-row>
                                     <v-col>
@@ -65,8 +78,11 @@
                                         </strong>
                                     </v-col>
                                 </v-row>-->
-                              <Notification>
+                              <Notification
+                                  id="login-notification"
+                              >
                                 <v-btn
+                                    id="login-notification-ok"
                                     :class="`${alerts.info.type} white--text v-btn v-size--large`"
                                     @click="submitted = false; clearAlert"
                                 >
@@ -102,11 +118,11 @@ export default {
     beforeRouteLeave(to, from, next) {
         if (this.account.token) {
             // this.clearAlert()
-            next()
+            window.setTimeout(next(), 3000)
         } else {
             this.to = to
             this.showLoginInfo(true)
-            next()
+            window.setTimeout(next(), 3000)
         }
     },
     computed: {

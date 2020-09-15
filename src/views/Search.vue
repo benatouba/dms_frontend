@@ -1,5 +1,5 @@
 <template>
-    <div class="search">
+    <div id="search-view" class="search">
         <v-container class="mx-4 primary--text">
             <h2>{{ $t('search.title') }}</h2>
             <p class="secondary--text">

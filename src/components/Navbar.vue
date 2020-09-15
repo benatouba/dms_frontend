@@ -1,26 +1,44 @@
 <template>
     <nav>
         <v-app-bar app flat>
-            <v-app-bar-nav-icon v-model="drawer" @click="drawer = !drawer"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon id="navDrawer-button" v-model="drawer" @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-spacer></v-spacer>
             <v-toolbar-title class="secondary--text">
                 <span class="font-weight-bold">{{ $t('nav.short_title') }}</span>
                 <span class="font-italic mx-4">{{ $t('nav.title') }}</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn :href="get_data_standard_link" target="_blank" text>
+            <v-btn
+                id="dataStandard-link"
+                :href="get_data_standard_link"
+                target="_blank"
+                text
+            >
                 <span class="primary--text">{{ $t('nav.data_standard') }}</span>
                 <v-icon small dense>mdi-open-in-new</v-icon>
             </v-btn>
-            <v-btn :href="$t('nav.kb_link')" target="_blank" text>
+            <v-btn
+                id="kb-link"
+                :href="$t('nav.kb_link')"
+                target="_blank"
+                text
+            >
                 <span class="primary--text">{{ $t('nav.kb') }}</span>
                 <v-icon small dense size="1">mdi-open-in-new</v-icon>
             </v-btn>
-            <v-btn :href="$t('nav.uc2_link')" target="_blank" text>
+            <v-btn
+                id="uc2-link"
+                :href="$t('nav.uc2_link')"
+                target="_blank"
+                text
+            >
                 <span class="primary--text">{{ $t('nav.uc2website') }}</span>
                 <v-icon small dense size="1">mdi-open-in-new</v-icon>
             </v-btn>
-            <b-link-button large :href="$t('nav.module_a_link')">
+            <b-link-button
+                id="moduleA-link"
+                large
+                :href="$t('nav.module_a_link')">
                 <v-img
                     src="../assets/uc2_a_logo.png"
                     contain
@@ -29,7 +47,10 @@
                     position="bottom left"
                 ></v-img>
             </b-link-button>
-            <b-link-button large :href="$t('nav.module_b_link')">
+            <b-link-button
+                id="moduleB-link"
+                large
+                :href="$t('nav.module_b_link')">
                 <v-img
                     src="../assets/uc2_b_logo.jpg"
                     contain
@@ -38,7 +59,10 @@
                     position="bottom left"
                 ></v-img>
             </b-link-button>
-            <b-link-button large :href="$t('nav.module_c_link')">
+            <b-link-button
+                id="moduleC-link"
+                large
+                :href="$t('nav.module_c_link')">
                 <v-img
                     src="../assets/uc2_c_logo.png"
                     contain
@@ -47,8 +71,9 @@
                     position="bottom left"
                 ></v-img>
             </b-link-button>
-            <div class="locale-changer">
+            <div class="localeChanger-button">
                 <v-btn
+                    id="locale_changer"
                     class="primary--text"
                     text
                     v-model="$root.$i18n.locale"
@@ -63,7 +88,7 @@
             </div>
         </v-app-bar>
 
-        <v-navigation-drawer app expand-on-hover hide-overlay v-model="drawer" class="primary">
+        <v-navigation-drawer id="navigation-drawer" app expand-on-hover hide-overlay v-model="drawer" class="primary">
             <v-list>
                 <v-list-item v-show="link.show" v-for="(link, key) in links" :key="key" router :to="link.route">
                     <v-list-item-action>

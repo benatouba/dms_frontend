@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div id="home-component" class="home">
         <v-container class="mx-4 primary--text">
             <h1>{{ $t('home.title') }}</h1>
             <p class="secondary--text">{{ $t('home.text1') }}</p>

@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div id="home-view" class="home">
         <v-container class="mx-4">
             <Home />
         </v-container>
