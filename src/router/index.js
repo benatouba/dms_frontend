@@ -12,6 +12,8 @@ import Account from '../views/Account'
 import Administration from '../views/Administration'
 import ResetPassword from '@/components/ResetPassword'
 
+import i18n from '../plugins/i18n'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -19,52 +21,80 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home,
+        meta: {
+            title: i18n.t('home.title') + ' [UC]² DMS',
+        }
     },
     {
         path: '/login',
         name: 'Login',
         component: Login,
+        meta: {
+            title: i18n.t('login.title') + ' [UC]² DMS',
+        }
     },
     {
         path: '/register',
         name: 'Register',
         component: Register,
+        meta: {
+            title: i18n.t('register.title') + ' [UC]² DMS',
+        }
     },
     {
         path: '/search',
         name: 'Search',
         component: Search,
+        meta: {
+            title: i18n.t('search.title') + ' [UC]² DMS',
+        }
     },
     {
         path: '/upload',
         name: 'Upload',
         component: Upload,
+        meta: {
+            title: i18n.t('upload.title') + ' [UC]² DMS',
+        }
     },
     {
         path: '/contact',
         name: 'Contact',
         component: Contact,
+        meta: {
+            title: i18n.t('contact.title') + ' [UC]² DMS',
+        }
     },
     {
         path: '/account',
         name: 'Account',
         component: Account,
+        meta: {
+            title: i18n.t('account.title') + ' [UC]² DMS',
+        }
     },
     {
         path: '/administration',
         name: 'Administration',
         component: Administration,
+        meta: {
+            title: i18n.t('admin.title') + ' [UC]² DMS',
+        }
     },
     {
         path: '/requestpassword',
         name: 'RequestPassword',
         component: RequestPassword,
+        meta: {
+            title: i18n.t('request_password.title') + ' [UC]² DMS',
+        }
     },
     {
         path: '/resetpassword/:token',
         name: 'ResetPassword',
         component: ResetPassword,
         meta: {
+            title: i18n.t('reset_password.title') + ' [UC]² DMS',
             public: true,
         },
     },
@@ -78,6 +108,8 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    // set title
+    document.title = to.meta.title
     // redirect to login page if not logged in and trying to access a restricted page
     const publicPages = [
         '/login',

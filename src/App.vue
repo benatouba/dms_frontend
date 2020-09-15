@@ -1,9 +1,5 @@
 <template>
     <v-app class="primary">
-        <vue-headful
-          title="[UC]² - DMS"
-          description="Data Management System of Urban Climate Under Change Project"
-        />
         <Navbar />
         <v-main style="margin: auto; width: 80%;">
             <LoginInfo v-if="!account.token && alerts.loginInfo" />
