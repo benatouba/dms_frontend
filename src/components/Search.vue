@@ -154,16 +154,18 @@
             <h2 class="mx-3">{{ $t('search.file_title') }}</h2>
             <v-col class="text-lg-right">
                 <v-btn
-                    text
+                    :loading="loading"
+                    :disabled="loading"
                     @click="handleBatchDownload()"
-                    right
                     class="ma-2 primary--text"
                     tile
                     outlined
                     target="_blank"
                 >
-                    <v-icon left color="primary">mdi-download</v-icon>
-                    {{ $t('search.download_all') }}
+                  {{ $t('search.download_all') }}
+                  <v-icon left dark>
+                    mdi-download
+                  </v-icon>
                 </v-btn>
             </v-col>
         </v-row>
@@ -190,6 +192,11 @@
                     ></v-select>
                 </v-col>
             </v-row>
+          <v-row v-if="querying" justify="center">
+            <v-col align="center">
+              <v-progress-circular indeterminate></v-progress-circular>
+            </v-col>
+          </v-row>
             <v-expansion-panels
                 focusable
                 accordion
@@ -348,7 +355,7 @@ export default {
             fetchMeta: 'queries/fetchMeta',
         }),
         handleSubmit: function() {
-            this.show = false
+            this.querying = true
             this.searchInput.offset = (this.page - 1) * this.pageLength
             this.searchInput.limit = this.pageLength
             if (this.queriedFiles) {
@@ -357,16 +364,19 @@ export default {
             let searchParams = Object.assign({}, this.searchInput)
             Object.keys(searchParams).forEach(key => (searchParams[key] == null) && delete searchParams[key])
             this.search(searchParams)
+            this.querying = false
         },
         handleDownload(file) {
             this.download({ file })
         },
         handleBatchDownload() {
+            this.loading = true
             let ids = []
             this.queriedFiles.forEach(
                 obj => ids.push(obj.id)
             )
             this.downloadAll({ ids })
+            this.loading = false
         },
         handleDelete(file) {
             this.delete({ file })
@@ -417,7 +427,7 @@ export default {
                 variable: [],
             },
             dialog: false,
-            show: false,
+            querying: true,
             page: 1,
             pageLength: 10,
             pageLengthChoices: [5, 10, 20, 50],
@@ -431,6 +441,7 @@ export default {
                 is_old: false,
                 // origin_time: new Date('2020-07-01').toISOString().substr(0, 10)
             },
+            loading: false,
         }
     },
 }
