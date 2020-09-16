@@ -69,6 +69,20 @@ const actions = {
         )
         return resp
     },
+    async downloadAll({ dispatch, commit }, { ids }) {
+        commit('downloadRequest', ids)
+        try {
+            let resp = await queryService.downloadAll(ids)
+            if (resp.status === 200) {
+                commit('downloadSuccess', ids)
+            } else {
+                throw resp.message
+            }
+        } catch (error) {
+            commit('downloadFailure', error)
+            dispatch('alerts/error', error, { root: true })
+        }
+    },
     async delete({ dispatch, commit }, { file }) {
         commit('deleteRequest', file)
         try {
@@ -143,11 +157,17 @@ const mutations = {
         state.downloading = true
         state.download_file = file
     },
-    downloadSuccess(state, id) {
+    downloadSuccess(state, ids) {
+        // check if ids is a single integer and convert to array (top handle both cases, single and batch download)
+        if (Number.isInteger(ids)) {
+            ids = [ids]
+        }
+        ids.forEach(id => {
+            let item = state.result.find(item => item.id === id)
+            item.download_count = item.download_count + 1
+        })
         state.downloaded = true
         state.downloading = false
-        let item = state.result.find(item => item.id === id)
-        item.download_count = item.download_count + 0
     },
     downloadFailure(state) {
         state.downloaded = false

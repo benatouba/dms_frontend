@@ -154,8 +154,8 @@
             <h2 class="mx-3">{{ $t('search.file_title') }}</h2>
             <v-col class="text-lg-right">
                 <v-btn
-                    :loading="loading"
-                    :disabled="loading"
+                    :loading="downloading"
+                    :disabled="downloading"
                     @click="handleBatchDownload()"
                     class="ma-2 primary--text"
                     tile
@@ -334,6 +334,8 @@ export default {
         ...mapState({
             account: state => state.account,
             queriedFiles: state => state.queries.result,
+            querying: state => state.queries.querying,
+            downloading: state => state.queries.downloading,
             itemCount: state => state.queries.count,
         }),
         ...mapGetters({
@@ -355,7 +357,6 @@ export default {
             fetchMeta: 'queries/fetchMeta',
         }),
         handleSubmit: function() {
-            this.querying = true
             this.searchInput.offset = (this.page - 1) * this.pageLength
             this.searchInput.limit = this.pageLength
             if (this.queriedFiles) {
@@ -364,19 +365,16 @@ export default {
             let searchParams = Object.assign({}, this.searchInput)
             Object.keys(searchParams).forEach(key => (searchParams[key] == null) && delete searchParams[key])
             this.search(searchParams)
-            this.querying = false
         },
         handleDownload(file) {
             this.download({ file })
         },
         handleBatchDownload() {
-            this.loading = true
             let ids = []
             this.queriedFiles.forEach(
                 obj => ids.push(obj.id)
             )
             this.downloadAll({ ids })
-            this.loading = false
         },
         handleDelete(file) {
             this.delete({ file })
@@ -427,7 +425,6 @@ export default {
                 variable: [],
             },
             dialog: false,
-            querying: true,
             page: 1,
             pageLength: 10,
             pageLengthChoices: [5, 10, 20, 50],

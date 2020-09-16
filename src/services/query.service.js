@@ -40,6 +40,44 @@ function download(file) {
         })
     return answer
 }
+function downloadBlob(blob) {
+    let url = window.URL.createObjectURL(blob)
+    let a = document.createElement('a')
+    a.href = url
+    let now = new Date()
+    now = now.toISOString()
+    a.download =
+        'uc2-dms-download_' +
+        now.slice(0, 10) +
+        '_' +
+        now.slice(11, 13) +
+        now.slice(14, 16) +
+        now.slice(17, 19) +
+        '.zip'
+    document.body.appendChild(a) // we need to append the element to the dom -> otherwise it will not work in firefox
+    a.click()
+    a.remove() //afterwards we remove the element again
+}
+async function downloadAll(ids) {
+    // cut filename from file path
+    const requestOptions = authHeader('POST')
+
+    // let formdata = new FormData()
+    requestOptions.body = JSON.stringify({ id: ids })
+
+    // requestOptions.body = formdata
+    requestOptions.redirect = 'follow'
+    requestOptions.headers.append('Content-Type', 'application/json')
+    // requestOptions.headers['Accept-Encoding'] = ['gzip', 'deflate']
+    try {
+        let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/retrieve_zip/`, requestOptions)
+        let blob = await resp.blob()
+        downloadBlob(blob)
+        return resp
+    } catch (error) {
+        throw await error
+    }
+}
 
 async function deleteFile(file) {
     const requestOptions = authHeader('DELETE')
@@ -66,6 +104,7 @@ export default {
     search,
     meta,
     download,
+    downloadAll,
     deleteFile,
     setInvalid,
 }
