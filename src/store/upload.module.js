@@ -83,9 +83,11 @@ const mutations = {
         })
     },
     addFile: (state, file) => state.files.push(file),
-    removeFile: (state, id) => {
-        let index = state.findIndex(state => state.files.id == id)
-        state.splice(index, 1)
+    removeFile: (state, elm) => {
+        let index = state.files.findIndex(state_elm => state_elm.file === elm.file)
+        if (index !== -1){
+            state.files.splice(index, 1)
+        }
     },
     uploadRequest(state, { file, ignore_warnings, ignore_errors }) {
         const item = state.files.find(data => data.file.name === file.name)

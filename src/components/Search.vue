@@ -377,7 +377,7 @@ export default {
             this.downloadAll({ ids })
         },
         handleDelete(file) {
-            this.delete({ file })
+            this.delete(file)
         },
         getListObjects(data) {
             let newDict = Object.assign({}, data)
