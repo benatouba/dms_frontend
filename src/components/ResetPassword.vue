@@ -66,7 +66,7 @@
                               <Notification>
                                 <v-btn
                                     :class="`${alerts.info.type} white--text v-btn v-size--large`"
-                                    @click="handleSubmit"
+                                    @click="$router.push('/')"
                                 >
                                     {{ $t('buttons.ok') }}
                                 </v-btn>
