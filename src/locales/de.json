@@ -11,6 +11,7 @@
     "institution": "Institution",
     "site": "Standort",
     "variable": "Variable",
+    "undo_upload": "Hochladen rückgängig machen",
     "upload": "Hochladen",
     "upload_with_warnings": "Trotz Warnung(en) Hochladen",
     "upload_with_errors": "Trotz Fehler Hochladen",

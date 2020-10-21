@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-container class="text--primary">
-          <strong>{{ meta.institution }}</strong>
+            <strong>{{ meta.institution }}</strong>
             <v-card>
                 <v-card-title>
                     {{ $t('buttons.input') }}
@@ -137,7 +137,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 // import DatePicker from "./DatePicker";
 export default {
     name: 'search',
@@ -153,8 +153,8 @@ export default {
             itemCount: state => state.queries.count,
         }),
         ...mapGetters({
-          group: 'account/group',
-          meta: 'queries/meta'
+            group: 'account/group',
+            meta: 'queries/meta',
         }),
         getPageCount() {
             return Math.ceil(this.itemCount / this.pageLength)
@@ -177,8 +177,42 @@ export default {
                 this.resetQueryState()
             }
             let searchParams = Object.assign({}, this.searchInput)
-            Object.keys(searchParams).forEach(key => (searchParams[key] == null) && delete searchParams[key])
+            Object.keys(searchParams).forEach(key => searchParams[key] == null && delete searchParams[key])
             this.search(searchParams)
+        },
+        handleDownload(file) {
+            this.download({ file })
+        },
+        handleBatchDownload() {
+            let ids = []
+            this.queriedFiles.forEach(obj => ids.push(obj.id))
+            this.downloadAll({ ids })
+        },
+        handleDelete(file) {
+            this.delete(file)
+        },
+        getListObjects(data) {
+            let newDict = Object.assign({}, data)
+            delete newDict.id
+            delete newDict.file
+            delete newDict.download_count
+            delete newDict.is_invalid
+            delete newDict.is_old
+            delete newDict.has_warnings
+            delete newDict.has_errors
+
+            return newDict
+        },
+        colorStyle(item) {
+            let color = item.has_warnings ? 'warning' : 'secondary'
+            if (item.is_old) {
+                color = 'brown'
+            } else if (item.has_errors) {
+                color = 'error'
+            } else if (item.is_invalid) {
+                color = 'error'
+            }
+            return color + '--text'
         },
     },
     created() {

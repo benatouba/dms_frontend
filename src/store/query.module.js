@@ -83,22 +83,46 @@ const actions = {
             dispatch('alerts/error', error, { root: true })
         }
     },
-    async delete({ dispatch, commit }, file) {
-        commit('deleteRequest', file)
-        try {
-            let resp = await queryService.deleteFile(file)
-            console.log(resp)
-            commit('deleteSuccess', file.id)
-            dispatch('alerts/success', resp, { root: true })
-        } catch (error) {
-            commit('deleteFailure')
-            dispatch('alerts/error', error, { root: true })
-            // dispatch(
-            //     'alerts/error',
-            //     i18n.t('alerts.file_not_deleted', { name: file.file_standard_name }),
-            //     { root: true },
-            //     { root: true }
-            // )
+    async delete({ dispatch, commit }, files) {
+        commit('deleteRequest', files)
+
+        if (!Array.isArray(files)) {
+            files = Array(files)
+        }
+
+        let successCount = 0
+        let errorCount = 0
+        let lastResp
+        let lastError
+        for (const file of files) {
+            try {
+                lastResp = await queryService.deleteFile(file)
+                commit('deleteSuccess', file.id)
+                successCount++
+                console.log(lastResp)
+            } catch (error) {
+                commit('deleteFailure')
+                lastError = error
+                errorCount++
+            }
+        }
+        if (files.length === 1) {
+            if (errorCount === 1) {
+                dispatch('alerts/error', lastError, { root: true })
+            } else {
+                dispatch('alerts/success', lastResp, { root: true })
+            }
+        } else {
+            if (errorCount !== 0) {
+                dispatch(
+                    'alerts/error',
+                    `${errorCount} files could not be deleted. ${successCount} 
+                                          files were successfully deleted.`,
+                    { root: true }
+                )
+            } else {
+                dispatch('alerts/success', `${successCount} files were successfully deleted.`, { root: true })
+            }
         }
     },
     async setInvalid({ dispatch, commit }, file) {
@@ -179,7 +203,13 @@ const mutations = {
     },
     deleteSuccess(state, id) {
         let index = state.result.findIndex(file => file.id == id)
-        state.result.splice(index, 1)
+        if (index !== -1) {
+            state.result.splice(index, 1)
+        }
+        index = this.state.upload.files.findIndex(file => file.resp.result.id == id)
+        if (index !== -1) {
+            this.state.upload.files.splice(index, 1)
+        }
         state.deleting = false
     },
     deleteFailure(state) {

@@ -11,6 +11,7 @@
     "institution": "Institution",
     "site": "Site",
     "variable": "Variable",
+    "undo_upload": "undo uploading",
     "upload": "Upload",
     "upload_with_warnings": "upload with warnings",
     "upload_with_errors": "upload with errors",
