@@ -13,12 +13,11 @@
                                     <v-form>
                                         <ValidationProvider
                                             name="username"
-                                            rules="required|max:10"
+                                            rules="required|min:4"
                                             v-slot="{ errors, valid }"
                                         >
                                             <v-text-field
                                                 v-model="username"
-                                                :counter="10"
                                                 :error-messages="errors"
                                                 :success="valid"
                                                 :label="$t('register.username')"
@@ -159,7 +158,7 @@
                                     <Notification>
                                         <router-link
                                             to="/"
-                                            :class="`${alerts.info.type} white--text v-btn v-size--large`"
+                                            :class="`${alerts.info.type} white--text v-btn outlined v-size--large`"
                                             @click="overlay = false"
                                         >
                                           {{ $t('buttons.ok') }}
