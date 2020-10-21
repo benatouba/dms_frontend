@@ -14,13 +14,13 @@ const actions = {
     },
     // This action triggers mutation to store that user list is requested
 
-    async manage({ commit, dispatch }, id, action) {
+    async manage({ dispatch }, token) {
         /*Action triggers mutates store state to record that user should be deleted,
     then triggers service function that sends the request to the backend.
     Depending on the response, mutations will be triggered to alter the store state. */
         try {
-            let resp = await userService.manage(id, action)
-            commit('manageResult', resp)
+            let resp = await userService.manage(token)
+            dispatch('alerts/success', resp, { root: true })
         } catch (error) {
             dispatch('alerts/error', error, { root: true })
         }
@@ -71,10 +71,6 @@ const mutations = {
             }
             return user
         })
-    },
-    manageResult(state, { id, resp }) {
-        let item = state.items.find(user => user.id === id)
-        item.is_active = !!resp.is_active
     },
 }
 
