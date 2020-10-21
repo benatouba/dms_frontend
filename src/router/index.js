@@ -11,6 +11,8 @@ import RequestPassword from '../components/RequestPassword'
 import Account from '../views/Account'
 import Administration from '../views/Administration'
 import ResetPassword from '@/components/ResetPassword'
+import AdmitUser from '@/components/AdmitUser'
+import DeclineUser from '@/components/DeclineUser'
 
 import i18n from '../plugins/i18n'
 
@@ -98,6 +100,24 @@ const routes = [
             public: true,
         },
     },
+    {
+        path: '/admituser/:token',
+        name: 'AdmitUser',
+        component: AdmitUser,
+        meta: {
+            title: i18n.t('admit_user.title') + ' [UC]² DMS',
+            public: true,
+        },
+    },
+    {
+        path: '/declineuser/:token',
+        name: 'DeclineUser',
+        component: DeclineUser,
+        meta: {
+            title: i18n.t('decline_user.title') + ' [UC]² DMS',
+            public: true,
+        },
+    },
     { path: '/*', redirect: '/' },
 ]
 
@@ -120,6 +140,8 @@ router.beforeEach((to, from, next) => {
         '/search',
         '/requestpassword',
         '/resetpassword',
+        '/declineuser',
+        '/admituser',
     ]
     const authRequired = !publicPages.includes(to.path)
     const username = !!store.state.account.username
