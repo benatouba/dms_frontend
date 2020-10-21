@@ -81,10 +81,11 @@
     "file_title": "Dateien",
     "download_all": "Alle Herunterladen",
     "items_per_page": "Items pro Seite",
+    "items_per_page": "Items pro Seite",
     "filter_options": "Filteroptionen",
     "is_old": "- alte Datei",
     "is_invalid": "- als ungültig markiert",
-    "has_errors": "- nicht Standardkonform",
+    "has_errors": "- nicht vollständig Standardkonform",
     "has_warnings": "- enthält Warnung(en)",
     "mark_invalid_warning": "Diese Operation kann nicht rückgangig gemacht werden. Die Datei wird dabei nicht aus der Datenbank gelöscht. Im Falle eine falsch gesetzten Markierung, kann eine Datei mit einer höheren Versionsnummer hochgeladen werden."
   },
@@ -111,6 +112,9 @@
     "password_missing": "Passwort fehlt",
     "success": "Login erfolgreich",
     "failure": "Login nicht erfolgreich"
+  },
+  "contact": {
+    "title": "Kontakt"
   },
   "account": {
     "title": "Nutzerkonto",
@@ -149,6 +153,14 @@
     "info": "Bitte geben Sie ihren Nutzernamen oder Ihre E-Mail-Adresse eine Passwortänderung anzufragen. Sollten Sie diese Informationen nicht haben, bitte wenden Sie sich an den Support.",
     "userid": "Nutzername oder E-Mail-Adresse",
     "userid_missing": "Nutzername oder E-Mail-Adresse fehlt."
+  },
+  "manage_user": {
+    "admit_title": "Nutzer zulassen",
+    "decline_title": "Nutzer ablehnen",
+    "text": "Bitte bestätigen Sie ihre Antwort zur Nutzeranfrage oder klicken Sie auf 'Zurück'",
+    "decline": "Ablehnen",
+    "admit": "Zulassen",
+    "user_managed": "Nutzeranfrage bearbeitet"
   },
   "text": {
     "maintenance": "Diese Seite wird gerade gewartet. Wir sind bald wieder für Sie da."
