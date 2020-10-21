@@ -31,7 +31,7 @@
                   <strong> {{ $t(`register.institutions`) }}</strong>
                 </v-col>
                 <v-col class="text-no-wrap"  justify="end" cols="6" sm="3">
-                  <span>{{ list(account.institutions) }}</span>
+                  <span>{{ account.institutions.join(', ') }}</span>
                   <!--<v-col>
                   <v-btn>Request institution</v-btn>
                   </v-col>-->
@@ -43,7 +43,7 @@
                   <strong> {{ $t(`register.groups`) }}</strong>
                 </v-col>
                 <v-col class="text-no-wrap"  cols="6" sm="3">
-                  <span>{{ list(account.groups) }}</span>
+                  <span>{{ account.groups.join(', ') }}</span>
                 </v-col>
                 <!--<v-col>
                   <v-btn>Request group</v-btn>
@@ -88,7 +88,13 @@ export default {
             delete newObj.is_superuser
             delete newObj.id
             delete newObj.token
+            delete newObj.user
+            delete newObj.password
+            delete newObj.registering
+            delete newObj.registered
             delete newObj['is_active']
+            console.log(newObj)
+            console.log(data)
             return newObj
         },
         list(data) {
