@@ -25,7 +25,7 @@ const routes = [
         component: Home,
         meta: {
             title: i18n.t('home.title') + ' [UC]² DMS',
-        }
+        },
     },
     {
         path: '/login',
@@ -33,7 +33,7 @@ const routes = [
         component: Login,
         meta: {
             title: i18n.t('login.title') + ' [UC]² DMS',
-        }
+        },
     },
     {
         path: '/register',
@@ -41,7 +41,7 @@ const routes = [
         component: Register,
         meta: {
             title: i18n.t('register.title') + ' [UC]² DMS',
-        }
+        },
     },
     {
         path: '/search',
@@ -49,7 +49,7 @@ const routes = [
         component: Search,
         meta: {
             title: i18n.t('search.title') + ' [UC]² DMS',
-        }
+        },
     },
     {
         path: '/upload',
@@ -57,7 +57,7 @@ const routes = [
         component: Upload,
         meta: {
             title: i18n.t('upload.title') + ' [UC]² DMS',
-        }
+        },
     },
     {
         path: '/contact',
@@ -65,7 +65,7 @@ const routes = [
         component: Contact,
         meta: {
             title: i18n.t('contact.title') + ' [UC]² DMS',
-        }
+        },
     },
     {
         path: '/account',
@@ -73,7 +73,7 @@ const routes = [
         component: Account,
         meta: {
             title: i18n.t('account.title') + ' [UC]² DMS',
-        }
+        },
     },
     {
         path: '/administration',
@@ -81,7 +81,7 @@ const routes = [
         component: Administration,
         meta: {
             title: i18n.t('admin.title') + ' [UC]² DMS',
-        }
+        },
     },
     {
         path: '/requestpassword',
@@ -89,7 +89,7 @@ const routes = [
         component: RequestPassword,
         meta: {
             title: i18n.t('request_password.title') + ' [UC]² DMS',
-        }
+        },
     },
     {
         path: '/resetpassword/:token',
@@ -105,7 +105,7 @@ const routes = [
         name: 'AdmitUser',
         component: AdmitUser,
         meta: {
-            title: i18n.t('admit_user.title') + ' [UC]² DMS',
+            title: i18n.t('manage_user.admit_title') + ' [UC]² DMS',
             public: true,
         },
     },
@@ -114,7 +114,7 @@ const routes = [
         name: 'DeclineUser',
         component: DeclineUser,
         meta: {
-            title: i18n.t('decline_user.title') + ' [UC]² DMS',
+            title: i18n.t('manage_user.decline_title') + ' [UC]² DMS',
             public: true,
         },
     },
@@ -145,7 +145,6 @@ router.beforeEach((to, from, next) => {
     ]
     const authRequired = !publicPages.includes(to.path)
     const username = !!store.state.account.username
-    console.log(to)
     if (authRequired && !username && !to.meta.public) {
         return next('/login')
     }
