@@ -55,7 +55,7 @@ const actions = {
             dispatch('alerts/error', error, { root: true })
         }
     },
-    download({ dispatch, commit }, { file }) {
+    download({ dispatch, commit }, file) {
         commit('downloadRequest', file)
         let resp = queryService.download(file).then(
             resp => {
@@ -69,7 +69,7 @@ const actions = {
         )
         return resp
     },
-    async downloadAll({ dispatch, commit }, { ids }) {
+    async downloadAll({ dispatch, commit }, ids) {
         commit('downloadRequest', ids)
         try {
             let resp = await queryService.downloadAll(ids)
@@ -83,7 +83,7 @@ const actions = {
             dispatch('alerts/error', error, { root: true })
         }
     },
-    async delete({ dispatch, commit }, { file }) {
+    async delete({ dispatch, commit }, file) {
         commit('deleteRequest', file)
         try {
             let resp = await queryService.deleteFile(file)
