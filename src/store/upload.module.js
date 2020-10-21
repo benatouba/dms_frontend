@@ -51,9 +51,9 @@ const actions = {
         commit('uploadRequest', obj)
         try {
             let resp = await uploadService.upload(obj)
-            if (!resp.ok && resp.status !== 406) {
+            if (!resp.ok && ![400, 406].indexOf(resp.status)) {
                 // throw error if response is not ok and not data not acceptable
-                throw await resp.json()
+                return await resp.json()
             }
             resp = await resp.json()
             commit('uploadResult', { obj, resp })
@@ -68,7 +68,6 @@ const actions = {
             commit('uploadMetaResult', { resp, file: obj.file })
             return resp
         } catch (error) {
-            // commit('uploadMetaFailure', error, file, 'metaData')
             dispatch('alerts/error', error, { root: true })
             return error
         }
@@ -84,7 +83,7 @@ const mutations = {
     },
     addFile: (state, file) => state.files.push(file),
     removeFile: (state, id) => {
-        let index = state.findIndex(state => state.files.id == id)
+        let index = state.findIndex(state => state.files.id === id)
         state.splice(index, 1)
     },
     uploadRequest(state, { file, ignore_warnings, ignore_errors }) {
