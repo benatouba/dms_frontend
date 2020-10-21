@@ -61,7 +61,7 @@ async function patch(input) {
 
     let resp = await fetch(url, requestOptions)
     if (resp.status !== 200) {
-        return await resp.json()
+        return resp.json()
     } else if (input.password) {
         return i18n.t('reset_password.reset_ok')
     } else {
@@ -79,7 +79,7 @@ async function requestPassword(input) {
 
     let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/request_pw_reset/`, requestOptions)
     if (resp.status !== 200) {
-        return await resp.json()
+        return resp.json()
     } else {
         return i18n.t('reset_password.requested')
     }
@@ -102,23 +102,21 @@ async function info(id) {
     requestOptions.headers.append('Content-Type', 'application/json')
     requestOptions.redirect = 'follow'
 
-    let response = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/${id}`, requestOptions)
-    let user = await response.json()
-    return user
+    let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/${id}`, requestOptions)
+    return resp.json()
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-async function manage(id, action) {
-    const requestOptions = authHeader('POST')
+async function manage(token) {
+    const requestOptions = authHeader('GET')
     requestOptions.headers.append('Content-Type', 'application/json')
     requestOptions.redirect = 'follow'
-    requestOptions.body = JSON.stringify(id, action)
 
-    let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/manage_account/${id}/`, requestOptions)
+    let resp = await fetch(`${process.env['VUE_APP_API_ENDPOINT']}/auth/user/manage_account/${token}/`, requestOptions)
     if (resp.status !== 200) {
-        return await resp.json()
+        throw await resp.json()
     } else {
-        return i18n.t('admin.user_managed')
+        return i18n.t('manage_user.user_managed')
     }
 }
 

@@ -25,7 +25,7 @@ async function meta(name) {
 function download(file) {
     // cut filename from file path
     const requestOptions = authHeader('GET')
-    // requestOptions.headers['Content-Type'] = 'multipart/form-data'
+    requestOptions.redirect = 'follow'
     let answer = fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}`, requestOptions)
         .then(response => response.blob())
         .then(blob => {
