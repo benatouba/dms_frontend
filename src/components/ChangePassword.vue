@@ -6,24 +6,6 @@
                     <v-expansion-panel-header>{{ $t('account.change_password') }}</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-form>
-<!--                            <ValidationProvider-->
-<!--                                name="password"-->
-<!--                                rules="required|min:8"-->
-<!--                                ref="password"-->
-<!--                                v-slot="{ errors, valid }"-->
-<!--                            >-->
-<!--                                <v-text-field-->
-<!--                                    v-model="old_password"-->
-<!--                                    :error-messages="errors"-->
-<!--                                    :success="valid"-->
-<!--                                    id="password"-->
-<!--                                    :label="$t('account.old_password')"-->
-<!--                                    name="password"-->
-<!--                                    prepend-icon="lock"-->
-<!--                                    type="password"-->
-<!--                                    required-->
-<!--                                />-->
-<!--                            </ValidationProvider>-->
                             <ValidationProvider
                                 name="password"
                                 rules="required|min:8"
@@ -72,7 +54,10 @@
                         </v-card-actions>
                         <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="1">
                           <Notification>
-                            <v-btn :class="`${alerts.info.type} white--text v-btn v-size--large`" @click="overlay = false">
+                            <v-btn
+                                :class="`${alerts.info.type} white--text v-btn v-size--large`"
+                                @click="$router.go(); overlay = false"
+                            >
                                 {{ $t('buttons.ok') }}
                             </v-btn>
                           </Notification>
