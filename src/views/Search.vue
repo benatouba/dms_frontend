@@ -5,18 +5,21 @@
             <p class="secondary--text">
                 {{ $t('search.info_text') }}
             </p>
-            <Search />
+            <Search/>
+            <DataTable />
         </v-container>
     </div>
 </template>
 
 <script>
 import Search from '@/components/Search'
+import DataTable from "@/components/DataTable";
 
 export default {
     name: 'SearchView',
     components: {
         Search,
+        DataTable,
     },
 }
 </script>

@@ -99,7 +99,6 @@ const actions = {
                 lastResp = await queryService.deleteFile(file)
                 commit('deleteSuccess', file.id)
                 successCount++
-                console.log(lastResp)
             } catch (error) {
                 commit('deleteFailure')
                 lastError = error
@@ -125,15 +124,43 @@ const actions = {
             }
         }
     },
-    async setInvalid({ dispatch, commit }, file) {
-        try {
-            let resp = await queryService.setInvalid(file)
-            let payload = { resp, file }
-            commit('setInvalidResult', payload)
-            commit('alerts/success', ['Marked as invalid'], { root: true })
-        } catch (error) {
-            // commit('uploadMetaFailure', error, file, 'metaData')
-            dispatch('alerts/error', error, { root: true })
+    async setInvalid({ dispatch, commit }, files) {
+        if (!Array.isArray(files)) {
+            files = Array(files)
+        }
+
+        let successCount = 0
+        let errorCount = 0
+        let lastResp
+        let lastError
+        for (const file of files) {
+            try {
+                lastResp = await queryService.setInvalid(file)
+                commit('setInvalidSuccess', file.id)
+                successCount++
+            } catch (error) {
+                console.log(error)
+                lastError = error
+                errorCount++
+            }
+        }
+        if (files.length === 1) {
+            if (errorCount === 1) {
+                dispatch('alerts/error', lastError, { root: true })
+            } else {
+                dispatch('alerts/success', lastResp, { root: true })
+            }
+        } else {
+            if (errorCount !== 0) {
+                dispatch(
+                    'alerts/error',
+                    `${errorCount} files could not be marked invalid. ${successCount} 
+                                          files were successfully marked invalid.`,
+                    { root: true }
+                )
+            } else {
+                dispatch('alerts/success', `${successCount} files were successfully marked invalid.`, { root: true })
+            }
         }
     },
 }
@@ -202,11 +229,11 @@ const mutations = {
         state.deleting_file = file
     },
     deleteSuccess(state, id) {
-        let index = state.result.findIndex(file => file.id == id)
+        let index = state.result.findIndex(file => file.id === id)
         if (index !== -1) {
             state.result.splice(index, 1)
         }
-        index = this.state.upload.files.findIndex(file => file.resp.result.id == id)
+        index = this.state.upload.files.findIndex(file => file.resp.result.id === id)
         if (index !== -1) {
             this.state.upload.files.splice(index, 1)
         }
@@ -216,8 +243,8 @@ const mutations = {
         state.deleted = false
         state.deleted = false
     },
-    setInvalidResult(state, payload) {
-        let index = state.result.find(file => file.id == payload.file.id)
+    setInvalidSuccess(state, id) {
+        let index = state.result.find(file => file.id === id)
         index.is_invalid = true
     },
 }

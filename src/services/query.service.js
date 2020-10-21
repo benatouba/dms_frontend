@@ -92,11 +92,11 @@ async function deleteFile(file) {
 
 async function setInvalid(file) {
     const requestOptions = authHeader('PATCH')
-    try {
-        let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}/set_invalid/`, requestOptions)
-        return resp
-    } catch (error) {
-        return error
+    let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}/set_invalid/`, requestOptions)
+    if (resp.status === 200) {
+        return resp.json()
+    } else {
+        throw await resp.json()
     }
 }
 
