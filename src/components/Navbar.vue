@@ -1,6 +1,6 @@
 <template>
     <nav>
-        <v-app-bar app flat>
+        <v-app-bar id="app-bar" app flat>
             <v-app-bar-nav-icon id="navDrawer-button" v-model="drawer" @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-spacer></v-spacer>
             <v-toolbar-title class="secondary--text">
@@ -40,7 +40,7 @@
                 large
                 :href="$t('nav.module_a_link')">
                 <v-img
-                    src="../assets/uc2_a_logo.png"
+                    src="../assets/uc2_a_logo.jpg"
                     contain
                     aspect-ratio="1"
                     width="50px"
