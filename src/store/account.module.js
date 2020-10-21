@@ -78,7 +78,6 @@ const actions = {
         try {
             let resp = await userService.info(id)
             commit('userInfoSuccess', resp)
-            return resp
         } catch (error) {
             dispatch('alerts/error', error, { root: true })
         }
