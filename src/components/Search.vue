@@ -3,133 +3,131 @@
         <v-container class="text--primary">
             <strong>{{ meta.institution }}</strong>
             <v-card>
-                <v-card-title>
+                <v-card-title style="margin: 0px;">
                     {{ $t('buttons.input') }}
                 </v-card-title>
                 <input
-                    v-model="searchInput.search"
+                    v-model="options.search"
                     @keypress.enter="handleSubmit"
                     :placeholder="$t('search.placeholder')"
                     class="input text--secondary my-2"
                 />
                 <br />
-                <v-card-title>
+                <v-card-title style="font-size: 15px; margin: 0px;">
                     {{ $t('search.filter_options') }}
                 </v-card-title>
+              <v-card-text>
+                <v-row dense>
+                  <v-col>
+                    <v-autocomplete
+                        v-model="options.acronym"
+                        :items="meta('institution')"
+                        item-text="ge_title"
+                        item-value="acronym"
+                        :label="$t('buttons.institution')"
+                        color="primary"
+                        @change="handleSubmit"
+                    ></v-autocomplete>
+                    <v-icon
+                        v-show="options.acronym"
+                        @click="
+                            options.acronym = null
+                            handleSubmit()
+                        "
+                        small
+                        flat
+                        icon
+                        depressed
+                        >mdi-close-circle</v-icon
+                    >
+                    <v-autocomplete
+                        v-model="options.site__id"
+                        :items="meta('site')"
+                        item-text="site"
+                        item-value="id"
+                        :label="$t('buttons.site')"
+                        color="primary"
+                        @change="handleSubmit"
+                    ></v-autocomplete>
+                    <v-icon
+                        v-show="options.site__id"
+                        @click="
+                            options.site__id = null
+                            handleSubmit()
+                        "
+                        small
+                        flat
+                        icon
+                        depressed
+                        >mdi-close-circle</v-icon
+                    >
+                    <v-autocomplete
+                        v-model="options.variables__variable"
+                        :items="meta('variable')"
+                        item-text="long_name"
+                        item-value="variable"
+                        :label="$t('buttons.variable')"
+                        color="primary"
+                        @change="handleSubmit"
+                    ></v-autocomplete>
+                    <v-icon
+                        v-show="options.variables__variable"
+                        @click="
+                            options.variables__variable = null
+                            handleSubmit()
+                        "
+                        small
+                        flat
+                        icon
+                        depressed
+                        >mdi-close-circle</v-icon
+                    >
+                  </v-col>
+                </v-row>
+              </v-card-text>
+                <v-card-actions justify="center">
+                  <v-row justify="center">
+                    <v-switch
+                        @change="handleSubmit"
+                        color="primary"
+                        v-model="options.is_invalid"
+                        :label="$t('buttons.show_invalid')"
+                        :false-value="false"
+                        true-value="null"
+                    ></v-switch>
+                    <v-switch
+                        @change="handleSubmit"
+                        color="primary"
+                        v-model="options.is_old"
+                        :label="$t('buttons.show_old')"
+                        :false-value="false"
+                        true-value="null"
+                    ></v-switch>
+                    <v-switch
+                        v-if="account.token"
+                        @change="handleSubmit"
+                        color="primary"
+                        v-model="options.uploader"
+                        :label="$t('buttons.uploaded_by_me')"
+                        :true-value="account.id"
+                        :false-value="null"
+                    ></v-switch>
+                    <v-switch
+                        v-if="account.token"
+                        @change="handleSubmit"
+                        color="primary"
+                        v-model="options.acronym"
+                        :label="$t('buttons.uploaded_by_institution')"
+                        :true-value="account.institutions.join()"
+                        :false-value="null"
+                    ></v-switch>
+                  </v-row>
+                </v-card-actions>
                 <v-card-actions>
-                    <v-col cols="12">
-                        <v-row>
-                            <v-autocomplete
-                                v-model="searchInput.acronym"
-                                :items="meta('institution')"
-                                item-text="ge_title"
-                                item-value="acronym"
-                                :label="$t('buttons.institution')"
-                                color="primary"
-                                @change="handleSubmit"
-                            ></v-autocomplete>
-                            <v-icon
-                                v-show="searchInput.acronym"
-                                @click="
-                                    searchInput.acronym = null
-                                    handleSubmit()
-                                "
-                                small
-                                flat
-                                icon
-                                depressed
-                                >mdi-close-circle</v-icon
-                            >
-                        </v-row>
-                        <v-row>
-                            <v-autocomplete
-                                v-model="searchInput.site__id"
-                                :items="meta('site')"
-                                item-text="site"
-                                item-value="id"
-                                :label="$t('buttons.site')"
-                                color="primary"
-                                @change="handleSubmit"
-                            ></v-autocomplete>
-                            <v-icon
-                                v-show="searchInput.site__id"
-                                @click="
-                                    searchInput.site__id = null
-                                    handleSubmit()
-                                "
-                                small
-                                flat
-                                icon
-                                depressed
-                                >mdi-close-circle</v-icon
-                            >
-                        </v-row>
-                        <v-row>
-                            <v-autocomplete
-                                v-model="searchInput.variables__variable"
-                                :items="meta('variable')"
-                                item-text="long_name"
-                                item-value="variable"
-                                :label="$t('buttons.variable')"
-                                color="primary"
-                                @change="handleSubmit"
-                            ></v-autocomplete>
-                            <v-icon
-                                v-show="searchInput.variables__variable"
-                                @click="
-                                    searchInput.variables__variable = null
-                                    handleSubmit()
-                                "
-                                small
-                                flat
-                                icon
-                                depressed
-                                >mdi-close-circle</v-icon
-                            >
-                        </v-row>
-                        <v-row justify="center">
-                            <v-switch
-                                @change="handleSubmit"
-                                color="primary"
-                                v-model="searchInput.is_invalid"
-                                :label="$t('buttons.show_invalid')"
-                                :false-value="false"
-                                true-value="null"
-                            ></v-switch>
-                            <v-switch
-                                @change="handleSubmit"
-                                color="primary"
-                                v-model="searchInput.is_old"
-                                :label="$t('buttons.show_old')"
-                                :false-value="false"
-                                true-value="null"
-                            ></v-switch>
-                            <v-switch
-                                v-if="account.token"
-                                @change="handleSubmit"
-                                color="primary"
-                                v-model="searchInput.uploader"
-                                :label="$t('buttons.uploaded_by_me')"
-                                :true-value="account.id"
-                                :false-value="null"
-                            ></v-switch>
-                            <v-switch
-                                v-if="account.token"
-                                @change="handleSubmit"
-                                color="primary"
-                                v-model="searchInput.acronym"
-                                :label="$t('buttons.uploaded_by_institution')"
-                                :true-value="account.institutions.join()"
-                                :false-value="null"
-                            ></v-switch>
-                        </v-row>
-                        <v-row>
-                            <v-btn @click="handleSubmit" depressed x-large>
-                                <v-icon left color="primary">mdi-cloud-search</v-icon>
-                                {{ $t('buttons.search') }}
-                            </v-btn>
-                        </v-row>
-                    </v-col>
+                  <v-btn @click="handleSubmit" color="primary" large>
+                      <v-icon left dark>mdi-cloud-search</v-icon>
+                      {{ $t('buttons.search') }}
+                  </v-btn>
                 </v-card-actions>
             </v-card>
         </v-container>
@@ -171,14 +169,10 @@ export default {
             fetchMeta: 'queries/fetchMeta',
         }),
         handleSubmit: function() {
-            this.searchInput.offset = (this.page - 1) * this.pageLength
-            this.searchInput.limit = this.pageLength
             if (this.queriedFiles) {
                 this.resetQueryState()
             }
-            let searchParams = Object.assign({}, this.searchInput)
-            Object.keys(searchParams).forEach(key => searchParams[key] == null && delete searchParams[key])
-            this.search(searchParams)
+            this.search(this.options)
         },
         handleDownload(file) {
             this.download({ file })
@@ -221,26 +215,14 @@ export default {
         this.fetchMeta('site')
         this.fetchMeta('variable')
     },
-    mounted() {
-        this.pageLength = 10
-        this.page = 1
-    },
     data() {
-        if (!this.page) {
-            this.page = 1
-            this.pageLength = 10
-        }
         return {
             choices: {
                 institution: [],
                 site: [],
                 variable: [],
             },
-            dialog: false,
-            page: 1,
-            pageLength: 10,
-            pageLengthChoices: [5, 10, 20, 50],
-            searchInput: {
+            options: {
                 search: null,
                 acronym: null,
                 site__id: null,
@@ -248,9 +230,7 @@ export default {
                 uploader: null,
                 is_invalid: false,
                 is_old: false,
-                // origin_time: new Date('2020-07-01').toISOString().substr(0, 10)
             },
-            loading: false,
         }
     },
 }

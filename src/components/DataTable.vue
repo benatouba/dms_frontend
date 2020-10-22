@@ -4,10 +4,11 @@
             v-model="selected"
             :headers="headers"
             :items="queriedFiles"
+            :server-items-length="totalQueriedFiles"
             :loading="querying"
             :expanded.sync="expanded"
+            :options.sync="options"
             show-expand
-            dense
             item-key="id"
             show-select
             elevation="5"
@@ -18,7 +19,7 @@
               >
                 <v-btn
                     color="primary"
-                    class="mx-1"
+                    class="ma-1"
                     v-bind="selected"
                     @click="handleBatchDownload"
                     :disabled="!selected.length"
@@ -28,9 +29,10 @@
                   </v-icon>
                   Download
                 </v-btn>
+                <v-spacer></v-spacer>
                 <b-confirmation-dialog
                     color="error"
-                    class="mx-2"
+                    class="mx-1"
                     @confirm="deleteFile(selected)"
                     :disabled="!selected.length"
                     :title="$t('buttons.delete')"
@@ -54,16 +56,12 @@
                   </v-icon>
                   Mark Invalid
                 </b-confirmation-dialog>
-                <v-spacer></v-spacer>
-                <v-icon
-                    dark
-                    class="mx-3"
-                    color="primary"
-                    elevation="5"
-                >
-                  help
-                </v-icon>
               </v-toolbar>
+            </template>
+            <template v-slot:item.data-table-expand>
+              <v-icon >
+                $expand
+              </v-icon>
             </template>
             <template v-slot:item.origin_time="{ value }">
               <span>{{ value.split("T")[0]}}</span>
@@ -76,16 +74,17 @@
           <template v-slot:item.status="{ item }">
             <div style="white-space: nowrap;">
               <b-status-icon
-                  :icons="{ active: 'mdi-circle' }"
+                  :icon="'mdi-circle'"
                   :color="colorStyle(item)"
+                  :tooltip="getStatusTooltip(item)"
               />
               <b-status-icon
-                  :icons="{ active: 'mdi-delete', inactive: 'mdi-delete-off' }"
-                  :active="!item.download_count  && !item.is_old && (!!group(item.institution) || !!account.is_superuser)"
+                  :icon="isDeletable(item) ? 'mdi-delete': 'mdi-delete-off'"
+                  :tooltip="isDeletable(item) ? $t('tooltip.deletable'): $t('tooltip.not_deletable')"
               />
               <b-status-icon
-                  :icons="{ active: 'report', inactive: 'report_off' }"
-                  :active="!item.is_invalid  && !item.is_old && (!!group(item.institution) || !!account.is_superuser)"
+                  :icon="isMarkableInvalid(item)? 'report': 'report_off'"
+                  :tooltip="isMarkableInvalid(item)? $t('tooltip.markable_invalid'): $t('tooltip.not_markable_invalid')"
               />
             </div>
           </template>
@@ -125,11 +124,9 @@
 <script>
 import {mapActions, mapGetters, mapState} from 'vuex'
 import filesize from 'filesize'
-import BConfirmationDialog from "@/components/BConfirmationDialog";
-import BStatusIcon from "@/components/BStatusIcon";
+import i18n from "@/plugins/i18n"
 export default {
-    name: 'DataTable',
-  components: {BStatusIcon, BConfirmationDialog},
+  name: 'DataTable',
   computed: {
         ...mapState({
             account: state => state.account,
@@ -153,7 +150,25 @@ export default {
             deleteFile: 'queries/delete',
             setInvalid: 'queries/setInvalid',
             resetQueryState: 'queries/resetQueryState',
+            search: 'queries/search',
         }),
+        isDeletable(item) {
+          return (!item.download_count  && !item.is_old && (!!this.group(item.acronym) || !!this.account.is_superuser))
+        },
+        isMarkableInvalid(item) {
+          return (!item.is_invalid  && !item.is_old && (!!this.group(item.acronym) || !!this.account.is_superuser))
+        },
+        getStatusTooltip(item) {
+          let status = item.has_warnings ? i18n.t('tooltip.data_standard_conform') : i18n.t('tooltip.data_standard_conform')
+          if (item.is_old) {
+            status = i18n.t('tooltip.is_old')
+          } else if (item.has_errors) {
+            status = i18n.t('tooltip.data_standard_conform')      // FIXME: change to error once issue is resolved
+          } else if (item.is_invalid) {
+            status = i18n.t('tooltip.is_invalid')
+          }
+          return status
+        },
         getItemValue(key, item) {
           if (key === 'file_size') {
             return filesize(item.file_size)
@@ -217,19 +232,32 @@ export default {
             return color
         },
     },
-    mounted() {
-        this.pageLength = 10
-        this.page = 1
+    watch: {
+      options: {
+        handler () {
+          this.loading = true
+          let ordering = null
+          let offset = 0
+          let limit = 10
+          const { sortBy, sortDesc, page, itemsPerPage } = this.options
+          offset = (page-1) * itemsPerPage
+          limit = itemsPerPage
+          if (sortBy.length) {
+            ordering = this.options.sortBy[0]
+          }
+          if (sortDesc[0]) {
+            ordering = '-' + ordering
+          }
+          this.search({ordering, offset, limit})
+          this.loading = false
+        },
+        deep: true,
+      }
     },
     data() {
-        if (!this.page) {
-            this.page = 1
-            this.pageLength = 10
-        }
         return {
-            page: 1,
-            pageLength: 10,
-            pageLengthChoices: [5, 10, 20, 50],
+            totalQueriedFiles: 10,
+            options: {},
             loading: false,
             headers: [
                 { text: 'Campaign', value: 'campaign' },

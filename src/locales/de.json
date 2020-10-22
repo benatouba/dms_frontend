@@ -167,5 +167,15 @@
   },
   "text": {
     "maintenance": "Diese Seite wird gerade gewartet. Wir sind bald wieder für Sie da."
+  },
+  "tooltip": {
+    "data_standard_conform": "Datenstandardkonform",
+    "is_old": "Diese Datei ist alt. Eine aktuellere Version existiert.",
+    "is_invalid": "Diese Datei wurde als ungültig markiert",
+    "has_errors": "Diese Datei hat Fehler und ist nicht (mehr) konform mit der neuesten Version des Datenstandards",
+    "deletable": "Sie haben die Berechtigung diese Datei löschen",
+    "not_deletable": "Sie haben nicht die nötigen Berechtigungen diese Datei zu löschen",
+    "markable_invalid": "Sie haben die Berechtigung den Status dieser Datei auf 'ungültig' zu setzen",
+    "not_markable_invalid": "Sie haben nicht die nötigen Berechtigungen den Status dieser Datei auf 'ungültig' zu setzen"
   }
 }

@@ -163,5 +163,15 @@
   },
   "text": {
     "maintenance": "This page is currently under maintenance. We will be back soon."
+  },
+  "tooltip": {
+    "data_standard_conform": "Data standard conform",
+    "is_old": "Item is old. More recent version exists.",
+    "is_invalid": "Item is marked invalid",
+    "has_errors": "Item has errors and is not up to data with latest version of data standard",
+    "deletable": "You are allowed to  delete this item",
+    "not_deletable": "You do not have the necessary permissions to delete this item",
+    "markable_invalid": "You are allowed to mark this item invalid",
+    "not_markable_invalid": "You do not have the necessary permissions to mark this item invalid"
   }
 }

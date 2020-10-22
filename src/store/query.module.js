@@ -17,6 +17,18 @@ const getDefaultState = () => {
             { name: 'site', data: [] },
             { name: 'license', data: [] },
         ],
+        query: {
+            search: null,
+            acronym: null,
+            site__id: null,
+            variables__variable: null,
+            uploader: null,
+            is_invalid: false,
+            is_old: false,
+            offset: 0,
+            limit: 10,
+            ordering: null,
+        },
     }
 }
 const state = getDefaultState()
@@ -40,7 +52,7 @@ const actions = {
     async search({ dispatch, commit }, input) {
         commit('queryRequest', input)
         try {
-            let resp = await queryService.search(input)
+            let resp = await queryService.search(state.query)
             commit('querySuccess', resp)
         } catch (error) {
             commit('queryFailure', error)
@@ -183,7 +195,8 @@ const mutations = {
     },
     queryRequest(state, input) {
         state.querying = true
-        state.query = input
+        let query = Object.assign(state.query, input)
+        state.query = query
     },
     querySuccess(state, resp) {
         state.queried = true

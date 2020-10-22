@@ -5,7 +5,9 @@ function search(query) {
     let searchString = '?'
     let entries = Object.entries(query)
     for (const [key, value] of entries) {
-        searchString = searchString.concat(`${key}=${value}&`)
+        if (value != null) {
+            searchString = searchString.concat(`${key}=${value}&`)
+        }
     }
     searchString = searchString.slice(0, searchString.length - 1) // cut off unnecessary last symbol '&'
 

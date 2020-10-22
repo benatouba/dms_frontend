@@ -1,36 +1,36 @@
 <template>
-  <v-icon
-      :color="color"
-      small
-      depressed
-      v-if="active"
+  <v-tooltip
+      top
   >
-    {{ icons.active }}
-  </v-icon>
-  <v-icon
-      :color="color"
-      small
-      depressed
-      v-else
-  >
-    {{ icons.inactive }}
-  </v-icon>
+    <template v-slot:activator="{ on, attrs }">
+      <v-icon
+          :color="color"
+          small
+          depressed
+          v-bind="attrs"
+          v-on="on"
+      >
+        {{ icon }}
+      </v-icon>
+    </template>
+    <span v-if="!!tooltip">{{ tooltip }}</span>
+  </v-tooltip>
 </template>
 
 <script>
 export default {
   name: "BStatusIcon",
   props: {
-    active: {
-      type: Boolean,
-      default: true,
-    },
     color: {
       type: String,
       default: 'secondary',
     },
-    icons: {
-      type: Object,
+    icon: {
+      type: String,
+    },
+    tooltip: {
+      type: String,
+      default: '',
     }
   }
 }
