@@ -147,9 +147,7 @@ router.beforeEach((to, from, next) => {
     const username = !!store.state.account.username
     if (authRequired && !username && !to.meta.public) {
         return next('/login')
-    }
-
-    next()
+    } else next()
 })
 
 export default router

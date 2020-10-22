@@ -49,6 +49,7 @@
     "search": "Search",
     "login": "Login",
     "logout": "Logout",
+    "logout_confirm": "Do you really want to log out of your account?",
     "admin": "Administration",
     "account": "Account",
     "contact": "Contact"

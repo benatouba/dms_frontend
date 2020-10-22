@@ -49,6 +49,7 @@
     "search": "Suche",
     "login": "Einloggen",
     "logout": "Ausloggen",
+    "logout_confirm": "Wollen Sie sich wirklich ausloggen?",
     "admin": "Administration",
     "account": "Account",
     "contact": "Kontakt"

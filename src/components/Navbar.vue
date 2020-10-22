@@ -96,6 +96,38 @@
                     </v-list-item-action>
                     <v-list-item-title class="white--text">{{ $t(`nav.${key}`) }}</v-list-item-title>
                 </v-list-item>
+
+                <v-dialog
+                    v-model="logoutDialog"
+                    persistent
+                    max-width="290"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-list-item
+                        v-show="!!account.token"
+                        v-bind="attrs"
+                        v-on="on"
+                    >
+                      <v-list-item-action>
+                        <v-icon class="white--text">mdi-logout</v-icon>
+                      </v-list-item-action>
+                      <v-list-item-title class="white--text">{{ $t('nav.logout') }}</v-list-item-title>
+                    </v-list-item>
+                  </template>
+                  <v-card>
+                    <v-card-title>{{ $t('nav.logout')}}</v-card-title>
+                    <v-card-text>{{ $t('nav.logout_confirm')}}</v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn @click="logoutDialog = false">
+                        {{ $t('buttons.cancel') }}
+                      </v-btn>
+                      <v-btn color="primary" @click="logoutDialog = false; $router.push('/login')">
+                        {{ $t('buttons.confirm') }}
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
             </v-list>
         </v-navigation-drawer>
     </nav>
@@ -103,11 +135,9 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import BLinkButton from './BLinkButton'
 
 export default {
     name: 'Navbar',
-    components: { BLinkButton },
     computed: {
         ...mapState({
             account: state => state.account,
@@ -128,13 +158,14 @@ export default {
                     show: !!this.account.token && !!this.account.is_superuser,
                 },
                 login: { icon: 'mdi-login', route: '/login', show: !this.account.token },
-                logout: { icon: 'mdi-logout', route: '/login', show: !!this.account.token },
+                // logout: { icon: 'mdi-logout', route: '/login', show: !!this.account.token },
             }
         },
     },
     data() {
         return {
             drawer: true,
+            logoutDialog: false,
             data_standard_link: {
                 en: 'http://www.uc2-program.org/index.php/en/datamanagement',
                 de: 'http://www.uc2-program.org/index.php/datenmanagement',
