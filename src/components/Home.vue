@@ -6,8 +6,8 @@
             <v-row align="center" justify="center">
                 <v-img
                     v-if="$i18n.locale === 'de'"
-                    src="@/assets/dms_graphic_de.png"
-                    lazy-src="@/assets/dms_graphic_de.png"
+                    src="@/assets/dms_graphic_de.jpg"
+                    lazy-src="@/assets/dms_graphic_de.jpg"
                     class="grey lighten-2 my-4"
                     max-width="600"
                 >

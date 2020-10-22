@@ -21,7 +21,7 @@
         </v-btn>
         <b-link-button large :href="$t('nav.module_a_link')">
           <v-img
-              src="./assets/uc2_a_logo.png"
+              src="./assets/uc2_a_logo.jpg"
               contain
               aspect-ratio="1"
               width="50px"
