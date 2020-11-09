@@ -124,9 +124,6 @@ export default {
             group: 'account/group',
             meta: 'queries/meta',
         }),
-        getPageCount() {
-            return Math.ceil(this.itemCount / this.pageLength)
-        },
     },
     methods: {
         ...mapActions({
@@ -142,6 +139,7 @@ export default {
             if (this.queriedFiles) {
                 this.resetQueryState()
             }
+            this.options.offset = 0
             this.search(this.options)
         },
         handleDownload(file) {
@@ -200,6 +198,7 @@ export default {
                 uploader: null,
                 is_invalid: false,
                 is_old: false,
+                offset: 0
             },
         }
     },

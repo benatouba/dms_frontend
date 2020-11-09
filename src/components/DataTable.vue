@@ -171,6 +171,7 @@ export default {
             account: state => state.account,
             queriedFiles: state => state.queries.result,
             totalQueriedFiles: state => state.queries.count,
+            queryOffset: state => state.queries.query.offset,
             querying: state => state.queries.querying,
             // downloading: state => state.queries.downloading,
             itemCount: state => state.queries.count,
@@ -340,6 +341,12 @@ export default {
           this.loading = false
         },
         deep: true,
+      },
+      queryOffset: {
+        handler() {
+          this.options.page = (this.queryOffset/this.options.itemsPerPage) + 1
+        },
+        deep: true
       }
     },
     data() {

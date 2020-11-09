@@ -59,7 +59,8 @@ export default {
     name: 'Home',
   data () {
       return {
-        bmbf_logo: {de: require("@/assets/bmbf_logo_de.jpg"), en: require("@/assets/bmbf_logo_en.jpg")}
+        bmbf_logo: {de: require("@/assets/bmbf_logo_de.jpg"), en: require("@/assets/bmbf_logo_en.jpg")},
+        test: 1
       }
   }
 }
