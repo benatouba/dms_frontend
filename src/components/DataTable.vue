@@ -2,7 +2,7 @@
     <v-container class="text--primary">
         <v-data-table
             v-model="selected"
-            :headers="headers"
+            :headers="getHeaderItems"
             :items="queriedFiles"
             :server-items-length="totalQueriedFiles"
             :loading="querying"
@@ -62,6 +62,37 @@
                 </b-confirmation-dialog>
               </v-toolbar>
             </template>
+            <template v-slot:header.data-table-expand>
+              <v-menu
+                  rounded
+              >
+                  <template v-slot:activator="{ attrs, on }">
+                    <v-btn
+                        fab
+                        x-small
+                        depressed
+                        v-bind="attrs"
+                        v-on="on"
+                    >
+                      <v-icon color="secondary">mdi-plus</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                  <v-card-subtitle>{{ $t('tooltip.add_column') }}</v-card-subtitle>
+                  <v-list>
+                    <v-list-item
+                        v-for="item in sortItems(getListItems)"
+                        :key="item.value"
+                        link
+                        dense
+                        @click="addColumn(item.value)"
+                    >
+                      <v-list-item-title>{{ item.text }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                  </v-card>
+              </v-menu>
+            </template>
             <template v-slot:item.origin_time="{ value }">
               <span>{{ value.substring(0, 10) }}</span>
             </template>
@@ -73,30 +104,30 @@
             <template v-slot:item.variables="{ item }">
                 <span>{{ getItemValue('variables', item) }}</span>
             </template>
-          <template v-slot:item.status="{ item }">
-            <div style="white-space: nowrap;">
-              <!--<b-status-icon
-                  :icon="'mdi-circle'"
-                  :color="colorStyle(item)"
-                  :tooltip="getStatusTooltip(item)"
-              />-->
-              <b-status-icon
-                  :icon="isDeletable(item) ? 'mdi-delete': 'mdi-delete-off'"
-                  :tooltip="isDeletable(item) ? $t('tooltip.deletable'): $t('tooltip.not_deletable')"
-              />
-              <b-status-icon
-                  :icon="isMarkableInvalid(item)? 'report': 'report_off'"
-                  :tooltip="isMarkableInvalid(item)? $t('tooltip.markable_invalid'): $t('tooltip.not_markable_invalid')"
-              />
-              <span style="color: red;" v-if="item.is_invalid">{{ $t('search.is_invalid')}}</span>
-              <span style="color: saddlebrown;" v-if="item.is_old">{{ $t('search.is_old')}}</span>
-            </div>
-          </template>
+            <template v-slot:item.status="{ item }">
+              <div style="white-space: nowrap;">
+                <!--<b-status-icon
+                    :icon="'mdi-circle'"
+                    :color="colorStyle(item)"
+                    :tooltip="getStatusTooltip(item)"
+                />-->
+                <b-status-icon
+                    :icon="isDeletable(item) ? 'mdi-delete': 'mdi-delete-off'"
+                    :tooltip="isDeletable(item) ? $t('tooltip.deletable'): $t('tooltip.not_deletable')"
+                />
+                <b-status-icon
+                    :icon="isMarkableInvalid(item)? 'report': 'report_off'"
+                    :tooltip="isMarkableInvalid(item)? $t('tooltip.markable_invalid'): $t('tooltip.not_markable_invalid')"
+                />
+                <span style="color: red;" v-if="item.is_invalid">{{ $t('search.is_invalid')}}</span>
+                <span style="color: saddlebrown;" v-if="item.is_old">{{ $t('search.is_old')}}</span>
+              </div>
+            </template>
             <template v-slot:expanded-item="{ headers, item}">
                 <td :colspan="headers.length">
                   <v-list dense class="ma-2">
                     <v-list-item
-                        v-for="lh in listHeaders"
+                        v-for="lh in getListItems"
                         :key="lh.value"
                     >
                       <v-col>
@@ -151,6 +182,24 @@ export default {
         getPageCount() {
             return Math.ceil(this.itemCount / this.pageLength)
         },
+        getHeaderItems() {
+          let selected = []
+          this.headers.forEach(x => {
+            if (x.showCol) {
+              selected.push(x)
+            }
+          })
+          return selected
+        },
+        getListItems() {
+          let selected = []
+          this.headers.forEach(x => {
+            if (!x.showCol) {
+              selected.push(x)
+            }
+          })
+          return selected
+        }
     },
     methods: {
         ...mapActions({
@@ -259,6 +308,16 @@ export default {
                 color = 'warning'
             }
             return color
+        },
+        addColumn(value) {
+          this.headers.forEach(x => {
+            if (x.value === value) {
+              x.showCol = true
+            }
+          })
+        },
+        sortItems(items) {
+            return items.sort((a, b) => (a.text > b.text) ? 1 : -1)
         }
     },
     watch: {
@@ -288,39 +347,34 @@ export default {
             options: {},
             loading: false,
             headers: [
-                { text: 'Campaign', value: 'campaign', align: 'start', },
-                { text: 'Location', value: 'location', align: 'start',  },
-                { text: 'Site', value: 'site', align: 'start',  },
-                { text: 'Acronym', value: 'acronym', align: 'start', },
-                { text: 'Variable', value: 'variables', sortable: false, },
-                { text: 'Feature Type', value: 'feature_type', sortable: false, },
-                { text: 'Origin Time', value: 'origin_time' },
-                { text: 'File Size', value: 'file_size' },
-                { text: 'Status', value: 'status', sortable: false, },
-            ],
-            listHeaders: [
-              {
-                text: 'File Standard Name',
-                value: 'file_standard_name',
-              },
-              { text: 'Institution', value: 'institution' },
-              { text: 'Data Content', value: 'data_content' },
-              { text: 'Keywords', value: 'keywords' },
-              { text: 'Licence', value: 'licence' },
-              { text: 'Source', value: 'source' },
-              { text: 'Uploader', value: 'uploader' },
-              { text: 'File Type', value: 'file_type' },
-              { text: 'Creation Time', value: 'creation_time' },
-              { text: 'Upload Date', value: 'upload_date' },
-              { text: 'UTM Coordinates ll', value: 'll_n_utm',},
-              // { text: 'UTM Coordinates ll (E)', value: 'll_e_utm', },
-              { text: 'UTM Coordinates ur', value: 'ur_n_utm', },
-              // { text: 'UTM Coordinates ur (E)', value: 'ur_e_utm', },
-              { text: 'UTM EPSG', value: 'utm_epsg' },
-              { text: 'Version', value: 'version' },
-              { text: 'Checker Version', value: 'checkerVersionMajor' },
-              { text: 'Author', value: 'author' },
-              { text: 'Contact Person', value: 'contact_person' },
+              { text: 'Campaign', value: 'campaign', align: 'start', showCol: true, },
+              { text: 'Location', value: 'location', align: 'start',  showCol: true, },
+              { text: 'Site', value: 'site', align: 'start',  showCol: true, },
+              { text: 'Acronym', value: 'acronym', align: 'start', showCol: true, },
+              { text: 'Variable', value: 'variables', sortable: false, showCol: true, },
+              { text: 'Feature Type', value: 'feature_type', sortable: false, showCol: true, },
+              { text: 'Origin Time', value: 'origin_time', showCol: true, },
+              { text: 'File Size', value: 'file_size', showCol: true, },
+              { text: 'Status', value: 'status', sortable: false, showCol: true, },
+              { text: 'File Standard Name', value: 'file_standard_name', showCol: false, },
+              { text: 'Institution', value: 'institution', showCol: false,  },
+              { text: 'Data Content', value: 'data_content', showCol: false,  },
+              { text: 'Keywords', value: 'keywords', showCol: false,  },
+              { text: 'Licence', value: 'licence', showCol: false,  },
+              { text: 'Source', value: 'source', showCol: false,  },
+              { text: 'Uploader', value: 'uploader', showCol: false,  },
+              { text: 'File Type', value: 'file_type', showCol: false,  },
+              { text: 'Creation Time', value: 'creation_time', showCol: false,  },
+              { text: 'Upload Date', value: 'upload_date', showCol: false,  },
+              { text: 'UTM Coordinates ll', value: 'll_n_utm', showCol: false, },
+              // { text: 'UTM Coordinates ll (E)', value: 'll_e_utm', showCol: false, },
+              { text: 'UTM Coordinates ur', value: 'ur_n_utm', showCol: false, },
+              // { text: 'UTM Coordinates ur (E)', value: 'ur_e_utm', showCol: false, },
+              { text: 'UTM EPSG', value: 'utm_epsg', showCol: false, },
+              { text: 'Version', value: 'version', showCol: false, },
+              { text: 'Checker Version', value: 'checkerVersionMajor', showCol: false, },
+              { text: 'Author', value: 'author', showCol: false, },
+              { text: 'Contact Person', value: 'contact_person', showCol: false, },
             ],
             selected: [],
             expanded: [],
