@@ -88,7 +88,14 @@
             </div>
         </v-app-bar>
 
-        <v-navigation-drawer id="navigation-drawer" app expand-on-hover hide-overlay v-model="drawer" class="primary">
+        <v-navigation-drawer
+            id="navigation-drawer"
+            app
+            :expand-on-hover="innerWidth < 1340"
+            hide-overlay
+            v-model="drawer"
+            class="primary"
+        >
             <v-list>
                 <v-list-item v-show="link.show" v-for="(link, key) in links" :key="key" router :to="link.route">
                     <v-list-item-action>
@@ -180,6 +187,7 @@ export default {
                     lang: 'de',
                 },
             ],
+            innerWidth: window.innerWidth,
         }
     },
     methods: {
