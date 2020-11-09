@@ -8,6 +8,7 @@
             :loading="querying"
             :expanded.sync="expanded"
             :options.sync="options"
+            :footer-props="footerProps"
             show-expand
             item-key="id"
             show-select
@@ -258,7 +259,7 @@ export default {
                 color = 'warning'
             }
             return color
-        },
+        }
     },
     watch: {
       options: {
@@ -326,6 +327,9 @@ export default {
             downloading: false,
             deleting: false,
             settingInvalid: false,
+            footerProps: {
+              'items-per-page-options': [ 10, 25, 50, 100, -1 ],
+            }
         }
     },
 }
