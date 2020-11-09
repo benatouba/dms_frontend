@@ -62,6 +62,20 @@ const actions = {
     async fetchMeta({ commit, dispatch }, name) {
         try {
             let data = await queryService.meta(name)
+            // sorting
+            if (name === 'institution') {
+                data = data.sort((a, b) => {
+                    return a.ge_title.toUpperCase() > b.ge_title.toUpperCase() ? 1 : -1
+                })
+            } else if (name === 'variable') {
+                data = data.sort((a, b) => {
+                    return a.long_name.toUpperCase() > b.long_name.toUpperCase() ? 1 : -1
+                })
+            } else if (name === 'site') {
+                data = data.sort((a, b) => {
+                    return a.site.toUpperCase() > b.site.toUpperCase() ? 1 : -1
+                })
+            }
             commit('addMeta', { name, data })
         } catch (error) {
             dispatch('alerts/error', error, { root: true })
