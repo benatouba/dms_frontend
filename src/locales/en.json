@@ -86,8 +86,8 @@
     "delete_warning": "This will delete the selected file(s) from the data base. Please confirm this action.",
     "items_per_page": "Items per page",
     "filter_options": "Filter options",
-    "is_old": "- old file",
-    "is_invalid": "- marked invalid",
+    "is_old": " old",
+    "is_invalid": " invalid",
     "has_errors": "- not fully standard-compliant",
     "has_warnings": "- contains warning(s)",
     "mark_invalid_warning": "This operation is irreversible. It will not delete the file from the data base. You may, however, upload a more recent version afterwards."
@@ -173,6 +173,7 @@
     "deletable": "You are allowed to  delete this item",
     "not_deletable": "You do not have the necessary permissions to delete this item",
     "markable_invalid": "You are allowed to mark this item invalid",
-    "not_markable_invalid": "You do not have the necessary permissions to mark this item invalid"
+    "not_markable_invalid": "You do not have the necessary permissions to mark this item invalid",
+    "add_column": "Show column"
   }
 }

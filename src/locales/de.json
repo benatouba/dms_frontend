@@ -87,11 +87,11 @@
     "items_per_page": "Items pro Seite",
     "items_per_page": "Items pro Seite",
     "filter_options": "Filteroptionen",
-    "is_old": "- alte Datei",
-    "is_invalid": "- als ungültig markiert",
+    "is_old": " alt",
+    "is_invalid": " ungültig",
     "has_errors": "- nicht vollständig Standardkonform",
     "has_warnings": "- enthält Warnung(en)",
-    "mark_invalid_warning": "Diese Operation kann nicht rückgangig gemacht werden. Die Datei wird dabei nicht aus der Datenbank gelöscht. Im Falle eine falsch gesetzten Markierung, kann eine Datei mit einer höheren Versionsnummer hochgeladen werden."
+    "mark_invalid_warning": "Diese Operation kann nicht rückgängig gemacht werden. Die Datei wird dabei nicht aus der Datenbank gelöscht. Im Falle eine falsch gesetzten Markierung, kann eine Datei mit einer höheren Versionsnummer hochgeladen werden."
   },
   "register": {
     "title": "Registrieren",
@@ -177,6 +177,7 @@
     "deletable": "Sie haben die Berechtigung diese Datei löschen",
     "not_deletable": "Sie haben nicht die nötigen Berechtigungen diese Datei zu löschen",
     "markable_invalid": "Sie haben die Berechtigung den Status dieser Datei auf 'ungültig' zu setzen",
-    "not_markable_invalid": "Sie haben nicht die nötigen Berechtigungen den Status dieser Datei auf 'ungültig' zu setzen"
+    "not_markable_invalid": "Sie haben nicht die nötigen Berechtigungen den Status dieser Datei auf 'ungültig' zu setzen",
+    "add_column": "Spalte anzeigen"
   }
 }
