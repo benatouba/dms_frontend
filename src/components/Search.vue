@@ -17,29 +17,19 @@
                     {{ $t('search.filter_options') }}
                 </v-card-title>
               <v-card-text>
-                <v-row dense>
+                <v-row no-gutters>
                   <v-col>
                     <v-autocomplete
+                        dense
                         v-model="options.acronym"
                         :items="meta('institution')"
                         item-text="ge_title"
                         item-value="acronym"
                         :label="$t('buttons.institution')"
                         color="primary"
+                        clearable
                         @change="handleSubmit"
                     ></v-autocomplete>
-                    <v-icon
-                        v-show="options.acronym"
-                        @click="
-                            options.acronym = null
-                            handleSubmit()
-                        "
-                        small
-                        flat
-                        icon
-                        depressed
-                        >mdi-close-circle</v-icon
-                    >
                     <v-autocomplete
                         v-model="options.site__id"
                         :items="meta('site')"
@@ -48,19 +38,9 @@
                         :label="$t('buttons.site')"
                         color="primary"
                         @change="handleSubmit"
+                        dense
+                        clearable
                     ></v-autocomplete>
-                    <v-icon
-                        v-show="options.site__id"
-                        @click="
-                            options.site__id = null
-                            handleSubmit()
-                        "
-                        small
-                        flat
-                        icon
-                        depressed
-                        >mdi-close-circle</v-icon
-                    >
                     <v-autocomplete
                         v-model="options.variables__variable"
                         :items="meta('variable')"
@@ -69,66 +49,56 @@
                         :label="$t('buttons.variable')"
                         color="primary"
                         @change="handleSubmit"
+                        dense
+                        clearable
                     ></v-autocomplete>
-                    <v-icon
-                        v-show="options.variables__variable"
-                        @click="
-                            options.variables__variable = null
-                            handleSubmit()
-                        "
-                        small
-                        flat
-                        icon
-                        depressed
-                        >mdi-close-circle</v-icon
-                    >
                   </v-col>
                 </v-row>
               </v-card-text>
-                <v-card-actions justify="center">
-                  <v-row justify="center">
-                    <v-switch
-                        @change="handleSubmit"
-                        color="primary"
-                        v-model="options.is_invalid"
-                        :label="$t('buttons.show_invalid')"
-                        :false-value="false"
-                        true-value="null"
-                    ></v-switch>
-                    <v-switch
-                        @change="handleSubmit"
-                        color="primary"
-                        v-model="options.is_old"
-                        :label="$t('buttons.show_old')"
-                        :false-value="false"
-                        true-value="null"
-                    ></v-switch>
-                    <v-switch
-                        v-if="account.token"
-                        @change="handleSubmit"
-                        color="primary"
-                        v-model="options.uploader"
-                        :label="$t('buttons.uploaded_by_me')"
-                        :true-value="account.id"
-                        :false-value="null"
-                    ></v-switch>
-                    <v-switch
-                        v-if="account.token"
-                        @change="handleSubmit"
-                        color="primary"
-                        v-model="options.acronym"
-                        :label="$t('buttons.uploaded_by_institution')"
-                        :true-value="account.institutions.join()"
-                        :false-value="null"
-                    ></v-switch>
-                  </v-row>
-                </v-card-actions>
-                <v-card-actions>
-                  <v-btn @click="handleSubmit" color="primary" large>
-                      <v-icon left dark>mdi-cloud-search</v-icon>
-                      {{ $t('buttons.search') }}
-                  </v-btn>
-                </v-card-actions>
+              <v-card-actions style="margin-top: -25px;">
+                <v-row justify="center" no-gutters>
+                  <v-switch
+                      @change="handleSubmit"
+                      color="primary"
+                      v-model="options.is_invalid"
+                      :label="$t('buttons.show_invalid')"
+                      :false-value="false"
+                      true-value="null"
+                  ></v-switch>
+                  <v-switch
+                      @change="handleSubmit"
+                      color="primary"
+                      v-model="options.is_old"
+                      :label="$t('buttons.show_old')"
+                      :false-value="false"
+                      true-value="null"
+                  ></v-switch>
+                  <v-switch
+                      v-if="account.token"
+                      @change="handleSubmit"
+                      color="primary"
+                      v-model="options.uploader"
+                      :label="$t('buttons.uploaded_by_me')"
+                      :true-value="account.id"
+                      :false-value="null"
+                  ></v-switch>
+                  <v-switch
+                      v-if="account.token"
+                      @change="handleSubmit"
+                      color="primary"
+                      v-model="options.acronym"
+                      :label="$t('buttons.uploaded_by_institution')"
+                      :true-value="account.institutions.join()"
+                      :false-value="null"
+                  ></v-switch>
+                </v-row>
+              </v-card-actions>
+              <v-card-actions>
+                <v-btn @click="handleSubmit" color="primary" large>
+                    <v-icon left dark>mdi-cloud-search</v-icon>
+                    {{ $t('buttons.search') }}
+                </v-btn>
+              </v-card-actions>
             </v-card>
         </v-container>
     </div>

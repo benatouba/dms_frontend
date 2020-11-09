@@ -21,7 +21,8 @@
                     color="primary"
                     class="ma-1"
                     v-bind="selected"
-                    @click="handleBatchDownload"
+                    @click="handleDownload"
+                    :loading="downloading"
                     :disabled="!selected.length"
                 >
                   <v-icon left dark>
@@ -33,7 +34,8 @@
                 <b-confirmation-dialog
                     color="error"
                     class="mx-1"
-                    @confirm="deleteFile(selected)"
+                    @confirm="handleDelete"
+                    :loading="deleting"
                     :disabled="!selected.length"
                     :title="$t('buttons.delete')"
                     :body="$t('search.delete_warning')"
@@ -46,10 +48,11 @@
                 <b-confirmation-dialog
                     class="mx-1"
                     :disabled="!selected.length"
+                    :loading="settingInvalid"
                     :title="$t('buttons.mark_invalid')"
                     :body="$t('search.mark_invalid_warning')"
                     color="warning"
-                    @confirm="setInvalid(selected)"
+                    @confirm="handleSetInvalid"
                 >
                   <v-icon dark left>
                     error_outline
@@ -58,26 +61,24 @@
                 </b-confirmation-dialog>
               </v-toolbar>
             </template>
-            <template v-slot:item.data-table-expand>
-              <v-icon >
-                $expand
-              </v-icon>
-            </template>
             <template v-slot:item.origin_time="{ value }">
-              <span>{{ value.split("T")[0]}}</span>
+              <span>{{ value.substring(0, 10) }}</span>
             </template>
             <template v-slot:item.file_size="{ item }">
               <div style="white-space: nowrap;">
                 <span>{{ getItemValue('file_size', item) }}</span>
               </div>
             </template>
+            <template v-slot:item.variables="{ item }">
+                <span>{{ getItemValue('variables', item) }}</span>
+            </template>
           <template v-slot:item.status="{ item }">
             <div style="white-space: nowrap;">
-              <b-status-icon
+              <!--<b-status-icon
                   :icon="'mdi-circle'"
                   :color="colorStyle(item)"
                   :tooltip="getStatusTooltip(item)"
-              />
+              />-->
               <b-status-icon
                   :icon="isDeletable(item) ? 'mdi-delete': 'mdi-delete-off'"
                   :tooltip="isDeletable(item) ? $t('tooltip.deletable'): $t('tooltip.not_deletable')"
@@ -86,6 +87,8 @@
                   :icon="isMarkableInvalid(item)? 'report': 'report_off'"
                   :tooltip="isMarkableInvalid(item)? $t('tooltip.markable_invalid'): $t('tooltip.not_markable_invalid')"
               />
+              <span style="color: red;" v-if="item.is_invalid">{{ $t('search.is_invalid')}}</span>
+              <span style="color: saddlebrown;" v-if="item.is_old">{{ $t('search.is_old')}}</span>
             </div>
           </template>
             <template v-slot:expanded-item="{ headers, item}">
@@ -100,14 +103,18 @@
                       </v-col>
                       <v-col>
                         <div v-if="['contact_person', 'author'].filter(x => x === lh.value).length !== 0">
-                          <v-btn
+                          <span
                               v-for="person of getItemValue(lh.value, item)"
-                              :key="person.email"
-                              x-small
-                              :href="`mailto:${person.email}`">
-                            <v-icon x-small>mdi-email</v-icon>
-                            {{ person.last_name + ", " + person.first_name}}
-                          </v-btn>
+                              :key="person.id"
+                          >
+                            <v-btn
+                                v-if="person.ok"
+                                x-small
+                                :href="`mailto:${person.email}`">
+                              <v-icon x-small>mdi-email</v-icon>
+                              {{ person.last_name + ", " + person.first_name}}
+                            </v-btn>
+                          </span>
                         </div>
                         <div v-else>
                             {{ getItemValue(lh.value, item) }}
@@ -131,8 +138,9 @@ export default {
         ...mapState({
             account: state => state.account,
             queriedFiles: state => state.queries.result,
+            totalQueriedFiles: state => state.queries.count,
             querying: state => state.queries.querying,
-            downloading: state => state.queries.downloading,
+            // downloading: state => state.queries.downloading,
             itemCount: state => state.queries.count,
         }),
         ...mapGetters({
@@ -178,33 +186,45 @@ export default {
             let dict
             let divided
             let people = item[key].split(";")
+            let id = 0
             people.forEach(p => {
               divided = p.split(",")
               if (divided.length !== 3) {
-                result.push('not parsable')
+                result.push({ ok: false, text: '', id: id } )
               } else {
-                dict = { last_name: divided[0], first_name: divided[1], email: divided[2] }
+                dict = { ok: true, last_name: divided[0], first_name: divided[1], email: divided[2], id: id  }
                 result.push(dict)
               }
+              id++
             })
             return result
           }
+          if (key === 'checkerVersionMajor') {
+            return item.checkerVersionMajor + '.' + item.checkerVersionMinor + '.' + item.checkerVersionSub
+          }
+          if (key === 'll_n_utm' && item[key]) {
+            return Math.round(item[key]) + ' N, ' + Math.round(item['ll_e_utm']) + ' E'
+          }
+          if (key === 'ur_n_utm' && item[key]) {
+            return Math.round(item[key]) + ' N, ' + Math.round(item['ur_e_utm']) + ' E'
+          }
+          if (['origin_time', 'upload_date', 'creation_time'].filter(x => key === x).length !== 0) {
+              let divided = item[key].split('T')
+              return divided[0] + ' ' + divided[1].substring(0, 8)
+          }
           const entries = Object.entries(item)
-          let result
           for (var [itemKey, itemValue] of entries) {
             if (key === itemKey) {
-              result = itemValue
+              if (Array.isArray(itemValue)) {
+                return itemValue.join(', ')
+              } else {
+                return itemValue
+              }
             }
           }
-          if (Array.isArray(result)) {
-            result.join(', ')
-          }
-          if (key === 'checkerVersionMajor') {
-            result = item.checkerVersionMajor + '.' + item.checkerVersionMinor + '.' + item.checkerVersionSub
-          }
-          return result
         },
-        handleBatchDownload() {
+        handleDownload() {
+            this.downloading = true
             if (this.selected.length === 1) {
               this.download(this.selected[0])
             } else {
@@ -214,11 +234,19 @@ export default {
               )
               this.downloadAll(ids)
             }
+            this.downloading = false
         },
-        handleBatchMarkInvalid() {
-          this.selected.forEach(item => {
-            this.setInvalid(item)
-          })
+        handleDelete() {
+          this.deleting = true
+          this.deleteFile(this.selected)
+          this.selected = []
+          this.deleting = false
+        },
+        handleSetInvalid() {
+          this.settingInvalid = true
+          this.setInvalid(this.selected)
+          this.selected = []
+          this.settingInvalid = false
         },
         colorStyle(item) {
             let color = item.has_warnings ? 'success' : 'success' // FIXME: change color to warning once issue is resolved
@@ -256,14 +284,13 @@ export default {
     },
     data() {
         return {
-            totalQueriedFiles: 10,
             options: {},
             loading: false,
             headers: [
-                { text: 'Campaign', value: 'campaign' },
-                { text: 'Location', value: 'location' },
-                { text: 'Site', value: 'site' },
-                { text: 'Acronym', value: 'acronym' },
+                { text: 'Campaign', value: 'campaign', align: 'start', },
+                { text: 'Location', value: 'location', align: 'start',  },
+                { text: 'Site', value: 'site', align: 'start',  },
+                { text: 'Acronym', value: 'acronym', align: 'start', },
                 { text: 'Variable', value: 'variables', sortable: false, },
                 { text: 'Feature Type', value: 'feature_type', sortable: false, },
                 { text: 'Origin Time', value: 'origin_time' },
@@ -273,7 +300,6 @@ export default {
             listHeaders: [
               {
                 text: 'File Standard Name',
-                align: 'start',
                 value: 'file_standard_name',
               },
               { text: 'Institution', value: 'institution' },
@@ -285,10 +311,10 @@ export default {
               { text: 'File Type', value: 'file_type' },
               { text: 'Creation Time', value: 'creation_time' },
               { text: 'Upload Date', value: 'upload_date' },
-              { text: 'UTM Coordinates ll (N)', value: 'll_n_utm', sortable: false, },
-              { text: 'UTM Coordinates ll (E)', value: 'll_e_utm', sortable: false, },
-              { text: 'UTM Coordinates ur (N)', value: 'ur_n_utm', sortable: false, },
-              { text: 'UTM Coordinates ur (E)', value: 'ur_e_utm', sortable: false, },
+              { text: 'UTM Coordinates ll', value: 'll_n_utm',},
+              // { text: 'UTM Coordinates ll (E)', value: 'll_e_utm', },
+              { text: 'UTM Coordinates ur', value: 'ur_n_utm', },
+              // { text: 'UTM Coordinates ur (E)', value: 'ur_e_utm', },
               { text: 'UTM EPSG', value: 'utm_epsg' },
               { text: 'Version', value: 'version' },
               { text: 'Checker Version', value: 'checkerVersionMajor' },
@@ -297,7 +323,16 @@ export default {
             ],
             selected: [],
             expanded: [],
+            downloading: false,
+            deleting: false,
+            settingInvalid: false,
         }
     },
 }
 </script>
+
+<style>
+.v-data-table-header th {
+  white-space: nowrap;
+}
+</style>

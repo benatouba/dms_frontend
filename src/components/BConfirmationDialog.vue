@@ -7,6 +7,7 @@
     <template v-slot:activator="{ on, attrs }">
         <v-btn
             class="mx-1"
+            :loading="loading"
             :color="color"
             :disabled="disabled"
             v-bind="attrs"
@@ -67,6 +68,10 @@ export default {
     body: {
       type: String,
       default: 'Are you sure, you want to do this?'
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
