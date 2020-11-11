@@ -2,7 +2,7 @@
     <v-container class="text--primary">
         <v-data-table
             v-model="selected"
-            :headers="getHeaderItems"
+            :headers="headerItems"
             :items="queriedFiles"
             :server-items-length="totalQueriedFiles"
             :loading="querying"
@@ -63,35 +63,22 @@
               </v-toolbar>
             </template>
             <template v-slot:header.data-table-expand>
-              <v-menu
-                  rounded
-              >
-                  <template v-slot:activator="{ attrs, on }">
-                    <v-btn
-                        fab
-                        x-small
-                        depressed
-                        v-bind="attrs"
-                        v-on="on"
-                    >
-                      <v-icon color="secondary">mdi-plus</v-icon>
-                    </v-btn>
+                <b-radio-button-with-menu
+                    @clickItem="addColumn"
+                    :items="listItems"
+                >
+                  <template v-slot:icon>
+                    <v-icon color="secondary">mdi-plus</v-icon>
                   </template>
-                  <v-card>
-                  <v-card-subtitle>{{ $t('tooltip.add_column') }}</v-card-subtitle>
-                  <v-list>
-                    <v-list-item
-                        v-for="item in sortItems(getListItems)"
-                        :key="item.value"
-                        link
-                        dense
-                        @click="addColumn(item.value)"
-                    >
-                      <v-list-item-title>{{ item.text }}</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                  </v-card>
-              </v-menu>
+                </b-radio-button-with-menu>
+                <b-radio-button-with-menu
+                    @clickItem="removeColumn"
+                    :items="headerItems"
+                >
+                  <template v-slot:icon>
+                    <v-icon color="secondary">mdi-minus</v-icon>
+                  </template>
+                </b-radio-button-with-menu>
             </template>
             <template v-slot:item.origin_time="{ value }">
               <span>{{ value.substring(0, 10) }}</span>
@@ -127,7 +114,7 @@
                 <td :colspan="headers.length">
                   <v-list dense class="ma-2">
                     <v-list-item
-                        v-for="lh in getListItems"
+                        v-for="lh in listItems"
                         :key="lh.value"
                     >
                       <v-col>
@@ -183,23 +170,15 @@ export default {
         getPageCount() {
             return Math.ceil(this.itemCount / this.pageLength)
         },
-        getHeaderItems() {
-          let selected = []
-          this.headers.forEach(x => {
-            if (x.showCol) {
-              selected.push(x)
-            }
+        headerItems: function() {
+          return this.headers.filter(header => {
+              return header.showCol
           })
-          return selected
         },
-        getListItems() {
-          let selected = []
-          this.headers.forEach(x => {
-            if (!x.showCol) {
-              selected.push(x)
-            }
+        listItems: function() {
+          return this.headers.filter(header => {
+            return !header.showCol
           })
-          return selected
         }
     },
     methods: {
@@ -317,6 +296,13 @@ export default {
             }
           })
         },
+        removeColumn(value) {
+          this.headers.forEach(x => {
+            if (x.value === value) {
+              x.showCol = false
+            }
+          })
+        },
         sortItems(items) {
             return items.sort((a, b) => (a.text > b.text) ? 1 : -1)
         }
@@ -382,6 +368,7 @@ export default {
               { text: 'Checker Version', value: 'checkerVersionMajor', showCol: false, },
               { text: 'Author', value: 'author', showCol: false, },
               { text: 'Contact Person', value: 'contact_person', showCol: false, },
+              { text: '', value: 'data-table-expand', showCol: true, }
             ],
             selected: [],
             expanded: [],
