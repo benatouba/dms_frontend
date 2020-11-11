@@ -4,9 +4,9 @@
   >
     <template v-slot:activator="{ attrs, on }">
       <v-btn
-          fab
-          x-small
+          icon
           depressed
+          x-small
           v-bind="attrs"
           v-on="on"
       >
