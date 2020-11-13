@@ -63,22 +63,24 @@
               </v-toolbar>
             </template>
             <template v-slot:header.data-table-expand>
-                <b-radio-button-with-menu
-                    @clickItem="addColumn"
-                    :items="listItems"
-                >
-                  <template v-slot:icon>
-                    <v-icon color="secondary">mdi-plus</v-icon>
-                  </template>
-                </b-radio-button-with-menu>
-                <b-radio-button-with-menu
-                    @clickItem="removeColumn"
-                    :items="headerItems"
-                >
-                  <template v-slot:icon>
-                    <v-icon color="secondary">mdi-minus</v-icon>
-                  </template>
-                </b-radio-button-with-menu>
+              <b-radio-button-with-menu
+                  @clickItem="addColumn"
+                  :items="listItems"
+                  :tooltip="$t('tooltip.add_column')"
+              >
+                <template v-slot:icon>
+                  <v-icon color="secondary">mdi-plus</v-icon>
+                </template>
+              </b-radio-button-with-menu>
+              <b-radio-button-with-menu
+                  @clickItem="removeColumn"
+                  :items="headerItems"
+                  :tooltip="$t('tooltip.remove_column')"
+              >
+                <template v-slot:icon>
+                  <v-icon color="secondary">mdi-minus</v-icon>
+                </template>
+              </b-radio-button-with-menu>
             </template>
             <template v-slot:item.origin_time="{ value }">
               <span>{{ value.substring(0, 10) }}</span>

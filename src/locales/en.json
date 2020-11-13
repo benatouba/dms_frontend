@@ -174,6 +174,7 @@
     "not_deletable": "You do not have the necessary permissions to delete this item",
     "markable_invalid": "You are allowed to mark this item invalid",
     "not_markable_invalid": "You do not have the necessary permissions to mark this item invalid",
-    "add_column": "Show column"
+    "add_column": "Add column",
+    "remove_column": "Remove column"
   }
 }

@@ -178,6 +178,7 @@
     "not_deletable": "Sie haben nicht die nötigen Berechtigungen diese Datei zu löschen",
     "markable_invalid": "Sie haben die Berechtigung den Status dieser Datei auf 'ungültig' zu setzen",
     "not_markable_invalid": "Sie haben nicht die nötigen Berechtigungen den Status dieser Datei auf 'ungültig' zu setzen",
-    "add_column": "Spalte anzeigen"
+    "add_column": "Spalte hinzufügen",
+    "remove_column": "Spalte entfernen"
   }
 }
