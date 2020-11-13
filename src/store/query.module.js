@@ -81,11 +81,15 @@ const actions = {
             dispatch('alerts/error', error, { root: true })
         }
     },
-    download({ dispatch, commit }, file) {
-        commit('downloadRequest', file)
-        let resp = queryService.download(file).then(
+    download({ dispatch, commit }, { file, check_result = false }) {
+        if (!check_result) {
+            commit('downloadRequest', file)
+        }
+        let resp = queryService.download(file, check_result).then(
             resp => {
-                commit('downloadSuccess', file.id)
+                if (!check_result) {
+                    commit('downloadSuccess', file.id)
+                }
                 return resp
             },
             error => {
@@ -95,11 +99,13 @@ const actions = {
         )
         return resp
     },
-    async downloadAll({ dispatch, commit }, ids) {
-        commit('downloadRequest', ids)
+    async downloadAll({ dispatch, commit }, { ids, check_result = false }) {
+        if (!check_result) {
+            commit('downloadRequest', ids)
+        }
         try {
-            let resp = await queryService.downloadAll(ids)
-            if (resp.status === 200) {
+            let resp = await queryService.downloadAll(ids, check_result)
+            if (resp.status === 200 && !check_result) {
                 commit('downloadSuccess', ids)
             } else {
                 throw resp.message

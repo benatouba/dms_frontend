@@ -26,6 +26,8 @@
     "search": "Search",
     "input": "Search input",
     "request_password": "Forgot Password?",
+    "get_report": "Get error log",
+    "download": "Download",
     "delete_tooltip": "Can only be deleted by members of the file's institution, if not yet downloaded"
   },
   "nav": {
@@ -166,15 +168,17 @@
     "maintenance": "This page is currently under maintenance. We will be back soon."
   },
   "tooltip": {
-    "data_standard_conform": "Data standard conform",
-    "is_old": "Item is old. More recent version exists.",
-    "is_invalid": "Item is marked invalid",
-    "has_errors": "Item has errors and is not up to data with latest version of data standard",
+    "data_standard_conform": "Item is [UC]² data standard conform",
+    "is_old": "Item is old. A more recent version exists.",
+    "is_invalid": "Item is marked invalid and should not be used anymore.",
+    "has_errors": "[UC]² data standard conformity checker found errors. The item is not up to date with latest version of data standard",
+    "has_warnings": "[UC]² data standard conformity checker found warnings. The item but is still up to data with the latest version of the data standard.",
     "deletable": "You are allowed to  delete this item",
     "not_deletable": "You do not have the necessary permissions to delete this item",
     "markable_invalid": "You are allowed to mark this item invalid",
     "not_markable_invalid": "You do not have the necessary permissions to mark this item invalid",
     "add_column": "Add column",
-    "remove_column": "Remove column"
+    "remove_column": "Remove column",
+    "get_report": "Download data conformity check result for selected files that contain warnings and/or errors."
   }
 }

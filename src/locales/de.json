@@ -26,6 +26,8 @@
     "search": "Suchen",
     "input": "Sucheingabe",
     "request_password": "Passwort vergessen?",
+    "get_report": "Bericht",
+    "download": "Herunterladen",
     "delete_tooltip": "Kann nur von Mitgliedern der zugehörigen Institution gelöscht werden, falls die noch heruntergeladen wurde."
   },
   "nav": {
@@ -172,13 +174,15 @@
   "tooltip": {
     "data_standard_conform": "Datenstandardkonform",
     "is_old": "Diese Datei ist alt. Eine aktuellere Version existiert.",
-    "is_invalid": "Diese Datei wurde als ungültig markiert",
+    "is_invalid": "Diese Datei wurde als ungültig markiert und sollte nicht mehr verwendet werden.",
     "has_errors": "Diese Datei hat Fehler und ist nicht (mehr) konform mit der neuesten Version des Datenstandards",
+    "has_warnings": "Diese Datei enhält (eine) Warnung(en). Sie gilt aber weiterhin als Datenstandardkonform.",
     "deletable": "Sie haben die Berechtigung diese Datei löschen",
     "not_deletable": "Sie haben nicht die nötigen Berechtigungen diese Datei zu löschen",
     "markable_invalid": "Sie haben die Berechtigung den Status dieser Datei auf 'ungültig' zu setzen",
     "not_markable_invalid": "Sie haben nicht die nötigen Berechtigungen den Status dieser Datei auf 'ungültig' zu setzen",
     "add_column": "Spalte hinzufügen",
-    "remove_column": "Spalte entfernen"
+    "remove_column": "Spalte entfernen",
+    "get_report": "Läd die Ergebnisse des Datankonformitätschecks für diejenigen selektierten Dateien, die Warnungen oder Fehler enthalten."
   }
 }
