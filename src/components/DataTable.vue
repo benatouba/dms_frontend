@@ -29,8 +29,27 @@
                   <v-icon left dark>
                     mdi-download
                   </v-icon>
-                  Download
+                  {{ $t('buttons.download') }}
                 </v-btn>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        color="primary"
+                        class="ma-1"
+                        v-bind="{selected, attrs}"
+                        v-on="on"
+                        @click="handleDownload(true)"
+                        :loading="downloading"
+                        :disabled="!selectedHasAnyWarningsOrErrors"
+                    >
+                      <v-icon left dark>
+                        mdi-file-document
+                      </v-icon>
+                      {{ $t('buttons.get_report') }}
+                    </v-btn>
+                  </template>
+                  <span>{{ $t('tooltip.get_report') }}</span>
+                </v-tooltip>
                 <v-spacer></v-spacer>
                 <b-confirmation-dialog
                     color="error"
@@ -44,7 +63,7 @@
                   <v-icon left dark>
                     mdi-delete
                   </v-icon>
-                  Delete
+                  {{ $t('buttons.delete') }}
                 </b-confirmation-dialog>
                 <b-confirmation-dialog
                     class="mx-1"
@@ -58,7 +77,7 @@
                   <v-icon dark left>
                     error_outline
                   </v-icon>
-                  Mark Invalid
+                  {{ $t('buttons.mark_invalid') }}
                 </b-confirmation-dialog>
               </v-toolbar>
             </template>
@@ -95,11 +114,23 @@
             </template>
             <template v-slot:item.status="{ item }">
               <div style="white-space: nowrap;">
-                <!--<b-status-icon
+                <b-status-icon
                     :icon="'mdi-circle'"
-                    :color="colorStyle(item)"
-                    :tooltip="getStatusTooltip(item)"
-                />-->
+                    :color="getDataStandardStatusColorStyle(item)"
+                    :tooltip="getDataStandardStatusTooltip(item)"
+                />
+                <b-status-icon
+                    v-if="item.is_invalid"
+                    :icon="'mdi-minus-circle-outline'"
+                    color="error"
+                    :tooltip="$t('tooltip.is_invalid')"
+                />
+                <b-status-icon
+                    v-if="item.is_old"
+                    :icon="'mdi-circle'"
+                    color="#8b4513"
+                    :tooltip="$t('tooltip.is_old')"
+                />
                 <b-status-icon
                     :icon="isDeletable(item) ? 'mdi-delete': 'mdi-delete-off'"
                     :tooltip="isDeletable(item) ? $t('tooltip.deletable'): $t('tooltip.not_deletable')"
@@ -108,8 +139,6 @@
                     :icon="isMarkableInvalid(item)? 'report': 'report_off'"
                     :tooltip="isMarkableInvalid(item)? $t('tooltip.markable_invalid'): $t('tooltip.not_markable_invalid')"
                 />
-                <span style="color: red;" v-if="item.is_invalid">{{ $t('search.is_invalid')}}</span>
-                <span style="color: saddlebrown;" v-if="item.is_old">{{ $t('search.is_old')}}</span>
               </div>
             </template>
             <template v-slot:expanded-item="{ headers, item}">
@@ -181,6 +210,14 @@ export default {
           return this.headers.filter(header => {
             return !header.showCol
           })
+        },
+        selectedHasAnyWarningsOrErrors: function() {
+          let hasErrorsOrWarnings = this.selected.find(item => {
+            return item.has_errors || item.has_warnings
+          })
+          console.log(hasErrorsOrWarnings !== undefined)
+          return hasErrorsOrWarnings !== undefined
+          // return hasErrorsOrWarnings.includes(true)
         }
     },
     methods: {
@@ -197,17 +234,6 @@ export default {
         },
         isMarkableInvalid(item) {
           return (!item.is_invalid  && !item.is_old && (!!this.group(item.acronym) || !!this.account.is_superuser))
-        },
-        getStatusTooltip(item) {
-          let status = item.has_warnings ? i18n.t('tooltip.data_standard_conform') : i18n.t('tooltip.data_standard_conform')
-          if (item.is_old) {
-            status = i18n.t('tooltip.is_old')
-          } else if (item.has_errors) {
-            status = i18n.t('tooltip.data_standard_conform')      // FIXME: change to error once issue is resolved
-          } else if (item.is_invalid) {
-            status = i18n.t('tooltip.is_invalid')
-          }
-          return status
         },
         getItemValue(key, item) {
           if (key === 'file_size') {
@@ -255,16 +281,16 @@ export default {
             }
           }
         },
-        handleDownload() {
+        handleDownload(check_result = false) {
             this.downloading = true
             if (this.selected.length === 1) {
-              this.download(this.selected[0])
+              this.download({ file: this.selected[0], check_result})
             } else {
               let ids = []
               this.selected.forEach(
                   obj => ids.push(obj.id)
               )
-              this.downloadAll(ids)
+              this.downloadAll({ids, check_result})
             }
             this.downloading = false
         },
@@ -280,16 +306,13 @@ export default {
           this.selected = []
           this.settingInvalid = false
         },
-        colorStyle(item) {
-            let color = item.has_warnings ? 'success' : 'success' // FIXME: change color to warning once issue is resolved
-            if (item.is_old) {
-                color = 'brown'
-            } else if (item.has_errors) {
-                color = 'success'       // FIXME: change color to error once issue is resolved
-            } else if (item.is_invalid) {
-                color = 'warning'
-            }
-            return color
+        getDataStandardStatusColorStyle(item) {
+            let color = item.has_warnings ? 'warning' : 'success'
+            return item.has_errors ? 'error' : color
+        },
+        getDataStandardStatusTooltip(item) {
+          let status = item.has_warnings ? i18n.t('tooltip.has_warnings') : i18n.t('tooltip.data_standard_conform')
+          return item.has_errors ? i18n.t('tooltip.has_errors') : status
         },
         addColumn(value) {
           this.headers.forEach(x => {
