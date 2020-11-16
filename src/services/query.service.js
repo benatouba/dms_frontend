@@ -28,24 +28,31 @@ function download(file, check_result = false) {
     // cut filename from file path
     const requestOptions = authHeader('GET')
     requestOptions.redirect = 'follow'
-    let url = `${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}`
+    let request_url = `${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}`
     if (check_result) {
-        url += '/retrieve_check_result/'
+        request_url += '/retrieve_check_result'
     }
-    createAndActivateLink(url)
-    // let answer = fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}`, requestOptions)
-    //     .then(response => response.blob())
-    //     .then(blob => {
-    //         let url = window.URL.createObjectURL(blob)
-    //         let a = document.createElement('a')
-    //         a.href = url
-    //         let name = file.file_standard_name
-    //         a.download = name
-    //         document.body.appendChild(a) // we need to append the element to the dom -> otherwise it will not work in firefox
-    //         a.click()
-    //         a.remove() //afterwards we remove the element again
-    //     })
-    // return answer
+    // createAndActivateLink(url)
+    let answer = fetch(request_url, requestOptions)
+        .then(resp => resp.blob())
+        .then(blob => {
+            let object_url = window.URL.createObjectURL(blob)
+            let a = document.createElement('a')
+            a.href = object_url
+            let name = file.file_standard_name
+            if (check_result) {
+                name = name.split('.')[0] + '_check_result.txt'
+            }
+            a.download = name
+            document.body.appendChild(a) // we need to append the element to the dom -> otherwise it will not work in firefox
+            a.click()
+            a.remove() //afterwards we remove the element again
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+    return answer
 }
 // function clickLink(link) {
 //     var cancelled = false

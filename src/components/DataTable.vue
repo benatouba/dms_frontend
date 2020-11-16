@@ -22,7 +22,7 @@
                     color="primary"
                     class="ma-1"
                     v-bind="selected"
-                    @click="handleDownload"
+                    @click="handleDownload()"
                     :loading="downloading"
                     :disabled="!selected.length"
                 >
@@ -215,7 +215,6 @@ export default {
           let hasErrorsOrWarnings = this.selected.find(item => {
             return item.has_errors || item.has_warnings
           })
-          console.log(hasErrorsOrWarnings !== undefined)
           return hasErrorsOrWarnings !== undefined
           // return hasErrorsOrWarnings.includes(true)
         }

@@ -107,7 +107,7 @@ const actions = {
             let resp = await queryService.downloadAll(ids, check_result)
             if (resp.status === 200 && !check_result) {
                 commit('downloadSuccess', ids)
-            } else {
+            } else if (resp.status !== 200) {
                 throw resp.message
             }
         } catch (error) {
