@@ -384,7 +384,8 @@ export default {
               { text: 'Creation Time', value: 'creation_time', showCol: false,  },
               { text: 'Upload Date', value: 'upload_date', showCol: false,  },
               { text: 'UTM Coordinates ll', value: 'll_n_utm', showCol: false, },
-              // { text: 'UTM Coordinates ll (E)', value: 'll_e_utm', showCol: false, },
+              // { text: 'UTM Coordinates ll (E)', value: 'll_e_utm', showCol: false, },h
+                
               { text: 'UTM Coordinates ur', value: 'ur_n_utm', showCol: false, },
               // { text: 'UTM Coordinates ur (E)', value: 'ur_e_utm', showCol: false, },
               { text: 'UTM EPSG', value: 'utm_epsg', showCol: false, },

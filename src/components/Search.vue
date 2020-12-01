@@ -165,17 +165,6 @@ export default {
 
             return newDict
         },
-        colorStyle(item) {
-            let color = item.has_warnings ? 'warning' : 'secondary'
-            if (item.is_old) {
-                color = 'brown'
-            } else if (item.has_errors) {
-                color = 'error'
-            } else if (item.is_invalid) {
-                color = 'error'
-            }
-            return color + '--text'
-        },
     },
     created() {
         this.handleSubmit()

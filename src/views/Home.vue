@@ -11,5 +11,10 @@ import Home from '@/components/Home'
 export default {
     name: 'HomeView',
     components: { Home },
+    data() {
+        return {
+          refresher: 0,
+        }
+  },
 }
 </script>

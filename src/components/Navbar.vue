@@ -73,7 +73,7 @@
             </b-link-button>
             <div class="localeChanger-button">
                 <v-btn
-                    id="locale_changer"
+                    id="localeChanger-button"
                     class="primary--text"
                     text
                     v-model="$root.$i18n.locale"
@@ -194,6 +194,8 @@ export default {
         ...mapActions({ logout: 'account/logout' }),
         switchLocale(language) {
             this.$root.$i18n.locale = language
+            this.$i18n.locale = language
+            document.documentElement.setAttribute('lang', language)
         },
     },
 }
