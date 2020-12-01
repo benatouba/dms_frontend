@@ -80,7 +80,7 @@
     "text": "Du bist nicht eingeloggt. Es werden nur Daten unter öffentlicher Lizenz angezeigt. Um weitere Daten angezeigt zu bekommen, bitte melden Sie sich an. Du hast noch keinen Account? Bitte registriere dich."
   },
   "search": {
-    "info_text": "Bitte geben Sie die gewünschten Schlagwörter in das Suchfeld ein. Ein großer Teil der Metainformationen in der Datenbank wird durchsucht. Die Suche nach geographischen Koordinaten oder Zeitfenstern wird zurzeit nicht unterstützt.\nSie können auch nach einer spezifischen Institution, Site oder Variable filtern.\nBenutzen Sie die Schalter um als alt (nicht die neueste Version der Datei) oder ungültig markierte Dateien in die Suche aufzunehmen.\nFarbige Ergebnisse weisen auf nicht-standardkonforme oder mit Warnungen versehene Dateien hin.\nEingeloggte Nutzer können sich auch nur die selbst hochgeladenen Dateien anzeigen lassen.",
+    "info_text": "Bitte geben Sie die gewünschten Schlagwörter in das Suchfeld ein. Ein großer Teil der Metainformationen in der Datenbank wird durchsucht. Die Suche nach geographischen Koordinaten oder Zeitfenstern wird zurzeit nicht unterstützt.\nSie können auch nach einer spezifischen Institution, einem Ort oder Variable filtern.\nBenutzen Sie die Schalter um als alt -- nicht die neueste Version der Datei -- oder ungültig markierte Dateien in die Suche aufzunehmen.\nFarbige Symbole in der Spalte 'Status' weisen auf den Zustand der Datei hin. Bewegen Sie den Mauszeiger über die Statussymbole um mehr Informationen zu den Farbcodes zu erhalten.\nEingeloggte Nutzer können sich auch nur die selbst hochgeladenen Dateien anzeigen lassen.",
     "title": "Suche",
     "placeholder": "Suche in allen Feldern",
     "file_title": "Dateien",

@@ -80,7 +80,7 @@
     "text": "You are not logged in. You are only shown data released under public licences. To see additional data, please log in. Don't have an account yet? Register."
   },
   "search": {
-    "info_text": "Type in your search keywords below. We support querying files for most of the meta data. Currently, we do not yet support queries for coordinates or time periods.\nYou can also filter by a specific institution, site or variable.\nUse toggle options to include files marked as old (not the most recent version of the file) or invalid.\nColored results mark erroneous files or files that contain warnings.\nIf logged in, you can also filter for the files you uploaded using the respective toggle option.",
+    "info_text": "Type in your search keywords below. We support querying files for most of the meta data. Currently, we do not support queries for coordinates or time periods.\nYou can also filter by a specific institution, site or variable.\nUse toggle options to include files marked as old (not the most recent version of the file) or invalid.\nColor codes in the status column mark the state of a file. Hover the mouse pointer over the status icon to get more info.\nIf logged in, you can also filter for the files you uploaded using the respective toggle option.",
     "title": "Search",
     "placeholder": "Search in all fields",
     "file_title": "Files",
