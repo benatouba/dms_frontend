@@ -61,6 +61,7 @@ async function download(file, check_result = false) {
         request_url += '/retrieve_check_result'
     }
 
+    // createAndActivateLink(url)
     let answer = fetch(request_url, requestOptions)
         .then(resp => resp.blob())
         .then(blob => {
