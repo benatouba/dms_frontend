@@ -1,8 +1,10 @@
 <template>
+  <div>
     <v-banner
         app
-        v-if="alerts.info.type"
-        :color="alerts.info.type"
+        v-for="info in infos"
+        :key="info.id"
+        :color="info.type"
         rounded
         sticky
         :elevation="5"
@@ -10,22 +12,19 @@
     >
         <v-row align="center">
             <v-col cols="12">
-                <v-btn icon @click="clearAlert" rounded>
+                <v-btn icon @click="clear(info.id)" rounded>
                     <v-icon>
                         mdi-close-circle
                     </v-icon>
                 </v-btn>
-                <span
-                    v-show="info[0] !== 'status' && info[0] !== 'type'"
-                    v-for="info of Object.entries(this.alerts.info)"
-                    :key="info[0]"
-                >
-                    {{ reformatAlert(info[1]) }}
+                <span>
+                    {{ info.message }}
                 </span>
             </v-col>
         </v-row>
       <slot></slot>
     </v-banner>
+  </div>
 </template>
 
 <script>
@@ -36,12 +35,13 @@ export default {
     name: 'Notification',
     computed: {
         ...mapState({
-            alerts: state => state.alerts,
+            infos: state => state.alerts.infos,
         }),
     },
     methods: {
         ...mapActions({
-            clearAlert: 'alerts/clear',
+            clearAll: 'alerts/clear',
+            clear: 'alerts/removeInfo',
         }),
         reformatAlert(alert) {
             if (isObj(alert)) {
@@ -54,7 +54,7 @@ export default {
     watch: {
         $route() {
             // clear alert on location change
-            this.clearAlert()
+            this.clearAll()
         },
     },
 }

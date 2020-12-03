@@ -58,7 +58,7 @@ const actions = {
             resp = await resp.json()
             commit('uploadResult', { obj, resp })
         } catch (error) {
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
     async metadataList({ dispatch, commit }, obj) {
@@ -68,7 +68,7 @@ const actions = {
             commit('uploadMetaResult', { resp, file: obj.file })
             return resp
         } catch (error) {
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
             return error
         }
     },

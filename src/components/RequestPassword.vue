@@ -40,10 +40,13 @@
                                 :absolute="absolute"
                                 :opacity="0.9"
                             >
-                              <Notification>
+                              <Notification
+                                  v-for="info in alerts"
+                                  :key="info.id"
+                              >
                                 <router-link to="/">
                                 <v-btn
-                                    :class="`${alerts.info.type} white--text v-btn v-size--large`"
+                                    :class="`${info.type} white--text v-btn v-size--large`"
                                     @click="submitted = false; clearAlert; $router.push('/')"
                                 >
                                     {{ $t('buttons.ok') }}
@@ -81,7 +84,7 @@ export default {
     },
     computed: {
         ...mapState({
-            alerts: state => state.alerts,
+            alerts: state => state.alerts.info,
         }),
     },
     created() {

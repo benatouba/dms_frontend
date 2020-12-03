@@ -9,7 +9,7 @@ const actions = {
             let resp = await userService.list(searchParam)
             commit('listSuccess', resp)
         } catch (error) {
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
     // This action triggers mutation to store that user list is requested
@@ -20,13 +20,14 @@ const actions = {
     Depending on the response, mutations will be triggered to alter the store state. */
         try {
             let resp = await userService.manage(token)
-            dispatch('alerts/success', resp, { root: true })
+            dispatch('alerts/info', { type: 'success', message: resp, status: 1 }, { root: true })
         } catch (error) {
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
     async delete({ commit, dispatch }, id, action) {
         /*Action triggers mutates store state to record that user should be deleted,
+    then triggers service function that sends the request to the backend.
     then triggers service function that sends the request to the backend.
     Depending on the response, mutations will be triggered to alter the store state. */
         commit('deleteRequest', id)
@@ -35,7 +36,7 @@ const actions = {
             commit('deleteSuccess', id)
         } catch (error) {
             commit('deleteFailure', { id, error })
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
 }

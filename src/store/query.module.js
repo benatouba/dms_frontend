@@ -56,7 +56,7 @@ const actions = {
             commit('querySuccess', resp)
         } catch (error) {
             commit('queryFailure', error)
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
     async fetchMeta({ commit, dispatch }, name) {
@@ -78,7 +78,7 @@ const actions = {
             }
             commit('addMeta', { name, data })
         } catch (error) {
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
     download({ dispatch, commit }, { file, check_result = false }) {
@@ -94,7 +94,7 @@ const actions = {
             },
             error => {
                 commit('downloadFailure', error)
-                dispatch('alerts/error', error, { root: true })
+                dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
             }
         )
         return resp
@@ -112,7 +112,7 @@ const actions = {
             }
         } catch (error) {
             commit('downloadFailure', error)
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
     async delete({ dispatch, commit }, files) {
@@ -126,6 +126,14 @@ const actions = {
         let errorCount = 0
         let lastResp
         let lastError
+        let info = {
+            type: null,
+            message: null,
+            fatal: null,
+            errors: null,
+            warnings: null,
+            status: 0,
+        }
         for (const file of files) {
             try {
                 lastResp = await queryService.deleteFile(file)
@@ -139,22 +147,26 @@ const actions = {
         }
         if (files.length === 1) {
             if (errorCount === 1) {
-                dispatch('alerts/error', lastError, { root: true })
+                info.type = 'error'
+                info.message = lastError
+                info.status = 3
             } else {
-                dispatch('alerts/success', lastResp, { root: true })
+                info.type = 'success'
+                info.message = lastResp
+                info.status = 1
             }
         } else {
             if (errorCount !== 0) {
-                dispatch(
-                    'alerts/error',
-                    `${errorCount} files could not be deleted. ${successCount} 
-                                          files were successfully deleted.`,
-                    { root: true }
-                )
+                info.type = 'error'
+                info.message = `${errorCount} files could not be deleted. ${successCount} files were successfully deleted.`
+                info.status = 3
             } else {
-                dispatch('alerts/success', `${successCount} files were successfully deleted.`, { root: true })
+                info.type = 'success'
+                info.message = `${successCount} files were successfully deleted.`
+                info.status = 1
             }
         }
+        dispatch('alerts/info', info, { root: true })
     },
     async setInvalid({ dispatch, commit }, files) {
         if (!Array.isArray(files)) {
@@ -165,35 +177,47 @@ const actions = {
         let errorCount = 0
         let lastResp
         let lastError
+        let info = {
+            type: null,
+            message: null,
+            fatal: null,
+            errors: null,
+            warnings: null,
+            status: 0,
+        }
         for (const file of files) {
             try {
                 lastResp = await queryService.setInvalid(file)
                 commit('setInvalidSuccess', file.id)
                 successCount++
             } catch (error) {
-                console.log(error)
                 lastError = error
                 errorCount++
             }
         }
         if (files.length === 1) {
             if (errorCount === 1) {
-                dispatch('alerts/error', lastError, { root: true })
+                info.type = 'error'
+                info.message = lastError
+                info.status = 3
             } else {
-                dispatch('alerts/success', lastResp, { root: true })
+                info.type = 'success'
+                info.message = lastResp
+                info.status = 1
             }
         } else {
             if (errorCount !== 0) {
-                dispatch(
-                    'alerts/error',
-                    `${errorCount} files could not be marked invalid. ${successCount} 
-                                          files were successfully marked invalid.`,
-                    { root: true }
-                )
+                info.type = 'error'
+                info.message = `${errorCount} files could not be marked invalid. ${successCount} 
+                                          files were successfully marked invalid.`
+                info.status = 3
             } else {
-                dispatch('alerts/success', `${successCount} files were successfully marked invalid.`, { root: true })
+                info.type = 'success'
+                info.message = `${successCount} files were successfully marked invalid.`
+                info.status = 1
             }
         }
+        dispatch('alerts/info', info, { root: true })
     },
 }
 

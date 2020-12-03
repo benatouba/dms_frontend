@@ -1,23 +1,24 @@
+import i18n from '../plugins/i18n'
+
 function getInitialInfoState() {
-    return {
-        type: null,
-        message: null,
-        fatal: null,
-        errors: null,
-        warnings: null,
-        status: 0,
-    }
+    return [
+        {
+            type: 'warning',
+            message: i18n.t('custom'),
+            status: 2,
+        },
+    ]
 }
-const state = {}
-state.info = getInitialInfoState()
+let state = {}
+state.infos = getInitialInfoState()
 state.loginInfo = true
 
 const actions = {
-    success({ commit }, message) {
-        commit('success', { message, status: 1 })
+    info({ commit }, payload) {
+        commit('info', payload)
     },
-    error({ commit }, message) {
-        commit('error', { message, status: 3 })
+    removeInfo({ commit }, id) {
+        commit('removeInfo', id)
     },
     clear({ commit }) {
         commit('clear')
@@ -26,25 +27,23 @@ const actions = {
         commit('showLoginInfo', isTrue)
     },
 }
-let types = ['info', 'success', 'warning', 'error', 'error']
+// let types = ['info', 'success', 'warning', 'error', 'error']
 const mutations = {
-    success(state, result) {
-        Object.entries(result).forEach(item => {
-            state.info[item[0]] = item[1]
-        })
-        state.info.type = types[result.status]
+    info(state, payload) {
+        let item_id = state.infos.findIndex(x => (x.message = payload.message))
+        if (item_id !== -1) {
+            state.infos.splice(item_id, 1)
+        }
+        state.infos.push(payload)
     },
-    error(state, result) {
-        Object.entries(result).forEach(item => {
-            state.info[item[0]] = item[1]
-        })
-        state.info.type = types[result.status]
+    removeInfo(state, id) {
+        state.infos.splice(id, 1)
     },
     showLoginInfo(state, isTrue) {
         state.loginInfo = isTrue
     },
     clear(state) {
-        state.info = getInitialInfoState()
+        state.infos.splice(0, state.infos.length)
     },
 }
 

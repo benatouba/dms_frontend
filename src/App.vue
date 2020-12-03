@@ -2,7 +2,7 @@
     <v-app class="primary">
         <Navbar />
         <v-main style="margin: auto; width: 80%;">
-            <LoginInfo v-if="!account.token && alerts.loginInfo" />
+            <LoginInfo v-if="!account.token && loginInfo" />
             <Notification v-if="showErrorBanner"></Notification>
             <router-view></router-view>
         </v-main>
@@ -22,7 +22,7 @@ export default {
     components: { Notification, Navbar, LoginInfo, Footer },
     computed: {
         ...mapState({
-            alerts: state => state.alerts,
+            loginInfo: state => state.alerts.loginInfo,
             account: state => state.account,
             showErrorBanner: state => state.errorBanner,
         }),

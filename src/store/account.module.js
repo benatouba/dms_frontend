@@ -45,12 +45,12 @@ const actions = {
         userService.login({ username, password }).then(
             resp => {
                 commit('loginSuccess', resp)
-                dispatch('alerts/success', i18n.t('login.success'), { root: true })
+                dispatch('alerts/info', { type: 'sucess', message: i18n.t('login.success'), status: 1 }, { root: true })
                 router.push('Home')
             },
             error => {
                 commit('loginFailure', error)
-                dispatch('alerts/error', error, { root: true })
+                dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
             }
         )
     },
@@ -68,10 +68,14 @@ const actions = {
                 throw await resp.json()
             }
             commit('registerSuccess', resp.json())
-            dispatch('alerts/success', { message: i18n.t('register.success_message') }, { root: true })
+            dispatch(
+                'alerts/info',
+                { type: 'success', message: i18n.t('register.success_message'), status: 1 },
+                { root: true }
+            )
         } catch (error) {
             commit('registerFailure', error)
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
     async info({ commit, dispatch }, id) {
@@ -79,7 +83,7 @@ const actions = {
             let resp = await userService.info(id)
             commit('userInfoSuccess', resp)
         } catch (error) {
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
     async patch({ commit, dispatch }, input) {
@@ -92,18 +96,18 @@ const actions = {
                 delete input.pk
                 commit('userInfoSuccess', input)
             }
-            dispatch('alerts/success', resp, { root: true })
+            dispatch('alerts/info', { type: 'error', message: resp, status: 3 }, { root: true })
         } catch (error) {
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
     async requestPassword({ commit, dispatch }, userid) {
         commit('showErrorBanner', false, { root: true })
         try {
             let resp = await userService.requestPassword(userid)
-            dispatch('alerts/success', resp, { root: true })
+            dispatch('alerts/info', { type: 'error', message: resp, status: 3 }, { root: true })
         } catch (error) {
-            dispatch('alerts/error', error, { root: true })
+            dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
 }

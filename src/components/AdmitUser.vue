@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     ...mapState({
-      alerts: state => state.alerts,
+      infos: state => state.alerts.infos,
     }),
   },
   created() {

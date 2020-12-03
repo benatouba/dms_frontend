@@ -155,10 +155,13 @@
                                     </v-btn>
                                 </v-card-actions>
                                 <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="0.8">
-                                    <Notification>
+                                    <Notification
+                                        v-for="info in infos"
+                                        :key="info.id"
+                                    >
                                         <router-link
                                             to="/"
-                                            :class="`${alerts.info.type} white--text v-btn outlined v-size--large`"
+                                            :class="`${info.type} white--text v-btn outlined v-size--large`"
                                             @click="overlay = false"
                                         >
                                           {{ $t('buttons.ok') }}
@@ -194,7 +197,7 @@ export default {
     computed: {
         ...mapState({
           status: state => state.account.status,
-          alerts: state => state.alerts,
+          infos: state => state.alerts.infos,
         }),
         ...mapGetters('queries', ['meta']),
     },

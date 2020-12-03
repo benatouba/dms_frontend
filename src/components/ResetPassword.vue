@@ -63,9 +63,12 @@
                                 :absolute="absolute"
                                 :opacity="0.9"
                             >
-                              <Notification>
+                              <Notification
+                                  v-for="info in infos"
+                                  :key="info.id"
+                              >
                                 <v-btn
-                                    :class="`${alerts.info.type} white--text v-btn v-size--large`"
+                                    :class="`${info.type} white--text v-btn v-size--large`"
                                     @click="$router.push('/')"
                                 >
                                     {{ $t('buttons.ok') }}
@@ -111,7 +114,7 @@ export default {
   },
   computed: {
     ...mapState({
-      alerts: state => state.alerts,
+      infos: state => state.alerts.infos,
     }),
   },
   created() {
@@ -128,7 +131,7 @@ export default {
       if (this.password) {
         this.submitted = true
         this.resetPassword({ password: this.password, token: this.$route.params.token, })
-        if (this.alerts.info.status === 1) {
+        if (this.infos[0].status === 1) {
           this.submitted = false;
           this.clearAlert()
           this.$router.push('/')

@@ -53,9 +53,12 @@
                             </v-btn>
                         </v-card-actions>
                         <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="1">
-                          <Notification>
+                          <Notification
+                              v-for="info in infos"
+                              :key="info.id"
+                          >
                             <v-btn
-                                :class="`${alerts.info.type} white--text v-btn v-size--large`"
+                                :class="`${info.type} white--text v-btn v-size--large`"
                                 @click="$router.go(); overlay = false"
                             >
                                 {{ $t('buttons.ok') }}
@@ -88,7 +91,7 @@ export default {
     },
     computed: {
       ...mapState({
-        alerts: state => state.alerts,
+        infos: state => state.alerts.infos,
         userId: state=> state.account.id
       })
     },

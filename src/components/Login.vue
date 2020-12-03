@@ -63,33 +63,31 @@
                                     </v-btn>
                                 </v-card-actions>
                             </v-form>
+                          <div
+                            v-for="info in infos"
+                            :key="info.id"
+                            >
                             <v-overlay
                                 id="login-overlay"
-                                v-if="submitted & (alerts.info.status !== 1)"
+                                v-if="submitted & (info.status !== 1)"
                                 class="text-center"
                                 :absolute="absolute"
                                 :opacity="0.9"
                                 @keyup.enter="submitted = false; clearAlert"
                             >
-                               <!-- <v-row>
-                                    <v-col>
-                                        <strong v-for="(alert, key) in alerts.info.message" :key="key">
-                                            {{ alert[0] }}
-                                        </strong>
-                                    </v-col>
-                                </v-row>-->
                               <Notification
                                   id="login-notification"
                               >
                                 <v-btn
                                     id="login-notification-ok"
-                                    :class="`${alerts.info.type} white--text v-btn v-size--large`"
+                                    :class="`${info.type} white--text v-btn v-size--large`"
                                     @click="submitted = false; clearAlert"
                                 >
                                     {{ $t('buttons.ok') }}
                                 </v-btn>
                               </Notification>
                             </v-overlay>
+                          </div>
                         </v-card>
                     </v-col>
                 </v-row>
@@ -117,7 +115,7 @@ export default {
     },
     beforeRouteLeave(to, from, next) {
         if (this.account.token) {
-            // this.clearAlert()
+            // this.clearAll()
             window.setTimeout(next(), 3000)
         } else {
             this.to = to
@@ -127,7 +125,7 @@ export default {
     },
     computed: {
         ...mapState({
-            alerts: state => state.alerts,
+            infos: state => state.alerts.infos,
             account: state => state.account,
         }),
     },
