@@ -1,13 +1,5 @@
-import i18n from '../plugins/i18n'
-
 function getInitialInfoState() {
-    return [
-        {
-            type: 'warning',
-            message: i18n.t('custom'),
-            status: 2,
-        },
-    ]
+    return []
 }
 let state = {}
 state.infos = getInitialInfoState()
