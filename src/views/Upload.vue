@@ -11,11 +11,11 @@
                 </template>
             </i18n>
             <DropArea />
-            <v-btn :disabled="!hasUploaded" v-on:click="handleUndo" block v-bind:class="{primary: hasUploaded}">
-              {{$t('buttons.undo_upload')}}
+            <v-btn :disabled="!hasUploaded" v-on:click="handleUndo" block v-bind:class="{ primary: hasUploaded }">
+                {{ $t('buttons.undo_upload') }}
             </v-btn>
             <v-divider></v-divider>
-          <FileCards :files="files"></FileCards>
+            <FileCards :files="files"></FileCards>
         </v-container>
     </div>
 </template>
@@ -23,7 +23,7 @@
 <script>
 import DropArea from '@/components/DropArea'
 import FileCards from '@/components/FileCards'
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from 'vuex'
 
 export default {
     name: 'Upload',
@@ -33,34 +33,34 @@ export default {
     },
     computed: {
         ...mapState({
-          files: state => state.upload.files,
+            files: state => state.upload.files,
         }),
-      hasUploaded(){
-          return this.files.some(function(elm){
-            return elm.uploaded
-          })
-      }
+        hasUploaded() {
+            return this.files.some(function (elm) {
+                return elm.uploaded
+            })
+        },
     },
     methods: {
-      ...mapActions({
-        delete: 'queries/delete', // deletes a file from the backend
-        remove: 'upload/removeFile' // only removes a file from the displayed list
-      }),
-      handleUndo: function(){
-        let toDelete = Array()
-        let elm
-        for(let i=this.files.length -1; i>= 0; i--){
-          elm = this.files[i]
-          if(elm.uploaded) {
-            toDelete.push(elm.resp.result)
-          }else{
-            this.remove(elm)
-          }
-        }
-        if (toDelete){
-          this.delete(toDelete)
-        }
-      }
-    }
+        ...mapActions({
+            delete: 'queries/delete', // deletes a file from the backend
+            remove: 'upload/removeFile', // only removes a file from the displayed list
+        }),
+        handleUndo: function () {
+            let toDelete = Array()
+            let elm
+            for (let i = this.files.length - 1; i >= 0; i--) {
+                elm = this.files[i]
+                if (elm.uploaded) {
+                    toDelete.push(elm.resp.result)
+                } else {
+                    this.remove(elm)
+                }
+            }
+            if (toDelete) {
+                this.delete(toDelete)
+            }
+        },
+    },
 }
 </script>
