@@ -1,35 +1,29 @@
 <template>
-    <div>
-        <v-container>
-            <v-layout row>
-                <v-row align="center">
-                    <div class="container">
-                        <form enctype="multipart/form-data" novalidate>
-                            <v-card class="dropbox primary accent--text text-center" outline block flat hover xs12 md6>
-                                <input
-                                    type="file"
-                                    multiple
-                                    :name="uploadFieldName"
-                                    :disabled="isSaving"
-                                    @change="handleSubmit($event.target.files)"
-                                    fileCount="$event.target.files.length"
-                                    accept="binary/*"
-                                    class="input-file"
-                                />
-                                <p v-if="!isSaving" v-html="$t('upload.droparea')" />
-                                <p v-show="isSaving">
-                                    {{ $tc('upload.uploading1', fileCount, { count: fileCount }) }}
-                                    {{ $tc('upload.uploading2', fileCount) }}
-                                    {{ $t('upload.uploading3') }}
-                                </p>
-                                <v-text-field v-show="isSaving" color="black" loading disabled></v-text-field>
-                            </v-card>
-                        </form>
-                    </div>
-                </v-row>
-            </v-layout>
-        </v-container>
-    </div>
+    <v-row align="center">
+        <div class="container">
+            <form enctype="multipart/form-data" novalidate>
+                <v-card class="dropbox primary accent--text text-center" outline block flat hover xs12 md6>
+                    <input
+                        type="file"
+                        multiple
+                        :name="uploadFieldName"
+                        :disabled="isSaving"
+                        @change="handleSubmit($event.target.files)"
+                        fileCount="$event.target.files.length"
+                        accept="binary/*"
+                        class="input-file"
+                    />
+                    <p v-if="!isSaving" v-html="$t('upload.droparea')" />
+                    <p v-show="isSaving">
+                        {{ $tc('upload.uploading1', fileCount, { count: fileCount }) }}
+                        {{ $tc('upload.uploading2', fileCount) }}
+                        {{ $t('upload.uploading3') }}
+                    </p>
+                    <v-text-field v-show="isSaving" color="black" loading disabled></v-text-field>
+                </v-card>
+            </form>
+        </div>
+    </v-row>
 </template>
 
 <script>
@@ -61,6 +55,7 @@ export default {
             files.forEach(file => {
                 this.uploadFiles({
                     file,
+                    type: 'UC2',
                     ignore_warnings: false,
                     ignore_errors: false,
                 })
