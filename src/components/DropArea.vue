@@ -4,13 +4,14 @@
             <form enctype="multipart/form-data" novalidate>
                 <v-card class="dropbox primary accent--text text-center" outline block flat hover xs12 md6>
                     <input
+                        id="droparea-input"
                         type="file"
                         multiple
                         :name="uploadFieldName"
                         :disabled="isSaving"
                         @change="handleSubmit($event.target.files)"
                         fileCount="$event.target.files.length"
-                        accept="binary/*"
+                        accept="application/x-netcdf"
                         class="input-file"
                     />
                     <p v-if="!isSaving" v-html="$t('upload.droparea')" />
@@ -27,7 +28,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
+import i18n from '@/plugins/i18n'
 
 export default {
     name: 'DropArea',
@@ -41,21 +43,47 @@ export default {
     methods: {
         ...mapActions({
             uploadFiles: 'upload/uploadFiles',
+            info: 'alerts/info',
         }),
-        ...mapMutations({
-            addFile: 'upload/addFile',
-            removeFile: 'upload/removeFile',
-            updateMessage: 'upload/updateMessage',
-        }),
+        checkFiletype(files) {
+            let str
+            let noTypeFiles = []
+            files.forEach(file => {
+                str = file.name.toLowerCase()
+                // first check for non-netcdf files
+                // then check if file name can be associated with category
+                if (file.type !== 'application/x-netcdf') {
+                    noTypeFiles.push(file.name)
+                } else if (str.startsWith('p3d')) {
+                    file.file_type = 'p3d'
+                } else if (str.startsWith('uc2')) {
+                    file.file_type = 'uc2'
+                } else {
+                    file.file_type = undefined
+                    noTypeFiles.push(file.name)
+                }
+            })
+            return noTypeFiles
+        },
         async handleSubmit(files) {
-            this.isSaving = true
-
             if (!files.length) return
+            let noTypeFiles = this.checkFiletype(files)
+            if (noTypeFiles.length) {
+                this.info({
+                    type: 'error',
+                    message: i18n.t('alerts.undefined_type_upload', {
+                        fileTypes: 'P3D, DYNAMIC, CHEMISTRY, STATIC, RLW, RSW, VMEAS, PALMCONFIG, CSDCONFIG, UC2',
+                        noTypeFiles: noTypeFiles.join(', '),
+                    }),
+                })
+                return
+            }
+
+            this.isSaving = true
 
             files.forEach(file => {
                 this.uploadFiles({
                     file,
-                    type: 'UC2',
                     ignore_warnings: false,
                     ignore_errors: false,
                 })

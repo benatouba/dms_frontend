@@ -148,7 +148,8 @@
   },
   "alerts": {
     "file_deleted": "Datei %{name} gelöscht",
-    "file_not_deleted": "Datei %{name} konnte nicht gelöscht werden. Entweder wurde sie schon einmal heruntergeladen oder Sie haben keine Berechtigung"
+    "file_not_deleted": "Datei %{name} konnte nicht gelöscht werden. Entweder wurde sie schon einmal heruntergeladen oder Sie haben keine Berechtigung",
+    "undefined_type_upload": "Eine oder mehrere Dateinamen konnten keinem bekannten Dateityp zugeordnet werden.\nBitte stellen Sie sicher, dass alle Dateien vom Typ netCDF sind und beginnen Sie den Dateinamen mit einem passenden Kürzel:\n%{fileTypes}\nDie betroffenen Dateien sind:\n%{noTypeFiles}"
   },
   "reset_password": {
     "title": "Neues Passwort setzen",

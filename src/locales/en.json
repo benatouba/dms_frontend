@@ -144,7 +144,8 @@
   },
   "alerts": {
     "file_deleted": "File %{name} deleted!",
-    "file_not_deleted": "File %{name} could not be deleted. Either it has already been downloaded or you do not have permission to delete it."
+    "file_not_deleted": "File %{name} could not be deleted. Either it has already been downloaded or you do not have permission to delete it.",
+    "undefined_type_upload": "One or more filenames could not be assigned a data type accepted by the system. Please make sure all files are of type netCDF and start filenames with an appropriate abbreviation: %{fileTypes} The affected files are: %{noTypeFiles}"
   },
   "reset_password": {
     "title": "Set new password",
