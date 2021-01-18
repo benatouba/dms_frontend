@@ -4,7 +4,7 @@
             <v-container class="fill-height" fluid>
                 <v-row align="center" justify="center">
                     <v-col cols="12" sm="12" md="10" lg="8" xl="5">
-                        <ValidationObserver ref="obs" v-slot="{ invalid, validated, passes }">
+                        <ValidationObserver ref="obs" v-slot="{ validated, passes }">
                             <v-card class="elevation-5">
                                 <v-toolbar color="primary" flat>
                                     <v-toolbar-title>{{ $t('register.title') }}</v-toolbar-title>
@@ -155,16 +155,13 @@
                                     </v-btn>
                                 </v-card-actions>
                                 <v-overlay class="text-center" :absolute="absolute" :value="overlay" :opacity="0.8">
-                                    <Notification
-                                        v-for="info in infos"
-                                        :key="info.id"
-                                    >
+                                    <Notification v-for="info in infos" :key="info.id">
                                         <router-link
                                             to="/"
                                             :class="`${info.type} white--text v-btn outlined v-size--large`"
                                             @click="overlay = false"
                                         >
-                                          {{ $t('buttons.ok') }}
+                                            {{ $t('buttons.ok') }}
                                         </router-link>
                                     </Notification>
                                 </v-overlay>
@@ -178,7 +175,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import { extend, ValidationObserver, ValidationProvider } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
 import Notification from './Notification'
@@ -196,8 +193,8 @@ export default {
     },
     computed: {
         ...mapState({
-          status: state => state.account.status,
-          infos: state => state.alerts.infos,
+            status: state => state.account.status,
+            infos: state => state.alerts.infos,
         }),
         ...mapGetters('queries', ['meta']),
     },
@@ -208,7 +205,8 @@ export default {
             fetchMeta: 'queries/fetchMeta',
         }),
         async clear() {
-            this.username = this.email = this.first_name = this.last_name = this.institutions = this.password = this.password2 = this.licenses = this.institutions = ''
+            this.username = this.email = this.first_name = this.last_name = this.institutions = this.password = this.password2 = this.licenses = this.institutions =
+                ''
             requestAnimationFrame(() => {
                 this.$refs.obs.reset()
             })
@@ -221,16 +219,16 @@ export default {
                 email: this.email,
                 first_name: this.first_name,
                 last_name: this.last_name,
-                groups: []
+                groups: [],
             }
             if (this.phone_number) {
-              user.phone_number = this.phone_number
+                user.phone_number = this.phone_number
             }
             this.institutions.forEach(item => {
-              user.groups.push({name: item})
+                user.groups.push({ name: item })
             })
             this.licenses.forEach(item => {
-              user.groups.push({name: item})
+                user.groups.push({ name: item })
             })
             this.register(user)
             this.overlay = true
@@ -238,7 +236,6 @@ export default {
     },
     data() {
         return {
-            errors: [],
             username: null,
             password: null,
             password2: null,
