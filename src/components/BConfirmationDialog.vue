@@ -1,9 +1,9 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="290">
-        <template #activator="{ on, attrs }">
-            <v-btn class="mx-1" :loading="loading" :color="color" :disabled="disabled" v-bind="attrs" v-on="on">
+    <v-dialog v-model="dialog" persistent max-width="350">
+        <template #activator="{ attrs, on }">
+            <div v-bind="attrs" v-on="on">
                 <slot></slot>
-            </v-btn>
+            </div>
         </template>
         <v-card>
             <slot name="title">
@@ -23,7 +23,7 @@
                 </v-btn>
                 <slot name="confirmation">
                     <v-btn
-                        color="primary"
+                        :color="color"
                         text
                         @click="
                             $emit('confirm')
@@ -72,4 +72,3 @@ export default {
 </script>
 
 <style scoped></style>
-
