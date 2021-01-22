@@ -139,7 +139,15 @@ async function setInvalid(file) {
         throw await resp.json()
     }
 }
-
+async function getJoblist() {
+    const requestOptions = authHeader('GET')
+    let resp = await fetch(process.env.VUE_APP_API_ENDPOINT + '/data/palmjob/', requestOptions)
+    if (resp.status === 200) {
+        return resp.json()
+    } else {
+        throw await resp.json()
+    }
+}
 export default {
     search,
     meta,
@@ -147,4 +155,5 @@ export default {
     downloadAll,
     deleteFile,
     setInvalid,
+    getJoblist,
 }

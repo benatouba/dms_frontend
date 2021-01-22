@@ -29,6 +29,9 @@ const getDefaultState = () => {
             limit: 10,
             ordering: null,
         },
+        palm: {
+            joblist: [],
+        },
     }
 }
 const state = getDefaultState()
@@ -43,6 +46,14 @@ const getters = {
 }
 
 const actions = {
+    async getJoblist({ commit, dispatch }) {
+        try {
+            let resp = await queryService.getJoblist()
+            commit('setJoblist', resp)
+        } catch (error) {
+            dispatch('alerts/info', { type: 'warning', message: error, status: 2 }, { root: true })
+        }
+    },
     resetQueryState({ commit }) {
         commit('resetQueryState')
     },
@@ -208,7 +219,7 @@ const actions = {
         } else {
             if (errorCount !== 0) {
                 info.type = 'error'
-                info.message = `${errorCount} files could not be marked invalid. ${successCount} 
+                info.message = `${errorCount} files could not be marked invalid. ${successCount}
                                           files were successfully marked invalid.`
                 info.status = 3
             } else {
@@ -222,6 +233,9 @@ const actions = {
 }
 
 const mutations = {
+    setJoblist(state, joblist) {
+        state.palm.joblist.push(...joblist)
+    },
     resetState(state) {
         // Merge rather than replace so we don't lose observers
         // https://github.com/vuejs/vuex/issues/1118
