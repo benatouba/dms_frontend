@@ -45,36 +45,22 @@ export default {
             uploadFiles: 'upload/uploadFiles',
             info: 'alerts/info',
         }),
-        checkFiletype(files) {
-            let str
-            let noTypeFiles = []
+        isNetcdf(files) {
             files.forEach(file => {
-                str = file.name.toLowerCase()
-                // first check for non-netcdf files
-                // then check if file name can be associated with category
                 if (file.type !== 'application/x-netcdf') {
-                    noTypeFiles.push(file.name)
-                } else if (str.startsWith('p3d')) {
-                    file.file_type = 'p3d'
-                } else if (str.startsWith('uc2')) {
-                    file.file_type = 'uc2'
-                } else {
-                    file.file_type = undefined
-                    noTypeFiles.push(file.name)
+                    throw i18n.t('alerts.not_netcdf')
                 }
             })
-            return noTypeFiles
         },
         async handleSubmit(files) {
             if (!files.length) return
-            let noTypeFiles = this.checkFiletype(files)
-            if (noTypeFiles.length) {
+
+            try {
+                this.isNetcdf(files)
+            } catch (error) {
                 this.info({
                     type: 'error',
-                    message: i18n.t('alerts.undefined_type_upload', {
-                        fileTypes: 'P3D, DYNAMIC, CHEMISTRY, STATIC, RLW, RSW, VMEAS, PALMCONFIG, CSDCONFIG, UC2',
-                        noTypeFiles: noTypeFiles.join(', '),
-                    }),
+                    message: error,
                 })
                 return
             }
@@ -82,6 +68,7 @@ export default {
             this.isSaving = true
 
             files.forEach(file => {
+                file.db_filetype = 'uc2'
                 this.uploadFiles({
                     file,
                     ignore_warnings: false,
