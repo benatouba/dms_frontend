@@ -10,15 +10,20 @@
     "delete": "Delete",
     "ok": "OK",
     "send": "Send",
-    "institution": "Institution",
-    "site": "Site",
-    "variable": "Variable",
+    "submit": "Submit",
+    "institution": "Institution | Institutions",
+    "site": "Site | Sites",
+    "variable": "Variable | Variables",
+    "licence": "Lincence | Licences",
+    "description": "Description",
+    "name": "Name | Names",
     "undo_upload": "undo uploading",
     "upload": "Upload",
     "upload_with_warnings": "upload with warnings",
     "upload_with_errors": "upload with errors",
     "not_required": "not required",
     "option_select": "Please select the type of list you wish to upload",
+    "palm_job_name": "Associated Palmjob",
     "show_invalid": "Include invalid files",
     "show_old": "Include old files",
     "mark_invalid": "Mark invalid",
@@ -75,7 +80,11 @@
     "uploading3": "...",
     "uploaded": "uploaded",
     "not_uploaded": "not uploaded",
-    "no_title": "No title"
+    "no_title": "No title",
+    "upload_to": "Palm job",
+    "palmfile": "Palm 4-U",
+    "create_palmjob": "Create Palmjob",
+    "confirm_palmconfig": "Upload with these specifications?"
   },
   "login_info": {
     "text": "You are not logged in. You are only shown data released under public licences. To see additional data, please log in. Don't have an account yet? Register."
@@ -145,7 +154,8 @@
   "alerts": {
     "file_deleted": "File %{name} deleted!",
     "file_not_deleted": "File %{name} could not be deleted. Either it has already been downloaded or you do not have permission to delete it.",
-    "undefined_type_upload": "One or more filenames could not be assigned a data type accepted by the system. Please make sure all files are of type netCDF and start filenames with an appropriate abbreviation: %{fileTypes} The affected files are: %{noTypeFiles}"
+    "not_netcdf": "One or more files do not seem to be in the right format. Please make sure all files are of Network Common Data Format (netCDF)",
+    "undefined_type_upload": "One or more files do not seem to belong to the chosen upload category. Please make sure all filetype are of category: %{fileTypes}."
   },
   "reset_password": {
     "title": "Set new password",
