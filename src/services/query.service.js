@@ -1,6 +1,6 @@
 import authHeader from '../helpers/authentication'
 
-function search(query) {
+function search(query, filetype) {
     const requestOptions = authHeader('GET')
     let searchString = '?'
     let entries = Object.entries(query)
@@ -11,9 +11,10 @@ function search(query) {
     }
     searchString = searchString.slice(0, searchString.length - 1) // cut off unnecessary last symbol '&'
 
-    let answer = fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${searchString}`, requestOptions).then(resp =>
-        resp.json()
-    )
+    let answer = fetch(
+        `${process.env.VUE_APP_API_ENDPOINT}/data/${filetype}/${searchString}`,
+        requestOptions
+    ).then(resp => resp.json())
     return answer
 }
 async function meta(name) {

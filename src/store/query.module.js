@@ -3,7 +3,7 @@ import queryService from '../services/query.service'
 
 const getDefaultState = () => {
     return {
-        queried: false,
+        queried: 'file',
         querying: false,
         error: null,
         result: [],
@@ -60,13 +60,16 @@ const actions = {
     resetState({ commit }) {
         commit('resetState')
     },
-    async search({ dispatch, commit }, input) {
-        commit('queryRequest', input)
+    async search({ dispatch, commit }, { options, filetype }) {
+        if (filetype === undefined) {
+            filetype = state.queried
+        }
+        commit('queryRequest', options)
         try {
-            let resp = await queryService.search(state.query)
-            commit('querySuccess', resp)
+            let resp = await queryService.search(state.query, filetype)
+            commit('querySuccess', { resp, filetype })
         } catch (error) {
-            commit('queryFailure', error)
+            commit('queryFailure', { error, filetype })
             dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
@@ -242,7 +245,7 @@ const mutations = {
         Object.assign(state, getDefaultState())
     },
     resetQueryState(state) {
-        state.queried = false
+        state.queried = 'file'
         state.querying = false
         state.error = null
         state.result = []
@@ -256,19 +259,21 @@ const mutations = {
         let query = Object.assign(state.query, input)
         state.query = query
     },
-    querySuccess(state, resp) {
-        state.queried = true
+    querySuccess(state, { resp, filetype }) {
+        state.error = null
+        state.queried = filetype
         state.querying = false
         if (resp.results) {
             // if pagination is requested resp contains multiple objects
             state.result = resp.results // page result items
-            state.count = resp.count // resp.count // count of total items to return
+            state.count = resp.count // count of total items to return
         } else {
             state.result = resp // all items
         }
     },
-    queryFailure(state) {
-        state.queried = false
+    queryFailure(state, { error, filetype }) {
+        state.error = error
+        state.queried = filetype
         state.querying = false
     },
     addMeta(state, input) {

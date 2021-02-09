@@ -16,6 +16,10 @@
                 <v-card-title style="font-size: 15px; margin: 0px">
                     {{ $t('search.filter_options') }}
                 </v-card-title>
+                <v-tabs v-model="tab">
+                    <v-tabs-slider color="primary"></v-tabs-slider>
+                    <v-tab v-for="item in filetypes" :key="item" @click="handleSubmit"> {{ item }} </v-tab>
+                </v-tabs>
                 <v-card-text>
                     <v-row no-gutters>
                         <v-col>
@@ -30,28 +34,32 @@
                                 clearable
                                 @change="handleSubmit"
                             ></v-autocomplete>
-                            <v-autocomplete
-                                v-model="options.site__id"
-                                :items="meta('site')"
-                                item-text="site"
-                                item-value="id"
-                                :label="$t('buttons.site')"
-                                color="primary"
-                                @change="handleSubmit"
-                                dense
-                                clearable
-                            ></v-autocomplete>
-                            <v-autocomplete
-                                v-model="options.variables__variable"
-                                :items="meta('variable')"
-                                item-text="long_name"
-                                item-value="variable"
-                                :label="$t('buttons.variable')"
-                                color="primary"
-                                @change="handleSubmit"
-                                dense
-                                clearable
-                            ></v-autocomplete>
+                            <v-tabs-items v-model="tab">
+                                <v-tab-item>
+                                    <v-autocomplete
+                                        v-model="options.site__id"
+                                        :items="meta('site')"
+                                        item-text="site"
+                                        item-value="id"
+                                        :label="$t('buttons.site')"
+                                        color="primary"
+                                        @change="handleSubmit"
+                                        dense
+                                        clearable
+                                    ></v-autocomplete>
+                                    <v-autocomplete
+                                        v-model="options.variables__variable"
+                                        :items="meta('variable')"
+                                        item-text="long_name"
+                                        item-value="variable"
+                                        :label="$t('buttons.variable')"
+                                        color="primary"
+                                        @change="handleSubmit"
+                                        dense
+                                        clearable
+                                    ></v-autocomplete>
+                                </v-tab-item>
+                            </v-tabs-items>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -65,14 +73,18 @@
                             :false-value="false"
                             true-value="null"
                         ></v-switch>
-                        <v-switch
-                            @change="handleSubmit"
-                            color="primary"
-                            v-model="options.is_old"
-                            :label="$t('buttons.show_old')"
-                            :false-value="false"
-                            true-value="null"
-                        ></v-switch>
+                        <v-tabs-items v-model="tab">
+                            <v-tab-item>
+                                <v-switch
+                                    @change="handleSubmit"
+                                    color="primary"
+                                    v-model="options.is_old"
+                                    :label="$t('buttons.show_old')"
+                                    :false-value="false"
+                                    true-value="null"
+                                ></v-switch>
+                            </v-tab-item>
+                        </v-tabs-items>
                         <v-switch
                             v-if="account.token"
                             @change="handleSubmit"
@@ -135,12 +147,14 @@ export default {
             resetQueryState: 'queries/resetQueryState',
             fetchMeta: 'queries/fetchMeta',
         }),
-        handleSubmit: function() {
+        handleSubmit() {
             if (this.queriedFiles) {
                 this.resetQueryState()
             }
             this.options.offset = 0
-            this.search(this.options)
+            let filetype
+            this.tab === 0 ? (filetype = 'palmfile') : (filetype = 'file')
+            this.search({ options: this.options, filetype })
         },
         handleDownload(file) {
             this.download({ file })
@@ -166,11 +180,11 @@ export default {
             return newDict
         },
     },
-    created() {
-        this.handleSubmit()
+    mounted() {
         this.fetchMeta('institution')
         this.fetchMeta('site')
         this.fetchMeta('variable')
+        // this.handleSubmit()
     },
     data() {
         return {
@@ -181,14 +195,19 @@ export default {
             },
             options: {
                 search: null,
-                acronym: null,
-                site__id: null,
-                variables__variable: null,
                 uploader: null,
                 is_invalid: false,
                 is_old: false,
                 offset: 0,
+                acronym: null,
+                site__id: null,
+                variables__variable: null,
+                job__job_name: null,
+                domain_name: null,
+                type: null,
             },
+            filetypes: ['[UC]² Observations', 'PALM-4U Job'],
+            tab: null,
         }
     },
 }

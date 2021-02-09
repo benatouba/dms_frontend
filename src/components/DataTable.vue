@@ -167,7 +167,7 @@ export default {
     name: 'DataTable',
     props: {
         headers: {
-            type: Array,
+            type: Object,
             required: true,
         },
     },
@@ -178,7 +178,7 @@ export default {
             totalQueriedFiles: state => state.queries.count,
             queryOffset: state => state.queries.query.offset,
             querying: state => state.queries.querying,
-            // downloading: state => state.queries.downloading,
+            queried: state => state.queries.queried,
             itemCount: state => state.queries.count,
         }),
         ...mapGetters({
@@ -189,12 +189,12 @@ export default {
             return Math.ceil(this.itemCount / this.pageLength)
         },
         headerItems: function() {
-            return this.headers.filter(header => {
+            return this.headers[this.queried].filter(header => {
                 return header.showCol
             })
         },
         listItems: function() {
-            return this.headers.filter(header => {
+            return this.headers[this.queried].filter(header => {
                 return !header.showCol
             })
         },
@@ -332,7 +332,9 @@ export default {
                 if (sortDesc[0]) {
                     ordering = '-' + ordering
                 }
-                this.search({ ordering, offset, limit })
+                let filetype = this.$store.state.queries.queried
+                let options = { ordering, offset, limit }
+                this.search({ options, filetype })
                 this.loading = false
             },
             deep: true,

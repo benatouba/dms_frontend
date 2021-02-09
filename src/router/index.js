@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store'
 import Home from '../views/Home'
-import Search from '../views/Search'
+import Files from '../views/Files'
 import Upload from '../views/Upload'
 import Contact from '../views/Contact'
 import Register from '../components/Register'
@@ -46,7 +46,7 @@ const routes = [
     {
         path: '/search',
         name: 'Search',
-        component: Search,
+        component: Files,
         meta: {
             title: i18n.t('search.title') + ' [UC]² DMS',
         },

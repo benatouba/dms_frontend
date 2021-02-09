@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="350">
+    <v-dialog v-model="dialog" persistent max-width="450">
         <template #activator="{ attrs, on }">
             <div v-bind="attrs" v-on="on">
                 <slot></slot>
@@ -11,6 +11,7 @@
                     {{ title }}
                 </v-card-title>
             </slot>
+            <slot name="content"></slot>
             <slot name="text">
                 <v-card-text>
                     {{ body }}
