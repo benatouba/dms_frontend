@@ -35,7 +35,7 @@
 import DropArea from '@/components/DropArea'
 import PalmfileDropArea from '@/components/PalmfileDropArea'
 import FileCards from '@/components/FileCards'
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
     name: 'Upload',
@@ -45,9 +45,9 @@ export default {
         PalmfileDropArea,
     },
     computed: {
-        ...mapState({
-            files: state => state.upload.files,
-        }),
+        files() {
+            return this.$store.state.upload.files.filter(obj => obj.file.db_filetype === this.filetypes[this.tab].value)
+        },
         hasUploaded() {
             return this.files.some(elm => {
                 return elm.uploaded
@@ -78,11 +78,16 @@ export default {
             }
         },
     },
+    updated() {
+        console.log(this.files)
+        console.log(this.tab)
+        console.log(this.filetypes[this.tab].value)
+    },
     data() {
         return {
             filetypes: [
-                { title: '[UC]² Observations', value: 'UC2' },
-                { title: 'PALM-4U Job', value: 'P3D' },
+                { title: '[UC]² Observations', value: 'uc2' },
+                { title: 'PALM-4U Job', value: 'palmfile' },
             ],
             tab: '',
         }

@@ -28,12 +28,13 @@ async function requestNameCheck(files) {
 
 function upload({ file, ignore_warnings, ignore_errors }) {
     const requestOptions = authHeader('POST')
-
+    // requestOptions.headers.append('Content-Type', 'application/x-netcdf')
     const formdata = new FormData()
     if (file.job) {
         formdata.append('job', file.job)
+    } else {
+        formdata.append('file_type', file.db_filetype.toUpperCase())
     }
-    // formdata.append('file_type', file.type.toUpperCase())
     formdata.append('file', file)
     if (ignore_warnings) {
         formdata.append('ignore_warnings', 'true')

@@ -135,7 +135,7 @@ const mutations = {
     },
     uploadResult(state, { obj, resp }) {
         const item = state.files.find(
-            entry => entry.file.name === obj.file.name && entry.file.file_type === obj.file_type
+            entry => entry.file.name === obj.file.name && entry.file.db_filetype === obj.file.db_filetype
         )
         // let filesOfType = filterObject(state, obj.file.file_type)
         // let item = filesOfType.find(x => x.file.name === obj.file.name)
