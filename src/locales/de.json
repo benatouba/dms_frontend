@@ -10,15 +10,20 @@
     "delete": "Löschen",
     "ok": "OK",
     "send": "Senden",
+    "submit": "Abschicken",
     "institution": "Institution",
     "site": "Standort",
     "variable": "Variable",
+    "licence": "Lizenz | Lizenzen",
+    "description": "Beschreibung",
+    "name": "Name | Namen",
     "undo_upload": "Hochladen rückgängig machen",
     "upload": "Hochladen",
     "upload_with_warnings": "Trotz Warnung(en) Hochladen",
     "upload_with_errors": "Trotz Fehler Hochladen",
     "not_required": "Kein Pflichtfeld",
     "option_select": "Bitte wählen Sie einen Listentyp zum Hochladen aus",
+    "palm_job_name": "Assoziierter Palmjob",
     "show_invalid": "Ungültige Dateien einblenden",
     "show_old": "Alte Daten einblenden",
     "mark_invalid": "als ungültig markieren",
@@ -75,7 +80,10 @@
     "uploading3": "hochgeladen...",
     "uploaded": "Hochgeladen",
     "not_uploaded": "Nicht hochgeladen",
-    "no_title": "Kein Titel"
+    "no_title": "Kein Titel",
+    "palmfile": "Palm 4-U",
+    "create_palmjob": "Neuer Palmjob",
+    "confirm_palmconfig": "Upload with these specifications?"
   },
   "login_info": {
     "text": "Du bist nicht eingeloggt. Es werden nur Daten unter öffentlicher Lizenz angezeigt. Um weitere Daten angezeigt zu bekommen, bitte melden Sie sich an. Du hast noch keinen Account? Bitte registriere dich."
@@ -149,7 +157,8 @@
   "alerts": {
     "file_deleted": "Datei %{name} gelöscht",
     "file_not_deleted": "Datei %{name} konnte nicht gelöscht werden. Entweder wurde sie schon einmal heruntergeladen oder Sie haben keine Berechtigung",
-    "undefined_type_upload": "Eine oder mehrere Dateinamen konnten keinem bekannten Dateityp zugeordnet werden.\nBitte stellen Sie sicher, dass alle Dateien vom Typ netCDF sind und beginnen Sie den Dateinamen mit einem passenden Kürzel:\n%{fileTypes}\nDie betroffenen Dateien sind:\n%{noTypeFiles}"
+    "not_netcdf": "Eine oder mehrere Dateien scheinen nicht in richtigen Format zu sein. Bitte stellen Sie sicher, dass alle Dateien im Network Common Data Format (netCDF) sind.",
+    "undefined_type_upload": "Eine oder mehrere Dateien konnten keinem bekannten Dateityp zugeordnet werden.\nBitte stellen Sie sicher, dass alle Dateitypen zu folgender Liste passen: \n%{fileTypes}\n Diese Dateitypen sollten auch in den Metadaten spezifiziert werden."
   },
   "reset_password": {
     "title": "Neues Passwort setzen",

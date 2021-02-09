@@ -2,14 +2,13 @@
     <v-row align="center">
         <div class="container">
             <form enctype="multipart/form-data" novalidate>
-                <h2>{{ $t('headers.palmfile') }}</h2>
                 <v-row>
                     <v-col>
                         <v-autocomplete
                             v-model="job.job_name"
                             :items="joblist"
                             item-text="job_name"
-                            :label="$t('buttons.palm_job_name')"
+                            :label="$t('upload.upload_to')"
                             color="primary"
                             clearable
                             disabled
@@ -46,7 +45,7 @@
                         <v-form>
                             <v-text-field
                                 v-model="job.job_name"
-                                :label="$t('upload.job_name')"
+                                :label="$tc('buttons.name', 1)"
                                 name="jobname"
                                 type="text"
                                 required
@@ -56,7 +55,7 @@
                                 :items="institutions"
                                 item-value="acronym"
                                 item-text="acronym"
-                                :label="$t('upload.job_institutions')"
+                                :label="$tc('buttons.institution', 2)"
                                 name="institutions"
                                 type="Array"
                                 multiple
@@ -67,14 +66,14 @@
                                 :items="licences"
                                 item-value="short_name"
                                 item-text="short_name"
-                                :label="$t('upload.job_licence')"
+                                :label="$tc('buttons.licence', 1)"
                                 name="licence"
                                 type="string"
                                 required
                             />
                             <v-text-field
                                 v-model="job.description"
-                                :label="$t('upload.job_description')"
+                                :label="$t('buttons.description')"
                                 name="description"
                                 type="Array"
                                 required
