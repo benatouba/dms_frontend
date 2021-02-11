@@ -131,6 +131,16 @@
                     />
                 </div>
             </template>
+            <template #item.files="{ item }">
+                <v-icon
+                    v-if="item.has_files"
+                    small
+                    class="mr-2"
+                    @click="search({ options: { job: item.id }, filetype: 'palmfile' })"
+                >
+                    mdi-cloud-search
+                </v-icon>
+            </template>
             <template #expanded-item="{ headers, item }">
                 <td :colspan="headers.length">
                     <v-list dense class="ma-2">
@@ -332,9 +342,8 @@ export default {
                 if (sortDesc[0]) {
                     ordering = '-' + ordering
                 }
-                let filetype = this.$store.state.queries.queried
                 let options = { ordering, offset, limit }
-                this.search({ options, filetype })
+                this.search({ options, filetype: this.queried })
                 this.loading = false
             },
             deep: true,
