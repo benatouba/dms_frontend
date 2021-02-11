@@ -16,10 +16,11 @@
                 <v-card-title style="font-size: 15px; margin: 0px">
                     {{ $t('search.filter_options') }}
                 </v-card-title>
-                <v-tabs v-model="tab">
-                    <v-tabs-slider color="primary"></v-tabs-slider>
-                    <v-tab v-for="item in filetypes" :key="item" @click="handleSubmit"> {{ item }} </v-tab>
-                </v-tabs>
+                <v-btn-toggle v-model="filetype" tile color="secondary" group>
+                    <v-btn v-for="item in filetypes" :key="item.value" :value="item.value">
+                        {{ item.text }}
+                    </v-btn>
+                </v-btn-toggle>
                 <v-card-text>
                     <v-row no-gutters>
                         <v-col>
@@ -29,37 +30,35 @@
                                 :items="meta('institution')"
                                 item-text="ge_title"
                                 item-value="acronym"
-                                :label="$t('buttons.institution')"
+                                :label="$tc('buttons.institution')"
                                 color="primary"
                                 clearable
                                 @change="handleSubmit"
                             ></v-autocomplete>
-                            <v-tabs-items v-model="tab">
-                                <v-tab-item>
-                                    <v-autocomplete
-                                        v-model="options.site__id"
-                                        :items="meta('site')"
-                                        item-text="site"
-                                        item-value="id"
-                                        :label="$t('buttons.site')"
-                                        color="primary"
-                                        @change="handleSubmit"
-                                        dense
-                                        clearable
-                                    ></v-autocomplete>
-                                    <v-autocomplete
-                                        v-model="options.variables__variable"
-                                        :items="meta('variable')"
-                                        item-text="long_name"
-                                        item-value="variable"
-                                        :label="$t('buttons.variable')"
-                                        color="primary"
-                                        @change="handleSubmit"
-                                        dense
-                                        clearable
-                                    ></v-autocomplete>
-                                </v-tab-item>
-                            </v-tabs-items>
+                            <v-autocomplete
+                                v-if="filetype === 'file'"
+                                v-model="options.site__id"
+                                :items="meta('site')"
+                                item-text="site"
+                                item-value="id"
+                                :label="$tc('buttons.site')"
+                                color="primary"
+                                @change="handleSubmit"
+                                dense
+                                clearable
+                            ></v-autocomplete>
+                            <v-autocomplete
+                                v-if="filetype === 'file'"
+                                v-model="options.variables__variable"
+                                :items="meta('variable')"
+                                item-text="long_name"
+                                item-value="variable"
+                                :label="$tc('buttons.variable')"
+                                color="primary"
+                                @change="handleSubmit"
+                                dense
+                                clearable
+                            ></v-autocomplete>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -73,18 +72,15 @@
                             :false-value="false"
                             true-value="null"
                         ></v-switch>
-                        <v-tabs-items v-model="tab">
-                            <v-tab-item>
-                                <v-switch
-                                    @change="handleSubmit"
-                                    color="primary"
-                                    v-model="options.is_old"
-                                    :label="$t('buttons.show_old')"
-                                    :false-value="false"
-                                    true-value="null"
-                                ></v-switch>
-                            </v-tab-item>
-                        </v-tabs-items>
+                        <v-switch
+                            v-if="filetype !== 'palmjob'"
+                            @change="handleSubmit"
+                            color="primary"
+                            v-model="options.is_old"
+                            :label="$t('buttons.show_old')"
+                            :false-value="false"
+                            true-value="null"
+                        ></v-switch>
                         <v-switch
                             v-if="account.token"
                             @change="handleSubmit"
@@ -152,9 +148,7 @@ export default {
                 this.resetQueryState()
             }
             this.options.offset = 0
-            let filetype
-            this.tab === 0 ? (filetype = 'palmfile') : (filetype = 'file')
-            this.search({ options: this.options, filetype })
+            this.search({ options: this.options, filetype: this.filetype })
         },
         handleDownload(file) {
             this.download({ file })
@@ -186,6 +180,11 @@ export default {
         this.fetchMeta('variable')
         // this.handleSubmit()
     },
+    watch: {
+        filetype: function() {
+            this.handleSubmit()
+        },
+    },
     data() {
         return {
             choices: {
@@ -206,8 +205,11 @@ export default {
                 domain_name: null,
                 type: null,
             },
-            filetypes: ['[UC]² Observations', 'PALM-4U Job'],
-            tab: null,
+            filetypes: [
+                { text: '[UC]² Observations', value: 'file' },
+                { text: 'PALM-4U Job', value: 'palmjob' },
+            ],
+            filetype: 'file',
         }
     },
 }
