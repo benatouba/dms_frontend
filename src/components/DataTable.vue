@@ -17,6 +17,18 @@
             <template #top>
                 <v-toolbar flat>
                     <v-btn
+                        v-if="queried === 'palmfile'"
+                        class="mr-1"
+                        fab
+                        small
+                        depressed
+                        left
+                        @click="search({ options: {}, filetype: 'palmjob' })"
+                    >
+                        <v-icon> mdi-arrow-left </v-icon>
+                        <span>{{ queriedFiles[0].job }} </span>
+                    </v-btn>
+                    <v-btn
                         color="primary"
                         class="ma-1"
                         v-bind="selected"
@@ -27,7 +39,7 @@
                         <v-icon left dark> mdi-download </v-icon>
                         {{ $t('buttons.download') }}
                     </v-btn>
-                    <v-tooltip top>
+                    <v-tooltip v-if="queried === 'file'" top>
                         <template #activator="{ on, attrs }">
                             <v-btn
                                 color="primary"
