@@ -46,7 +46,7 @@ export default {
     },
     computed: {
         files() {
-            return this.$store.state.upload.files.filter(obj => obj.file.db_filetype === this.filetypes[this.tab].value)
+            return this.$store.state.upload.files.filter(obj => obj.db_filetype === this.filetypes[this.tab].value)
         },
         hasUploaded() {
             return this.files.some(elm => {
@@ -77,11 +77,6 @@ export default {
                 this.delete(toDelete)
             }
         },
-    },
-    updated() {
-        console.log(this.files)
-        console.log(this.tab)
-        console.log(this.filetypes[this.tab].value)
     },
     data() {
         return {

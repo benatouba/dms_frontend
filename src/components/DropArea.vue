@@ -68,9 +68,9 @@ export default {
             this.isSaving = true
 
             files.forEach(file => {
-                file.db_filetype = 'uc2'
                 this.uploadFiles({
                     file,
+                    db_filetype: 'uc2',
                     ignore_warnings: false,
                     ignore_errors: false,
                 })

@@ -26,27 +26,21 @@ async function requestNameCheck(files) {
     // }
 }
 
-function upload({ file, ignore_warnings, ignore_errors }) {
+function upload(payload) {
     const requestOptions = authHeader('POST')
-    // requestOptions.headers.append('Content-Type', 'application/x-netcdf')
     const formdata = new FormData()
-    if (file.job) {
-        formdata.append('job', file.job)
-    } else {
-        formdata.append('file_type', file.db_filetype.toUpperCase())
-    }
-    formdata.append('file', file)
-    if (ignore_warnings) {
-        formdata.append('ignore_warnings', 'true')
-    }
-    if (ignore_errors) {
-        formdata.append('ignore_errors', 'true')
-    }
+    formdata.append('file', payload.file)
+
+    const { db_filetype, ignore_errors, ignore_warnings } = payload
+    formdata.append('ignore_warnings', ignore_warnings)
+    formdata.append('ignore_errors', ignore_errors)
     let path = '/data/'
-    if (file.db_filetype === 'uc2') {
+    if (db_filetype === 'uc2') {
+        formdata.append('file_type', db_filetype.toUpperCase())
         path += 'file/'
-    } else if (file.db_filetype === 'palmfile') {
-        path += file.db_filetype + '/'
+    } else if (db_filetype === 'palmfile') {
+        formdata.append('job', payload.job_name)
+        path += db_filetype + '/'
     } else {
         throw new Error('File not found')
     }

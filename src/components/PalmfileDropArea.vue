@@ -11,33 +11,30 @@
                             :label="$t('upload.upload_to')"
                             color="primary"
                             clearable
-                            disabled
                         >
                             <template #no-data>
-                                <v-list-item @click="showCreatePalmjob = true">
+                                <v-list-item @click="expandedCreatePalmjob = true">
                                     <v-list-item-title>
                                         <strong>{{ $t('upload.create_palmjob') }}{{ job.job_name }}</strong>
                                     </v-list-item-title>
                                 </v-list-item>
                             </template>
                             <template #item="{ item }">
-                                <v-list-item-avatar class="font-weight-light">
-                                    {{ item.licence.substring(-2).toUpperCase() }}
-                                </v-list-item-avatar>
-                                <v-list-item-content>
-                                    <v-list-item-title class="font-weight-bold">{{ item.job_name }}</v-list-item-title>
-                                    <v-list-item-subtitle>{{ item.description }}</v-list-item-subtitle>
-                                </v-list-item-content>
+                                <v-list-item-title class="font-weight-bold">{{ item.job_name }}</v-list-item-title>
+                                <v-list-item-subtitle>{{ item.institution_acronyms.join(', ') }}</v-list-item-subtitle>
+                                <v-list-item-subtitle>{{ item.licence }}</v-list-item-subtitle>
+                                <v-list-item-subtitle>{{ item.description }}</v-list-item-subtitle>
                             </template>
                         </v-autocomplete>
                     </v-col>
                     <v-col cols="1">
-                        <v-btn class="mx-5" fab color="primary" @click="showCreatePalmjob = !showCreatePalmjob">
-                            <v-icon dark> mdi-plus </v-icon>
+                        <v-btn class="mx-5" fab color="primary" @click="expandedCreatePalmjob = !expandedCreatePalmjob">
+                            <v-icon v-if="expandedCreatePalmjob" dark> mdi-minus </v-icon>
+                            <v-icon v-else dark> mdi-plus </v-icon>
                         </v-btn>
                     </v-col>
                 </v-row>
-                <v-card v-if="showCreatePalmjob">
+                <v-card v-if="expandedCreatePalmjob">
                     <v-card-title>
                         {{ $t('upload.create_palmjob') }}
                     </v-card-title>
@@ -87,49 +84,49 @@
                     </v-card-actions>
                 </v-card>
                 <v-card class="dropbox primary accent--text text-center" outline block flat hover xs12 md6>
-                    <b-confirmation-dialog
-                        :title="$t('upload.title')"
-                        :body="$t('upload.confirm_palmconfig')"
-                        @confirm="handleSubmit"
-                    >
-                        <div>
-                            <input
-                                id="palm-droparea-input"
-                                type="file"
-                                multiple
-                                :name="uploadFieldName"
-                                :disabled="isSaving"
-                                @change.stop.prevent="handleNameCheck($event.target.files)"
-                                fileCount="$event.target.files.length"
-                                class="input-file"
-                            />
-                            <p v-if="!isSaving" v-html="$t('upload.droparea')" />
-                            <p v-show="isSaving">
-                                {{ $tc('upload.uploading1', fileCount, { count: fileCount }) }}
-                                {{ $tc('upload.uploading2', fileCount) }}
-                                {{ $t('upload.uploading3') }}
-                            </p>
-                            <v-text-field v-show="isSaving" color="black" loading disabled></v-text-field>
-                        </div>
-                        <template #content>
-                            <v-list>
-                                <v-list-item-content>
-                                    <v-list-item>
-                                        <v-list-item-title>{{ toUpload.job_name }} </v-list-item-title>
-                                        <v-list-item-subtitle>{{ $t('upload.upload_to') }}</v-list-item-subtitle>
-                                    </v-list-item>
-                                </v-list-item-content>
-                                <v-divider />
-                                <v-list-item-content>
-                                    <v-list-item v-for="(file, id) of toUpload.files" :key="id">
-                                        <v-list-item-title>{{ file.file_standard_name }}</v-list-item-title>
-                                        <v-list-item-subtitle> {{ file.type }} </v-list-item-subtitle>
-                                    </v-list-item>
-                                </v-list-item-content>
-                            </v-list>
-                            <v-divider />
-                        </template>
-                    </b-confirmation-dialog>
+                    <input
+                        type="file"
+                        multiple
+                        :name="uploadFieldName"
+                        :disabled="isSaving"
+                        @input="handleNameCheck($event.target.files)"
+                        fileCount="$event.target.files.length"
+                        class="input-file"
+                    />
+                    <p v-if="!isSaving" v-html="$t('upload.droparea')" />
+                    <p v-show="isSaving">
+                        {{ $tc('upload.uploading1', fileCount, { count: fileCount }) }}
+                        {{ $tc('upload.uploading2', fileCount) }}
+                        {{ $t('upload.uploading3') }}
+                    </p>
+                    <v-text-field v-show="isSaving" color="black" loading disabled></v-text-field>
+                    <v-dialog v-model="palmUploadDialog" transition="dialog-top-transition" max-width="600">
+                        <v-card>
+                            <v-card-title>{{ $t('upload.title') }}</v-card-title>
+                            <v-card-text>
+                                <v-list>
+                                    <v-list-item-content>
+                                        <v-list-item>
+                                            <v-list-item-subtitle>{{ $t('upload.upload_to') }}</v-list-item-subtitle>
+                                            <v-list-item-title>{{ job.job_name }} </v-list-item-title>
+                                        </v-list-item>
+                                    </v-list-item-content>
+                                    <v-divider />
+                                    <v-list-item-content>
+                                        <v-list-item v-for="(file, id) in toUpload" :key="id">
+                                            <v-list-item-subtitle> {{ file.type }} </v-list-item-subtitle>
+                                            <v-list-item-title>{{ file.file_standard_name }}</v-list-item-title>
+                                        </v-list-item>
+                                    </v-list-item-content>
+                                </v-list>
+                                <v-card-subtitle>{{ $t('upload.confirm_palmconfig') }} </v-card-subtitle>
+                            </v-card-text>
+                            <v-card-actions class="justify-end">
+                                <v-btn text @click="clear">{{ $t('buttons.cancel') }}</v-btn>
+                                <v-btn text color="primary" @click="handleSubmit">{{ $t('buttons.confirm') }}</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
                 </v-card>
             </form>
         </div>
@@ -139,10 +136,8 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
 import i18n from '@/plugins/i18n'
-import BConfirmationDialog from './BConfirmationDialog.vue'
 
 export default {
-    components: { BConfirmationDialog },
     name: 'PalmfileDropArea',
     computed: {
         ...mapGetters({
@@ -165,6 +160,10 @@ export default {
             createPalmjob: 'upload/createPalmjob',
             info: 'alerts/info',
         }),
+        clear() {
+            this.toUpload = []
+            this.palmUploadDialog = false
+        },
         async handleNameCheck(files) {
             if (!files.length) return
             let filenames = []
@@ -173,39 +172,59 @@ export default {
             })
             let resp = await this.requestNameCheck(filenames)
             let nameCheckResult = await resp.json()
-            console.log(nameCheckResult)
+
             if (resp.status !== 200) {
                 this.info({
                     type: 'warning',
                     message: nameCheckResult,
                 })
-                return
-            } else if (!nameCheckResult.job_exists) {
+                this.expandedCreatePalmjob = true
+                this.clear()
+            } else if (nameCheckResult.job_name !== '' && !nameCheckResult.job_exists) {
                 this.job.job_name = nameCheckResult.job_name
                 this.info({
                     type: 'warning',
-                    message: i18n.t('alerts.job_doesnt_exist'),
+                    message: i18n.t('upload.job_doesnt_exist'),
                 })
-                this.showCreatePalmjob = true
-                return
-            } else {
-                this.job.job_name = nameCheckResult.job_name
-                this.toUpload = files
+                this.expandedCreatePalmjob = true
+                this.clear()
+            } else if (!nameCheckResult.job_exists) {
+                this.info({
+                    type: 'info',
+                    message: i18n.t('upload.job_not_found'),
+                })
+                this.clear()
+            } else if (resp.status === 200 && nameCheckResult.job_exists) {
+                if (!this.job.job_name) {
+                    this.job.job_name = nameCheckResult.job_name
+                }
+                this.palmUploadDialog = true
+                let fileObj = {}
+                files.forEach(file => {
+                    fileObj = {
+                        file,
+                        ...nameCheckResult.files.shift(),
+                    }
+                    this.toUpload.push(fileObj)
+                })
             }
         },
         async handleSubmit() {
             this.isSaving = true
-            this.toUpload.forEach(file => {
-                file.job = this.job.job_name
-                file.db_filetype = 'palmfile'
-                this.uploadFiles({
-                    file,
+            let payload
+            this.toUpload.forEach(obj => {
+                payload = {
+                    ...obj,
+                    db_filetype: 'palmfile',
                     ignore_warnings: false,
                     ignore_errors: false,
-                })
+                }
+                this.uploadFiles(payload)
+                this.palmUploadDialog = false
             })
             await new Promise(r => setTimeout(r, 1000))
             this.isSaving = false
+            this.clear()
         },
     },
     created() {
@@ -225,9 +244,10 @@ export default {
                 institution_acronyms: '',
                 description: null,
             },
-            toUpload: {},
+            toUpload: [],
             palmjobs: [],
-            showCreatePalmjob: false,
+            expandedCreatePalmjob: false,
+            palmUploadDialog: false,
             fileTypes: [
                 'P3D',
                 'DYNAMIC',

@@ -16,7 +16,7 @@
                         <v-col cols="1" justify="end">
                             <v-btn
                                 v-if="data.resp.status === 2 && !data.uploaded"
-                                v-on:click.stop="uploadAnyway(data.file, true, false)"
+                                @click.stop="uploadAnyway(data, true, false)"
                                 text
                                 small
                                 ripple
@@ -28,7 +28,7 @@
                             </v-btn>
                             <v-btn
                                 v-if="data.resp.status === 3 && is_superuser && !data.uploaded"
-                                v-on:click.stop="uploadAnyway(data.file, true, true)"
+                                @click.stop="uploadAnyway(data, true, true)"
                                 text
                                 small
                                 ripple
@@ -69,6 +69,7 @@ export default {
     props: {
         files: {
             required: true,
+            type: Array,
         },
     },
     computed: {
@@ -77,9 +78,10 @@ export default {
         }),
     },
     methods: {
-        uploadAnyway(file, ignore_warnings, ignore_errors) {
+        uploadAnyway(data, ignore_warnings, ignore_errors) {
             this.$store.dispatch('upload/uploadFiles', {
-                file,
+                file: data.file,
+                db_filetype: data.db_filetype,
                 ignore_warnings,
                 ignore_errors,
             })
