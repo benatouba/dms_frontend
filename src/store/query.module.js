@@ -151,9 +151,7 @@ const actions = {
         }
         for (const file of files) {
             try {
-                console.log(file)
                 lastResp = await queryService.deleteFile(file)
-                console.log(file)
                 commit('deleteSuccess', file.resp.result.id)
                 successCount++
             } catch (error) {
