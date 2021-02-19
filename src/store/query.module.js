@@ -3,6 +3,7 @@ import queryService from '../services/query.service'
 
 const getDefaultState = () => {
     return {
+        deleted: false,
         queried: 'file',
         querying: false,
         error: null,
@@ -150,8 +151,10 @@ const actions = {
         }
         for (const file of files) {
             try {
+                console.log(file)
                 lastResp = await queryService.deleteFile(file)
-                commit('deleteSuccess', file.id)
+                console.log(file)
+                commit('deleteSuccess', file.resp.result.id)
                 successCount++
             } catch (error) {
                 commit('deleteFailure')
@@ -263,7 +266,9 @@ const mutations = {
         state.error = null
         state.queried = filetype
         state.querying = false
-        if (resp.results) {
+        if (resp.count === 0) {
+            state.result = []
+        } else if (resp.results) {
             // if pagination is requested resp contains multiple objects
             state.result = resp.results // page result items
             state.count = resp.count // count of total items to return
@@ -314,9 +319,9 @@ const mutations = {
             this.state.upload.files.splice(index, 1)
         }
         state.deleting = false
+        state.deleted = true
     },
     deleteFailure(state) {
-        state.deleted = false
         state.deleted = false
     },
     setInvalidSuccess(state, id) {
