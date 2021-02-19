@@ -29,6 +29,7 @@
                         <span v-if="queriedFiles.length">{{ queriedFiles[0].job }} </span>
                     </v-btn>
                     <v-btn
+                        v-if="queried !== 'palmjob'"
                         color="primary"
                         class="ma-1"
                         v-bind="selected"
@@ -76,7 +77,13 @@
                         color="warning"
                         @confirm="handleSetInvalid"
                     >
-                        <v-btn class="mx-1" color="warning" :disabled="!selected.length" :loading="settingInvalid">
+                        <v-btn
+                            v-if="queried !== 'palmjob'"
+                            class="mx-1"
+                            color="warning"
+                            :disabled="!selected.length"
+                            :loading="settingInvalid"
+                        >
                             <v-icon dark left> error_outline </v-icon>
                             {{ $t('buttons.mark_invalid') }}
                         </v-btn>
