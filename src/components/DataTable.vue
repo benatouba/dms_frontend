@@ -26,7 +26,7 @@
                         @click="search({ options: {}, filetype: 'palmjob' })"
                     >
                         <v-icon> mdi-arrow-left </v-icon>
-                        <span>{{ queriedFiles[0].job }} </span>
+                        <span v-if="queriedFiles.length">{{ queriedFiles[0].job }} </span>
                     </v-btn>
                     <v-btn
                         color="primary"
@@ -302,7 +302,15 @@ export default {
         },
         handleDelete() {
             this.deleting = true
-            this.deleteFile(this.selected)
+            var toDelete = []
+            var item = {}
+            this.selected.forEach(file => {
+                item.db_filetype = this.queried
+                item.resp = {}
+                item.resp.result = file
+                toDelete.push(item)
+            })
+            this.deleteFile(toDelete)
             this.selected = []
             this.deleting = false
         },
