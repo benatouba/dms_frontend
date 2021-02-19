@@ -78,7 +78,12 @@
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn @click="createPalmjob(job)">
+                        <v-btn
+                            @click="
+                                createPalmjob(job)
+                                expandedCreatePalmjob = false
+                            "
+                        >
                             {{ $t('buttons.submit') }}
                         </v-btn>
                     </v-card-actions>
