@@ -155,7 +155,7 @@
                     v-if="item.has_files"
                     small
                     class="mr-2"
-                    @click="search({ options: { job: item.id }, filetype: 'palmfile' })"
+                    @click="search({ options: { job_name: item.job_name }, filetype: 'palmfile' })"
                 >
                     mdi-cloud-search
                 </v-icon>
@@ -299,11 +299,11 @@ export default {
         handleDownload(check_result = false) {
             this.downloading = true
             if (this.selected.length === 1) {
-                this.download({ file: this.selected[0], check_result })
+                this.download({ file: this.selected[0], db_filetype: this.queried, check_result })
             } else {
                 let ids = []
                 this.selected.forEach(obj => ids.push(obj.id))
-                this.downloadAll({ ids, check_result })
+                this.downloadAll({ ids, db_filetype: this.queried, check_result })
             }
             this.downloading = false
         },
