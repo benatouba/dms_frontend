@@ -34,19 +34,25 @@ async function sendPostRequest(url, body, content_type = 'application/json') {
     return await fetch(url, requestOptions)
 }
 
-async function download(file, check_result = false) {
+async function download(file, db_filetype, check_result = false) {
     // cut filename from file path
     var requestOptions = {}
     var request_url
 
     if (file.file_size >= 2e7 && !check_result) {
         try {
-            request_url = `${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}/request_retrieve/`
-            let request_body = { uc2observations: file.id, check_result }
+            let request_body = {}
+            if (db_filetype === 'uc2') {
+                request_body = { uc2observations: file.id, check_result }
+                db_filetype = 'file'
+            } else {
+                request_body = { palm: file.id }
+            }
+            request_url = `${process.env.VUE_APP_API_ENDPOINT}/data/${db_filetype}/${file.resp.id}/request_retrieve/`
             let resp = await sendPostRequest(request_url, request_body)
             // let resp = await fetch(request_url, requestOptions)
             let respBody = await resp.json()
-            let download_url = `${process.env.VUE_APP_API_ENDPOINT}/data/file/${respBody.token}/`
+            let download_url = `${process.env.VUE_APP_API_ENDPOINT}/data/${db_filetype}/${respBody.token}/`
             createAndActivateLink(download_url)
             return resp
         } catch (error) {
@@ -54,7 +60,7 @@ async function download(file, check_result = false) {
         }
     }
     requestOptions = authHeader('GET')
-    request_url = `${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}`
+    request_url = `${process.env.VUE_APP_API_ENDPOINT}/data/${db_filetype}/${file.id}`
 
     requestOptions.redirect = 'follow'
 
@@ -101,7 +107,7 @@ function createAndActivateLink(url) {
     a.addEventListener('click', clickHandler, false)
     a.click()
 }
-async function downloadAll(ids, check_result = false) {
+async function downloadAll(ids, db_filetype, check_result = false) {
     // const requestOptions = authHeader('POST')
     // requestOptions.body = JSON.stringify({ uc2observations: ids, check_result })
     // requestOptions.redirect = 'follow'
@@ -109,7 +115,14 @@ async function downloadAll(ids, check_result = false) {
 
     try {
         let request_url = `${process.env.VUE_APP_API_ENDPOINT}/data/zip/`
-        let resp = await sendPostRequest(request_url, { uc2observations: ids, check_result })
+
+        let request_body = {}
+        if (db_filetype === 'uc2') {
+            request_body = { uc2observations: ids, check_result }
+        } else if (db_filetype === 'palmfile') {
+            request_body = { palm: ids }
+        }
+        let resp = await sendPostRequest(request_url, request_body)
         // let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/zip/`, requestOptions)
         let respBody = await resp.json()
         let download_url = `${process.env.VUE_APP_API_ENDPOINT}/data/zip/${respBody.token}/`
@@ -122,8 +135,13 @@ async function downloadAll(ids, check_result = false) {
 
 async function deleteFile(file) {
     const requestOptions = authHeader('DELETE')
+    var db_filetype = file.db_filetype
+    if (db_filetype === 'uc2') {
+        db_filetype = 'file'
+    }
+    const id = file.resp.result.id
 
-    let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}/`, requestOptions)
+    let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/${db_filetype}/${id}/`, requestOptions)
     if (resp.status === 200) {
         return resp.json()
     } else {
@@ -134,7 +152,7 @@ async function deleteFile(file) {
 async function setInvalid(file) {
     const requestOptions = authHeader('PATCH')
     let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}/set_invalid/`, requestOptions)
-    if (resp.status === 200) {
+    if ([200, 204].includes(resp.status)) {
         return resp.json()
     } else {
         throw await resp.json()
