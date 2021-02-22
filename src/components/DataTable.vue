@@ -11,7 +11,7 @@
             :footer-props="footerProps"
             show-expand
             item-key="id"
-            show-select
+            :show-select="queried !== 'palmjob'"
             elevation="5"
         >
             <template #top>
