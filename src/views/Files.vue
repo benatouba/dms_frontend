@@ -67,11 +67,11 @@ export default {
                     { text: '', value: 'data-table-expand', showCol: true },
                 ],
                 palmjob: [
+                    { text: 'Files', value: 'files', sortable: false, showCol: true },
                     { text: 'Name', value: 'job_name', showCol: true },
                     { text: 'Institutions', value: 'institution_acronyms', showCol: true },
                     { text: 'Licence', value: 'licence', showCol: true },
                     { text: 'Description', value: 'description', sortable: false, showCol: false },
-                    { text: 'Files', value: 'files', sortable: false, showCol: true },
                     { text: '', value: 'data-table-expand', sortable: false, showCol: true },
                 ],
             },
