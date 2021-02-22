@@ -68,7 +68,7 @@ export default {
             for (let i = this.files.length - 1; i >= 0; i--) {
                 elm = this.files[i]
                 if (elm.uploaded) {
-                    toDelete.push(elm.resp.result)
+                    toDelete.push(elm)
                 } else {
                     this.remove(elm)
                 }
