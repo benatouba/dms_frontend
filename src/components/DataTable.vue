@@ -370,6 +370,7 @@ export default {
                     ordering = '-' + ordering
                 }
                 let options = { ordering, offset, limit }
+                this.selected = []
                 this.search({ options, filetype: this.queried })
                 this.loading = false
             },
