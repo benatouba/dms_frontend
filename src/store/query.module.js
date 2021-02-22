@@ -24,6 +24,7 @@ const getDefaultState = () => {
             site__id: null,
             variables__variable: null,
             uploader: null,
+            job_name: null,
             is_invalid: false,
             is_old: false,
             offset: 0,
@@ -96,11 +97,11 @@ const actions = {
             dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
     },
-    download({ dispatch, commit }, { file, check_result = false }) {
+    download({ dispatch, commit }, { file, db_filetype, check_result = false }) {
         if (!check_result) {
             commit('downloadRequest', file)
         }
-        let resp = queryService.download(file, check_result).then(
+        let resp = queryService.download(file, db_filetype, check_result).then(
             resp => {
                 if (!check_result) {
                     commit('downloadSuccess', file.id)
@@ -114,12 +115,12 @@ const actions = {
         )
         return resp
     },
-    async downloadAll({ dispatch, commit }, { ids, check_result = false }) {
+    async downloadAll({ dispatch, commit }, { ids, db_filetype, check_result = false }) {
         if (!check_result) {
             commit('downloadRequest', ids)
         }
         try {
-            let resp = await queryService.downloadAll(ids, check_result)
+            let resp = await queryService.downloadAll(ids, db_filetype, check_result)
             if (resp.status === 200 && !check_result) {
                 commit('downloadSuccess', ids)
             } else if (resp.status !== 200) {
