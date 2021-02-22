@@ -1,4 +1,5 @@
 import { uploadService } from '../services/upload.service'
+import i18n from '../plugins/i18n'
 
 const state = {
     files: [],
@@ -34,6 +35,11 @@ const actions = {
         try {
             let resp = await uploadService.createPalmjob(job)
             commit('createPalmjob', resp)
+            dispatch(
+                'alerts/info',
+                { type: 'success', message: i18n.t('upload.job_created'), status: 1 },
+                { root: true }
+            )
         } catch (error) {
             dispatch('alerts/info', { type: 'error', message: error, status: 3 }, { root: true })
         }
