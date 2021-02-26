@@ -155,6 +155,15 @@
                     />
                 </div>
             </template>
+            <template #item.delete="{ item }">
+                <v-btn :disabled="!isDeletable(item)" icon @click="handleSingleDelete(item)">
+                    <b-status-icon
+                        :icon="isDeletable(item) ? 'mdi-delete' : 'mdi-delete-off'"
+                        :tooltip="isDeletable(item) ? $t('tooltip.deletable') : $t('tooltip.not_deletable')"
+                        :color="!!isDeletable(item) ? 'primary' : 'secondary'"
+                    />
+                </v-btn>
+            </template>
             <template #item.files="{ item }">
                 <v-icon
                     v-if="item.has_files"
@@ -261,7 +270,14 @@ export default {
             search: 'queries/search',
         }),
         isDeletable(item) {
-            return !item.download_count && !item.is_old && (!!this.group(item.acronym) || !!this.account.is_superuser)
+            if (this.queried === 'file') {
+                return (
+                    !item.download_count && !item.is_old && (!!this.group(item.acronym) || !!this.account.is_superuser)
+                )
+            } else if (this.queried === 'palmjob') {
+                // TODO: search through institution_acronyms list
+                return !!this.group(item.institution_acronyms[0]) || !!this.account.is_superuser
+            }
         },
         isMarkableInvalid(item) {
             return !item.is_invalid && !item.is_old && (!!this.group(item.acronym) || !!this.account.is_superuser)
@@ -322,6 +338,10 @@ export default {
                 this.downloadAll({ ids, db_filetype: this.queried, check_result })
             }
             this.downloading = false
+        },
+        handleSingleDelete(item) {
+            this.selected.push(item)
+            this.handleDelete()
         },
         handleDelete() {
             this.deleting = true

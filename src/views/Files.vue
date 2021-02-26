@@ -72,6 +72,7 @@ export default {
                     { text: 'Institutions', value: 'institution_acronyms', showCol: true },
                     { text: 'Licence', value: 'licence', showCol: true },
                     { text: 'Description', value: 'description', sortable: false, showCol: false },
+                    { text: 'Delete', value: 'delete', sortable: false, showCol: true },
                     { text: '', value: 'data-table-expand', sortable: false, showCol: true },
                 ],
             },
