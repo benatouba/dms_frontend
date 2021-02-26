@@ -1,5 +1,5 @@
 import queryService from '../services/query.service'
-// import i18n from '../plugins/i18n'
+import i18n from '../plugins/i18n'
 
 const getDefaultState = () => {
     return {
@@ -140,7 +140,6 @@ const actions = {
 
         let successCount = 0
         let errorCount = 0
-        let lastResp
         let lastError
         let info = {
             type: null,
@@ -152,7 +151,7 @@ const actions = {
         }
         for (const file of files) {
             try {
-                lastResp = await queryService.deleteFile(file)
+                await queryService.deleteFile(file)
                 commit('deleteSuccess', file.resp.result.id)
                 successCount++
             } catch (error) {
@@ -168,7 +167,7 @@ const actions = {
                 info.status = 3
             } else {
                 info.type = 'success'
-                info.message = lastResp
+                info.message = i18n.t('upload.file_deleted')
                 info.status = 1
             }
         } else {

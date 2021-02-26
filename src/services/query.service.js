@@ -142,8 +142,8 @@ async function deleteFile(file) {
     const id = file.resp.result.id
 
     let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/${db_filetype}/${id}/`, requestOptions)
-    if (resp.status === 200) {
-        return resp.json()
+    if ([200, 204].includes(resp.status)) {
+        return resp
     } else {
         throw await resp.json()
     }
@@ -153,7 +153,7 @@ async function setInvalid(file) {
     const requestOptions = authHeader('PATCH')
     let resp = await fetch(`${process.env.VUE_APP_API_ENDPOINT}/data/file/${file.id}/set_invalid/`, requestOptions)
     if ([200, 204].includes(resp.status)) {
-        return resp.json()
+        return resp
     } else {
         throw await resp.json()
     }
