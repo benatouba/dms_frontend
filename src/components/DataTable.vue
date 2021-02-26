@@ -64,7 +64,13 @@
                         :title="$t('buttons.delete')"
                         :body="$t('search.delete_warning')"
                     >
-                        <v-btn class="mx-1" color="error" :disabled="!selected.length" :loading="deleting">
+                        <v-btn
+                            v-if="queried !== 'palmjob'"
+                            class="mx-1"
+                            color="error"
+                            :disabled="!selected.length"
+                            :loading="deleting"
+                        >
                             <v-icon left dark> mdi-delete </v-icon>
                             {{ $t('buttons.delete') }}
                         </v-btn>
