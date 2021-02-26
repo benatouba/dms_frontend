@@ -158,8 +158,8 @@
             <template #item.files="{ item }">
                 <v-icon
                     v-if="item.has_files"
+                    color="primary"
                     small
-                    class="mr-2"
                     @click="search({ options: { job: item.id }, filetype: 'palmfile' })"
                 >
                     mdi-cloud-search
@@ -352,14 +352,14 @@ export default {
             return item.has_errors ? i18n.t('tooltip.has_errors') : status
         },
         addColumn(value) {
-            this.headers.forEach(x => {
+            this.headers[this.queried].forEach(x => {
                 if (x.value === value) {
                     x.showCol = true
                 }
             })
         },
         removeColumn(value) {
-            this.headers.forEach(x => {
+            this.headers[this.queried].forEach(x => {
                 if (x.value === value) {
                     x.showCol = false
                 }
