@@ -19,14 +19,11 @@
                     <v-btn
                         v-if="queried === 'palmfile'"
                         class="mr-1"
-                        fab
-                        small
                         depressed
                         left
-                        @click="search({ options: {}, filetype: 'palmjob' })"
+                        @click="search({ options: { job: '' }, filetype: 'palmjob' })"
                     >
                         <v-icon> mdi-arrow-left </v-icon>
-                        <span v-if="queriedFiles.length">{{ queriedFiles[0].job }} </span>
                     </v-btn>
                     <v-btn
                         v-if="queried !== 'palmjob'"
@@ -57,7 +54,9 @@
                         </template>
                         <span>{{ $t('tooltip.get_report') }}</span>
                     </v-tooltip>
-                    <v-spacer></v-spacer>
+                    <v-spacer />
+                    <h2 v-if="queriedFiles.length" style="text-align=center;">{{ title }}</h2>
+                    <v-spacer />
                     <b-confirmation-dialog
                         color="error"
                         class="mx-1"
@@ -155,7 +154,7 @@
                     v-if="item.has_files"
                     small
                     class="mr-2"
-                    @click="search({ options: { job_name: item.job_name }, filetype: 'palmfile' })"
+                    @click="search({ options: { job: item.id }, filetype: 'palmfile' })"
                 >
                     mdi-cloud-search
                 </v-icon>
@@ -214,6 +213,17 @@ export default {
             group: 'account/group',
             meta: 'queries/meta',
         }),
+        title() {
+            if (this.queried === 'file') {
+                return '[UC]² Observations'
+            } else if (this.queried === 'palmjob') {
+                return 'Palm-4U Jobs'
+            } else if (this.queried === 'palmfile' && this.queriedFiles.length) {
+                return this.queriedFiles[0].job_name
+            } else {
+                return ''
+            }
+        },
         getPageCount() {
             return Math.ceil(this.itemCount / this.pageLength)
         },
