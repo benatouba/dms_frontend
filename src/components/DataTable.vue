@@ -125,6 +125,7 @@
             <template #item.status="{ item }">
                 <div style="white-space: nowrap">
                     <b-status-icon
+                        v-if="queried === 'file'"
                         :icon="'mdi-circle'"
                         :color="getDataStandardStatusColorStyle(item)"
                         :tooltip="getDataStandardStatusTooltip(item)"
@@ -359,7 +360,15 @@ export default {
         },
         handleSetInvalid() {
             this.settingInvalid = true
-            this.setInvalid(this.selected)
+            var toDelete = []
+            var item = {}
+            this.selected.forEach(file => {
+                item.db_filetype = this.queried
+                item.resp = {}
+                item.resp.result = file
+                toDelete.push(item)
+            })
+            this.setInvalid(toDelete)
             this.selected = []
             this.settingInvalid = false
         },
