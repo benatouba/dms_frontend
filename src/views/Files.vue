@@ -57,10 +57,12 @@ export default {
                     { text: '', value: 'data-table-expand', showCol: true },
                 ],
                 palmfile: [
-                    { text: 'Palm Job', value: 'job', showCol: false },
+                    { text: 'Palm Job', value: 'job_name', showCol: false },
                     { text: 'Type', value: 'type', showCol: true },
                     { text: 'Domain', value: 'domain_name', showCol: true },
                     { text: 'Upload Date', value: 'upload_date', showCol: false },
+                    { text: 'File Size', value: 'file_size', showCol: true },
+                    { text: 'Status', value: 'status', sortable: false, showCol: true },
                     { text: 'File Standard Name', value: 'file_standard_name', showCol: false },
                     { text: 'Restart File', value: 'restart', showCol: false },
                     { text: 'Version', value: 'version', showCol: false },
